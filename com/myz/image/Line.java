@@ -1,4 +1,4 @@
-package MYZTakweem.myz.image;
+package com.myz.image;
 
 /**
  *

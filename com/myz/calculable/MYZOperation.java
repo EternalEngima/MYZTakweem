@@ -1,4 +1,4 @@
-package myz.calculable;
+package com.myz.calculable;
 
 /**
  * @author Zaid

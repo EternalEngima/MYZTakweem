@@ -1,4 +1,4 @@
-package myz.image;
+package com.myz.image;
 
 /**
  * @author Montazar
