@@ -1,4 +1,4 @@
-package myz.image;
+package com.myz.image;
 
 import java.io.FileNotFoundException;
 import javafx.application.Application;
@@ -6,7 +6,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage; 
-import static myz.image.ImagePanel.getImagePanel;
+import static com.myz.image.ImagePanel.getImagePanel;
  
 public class ImageEditor extends Application
 {
@@ -19,12 +19,13 @@ public class ImageEditor extends Application
     @Override
     public void start( Stage stage ) throws FileNotFoundException 
     {           
-        StackPane root = getImagePanel( "D:\\2.jpg" ) ;
+        StackPane root = getImagePanel( "src\\cephalometric.jpg" ) ;
         root.setAlignment(Pos.CENTER);
         root.setPrefSize(800 , 800);
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();       
     }
+
 }
 

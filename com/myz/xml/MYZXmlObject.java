@@ -1,4 +1,4 @@
-package myz.xml;
+package com.myz.xml;
 
 import org.xml.sax.Attributes;
 

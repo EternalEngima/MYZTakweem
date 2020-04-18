@@ -1,4 +1,4 @@
-package myz.image;
+package com.myz.image;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +26,7 @@ public class ImagePanel
     // Class Methods 
     public static StackPane getImagePanel ( String imageUrl ) 
     {   
-        String blankImageUrl      = "blank.png" ;
+        String blankImageUrl      = "src\\blank.png" ;
         try 
         {
             Image  image              = new Image(new FileInputStream( new File (imageUrl)));
@@ -86,7 +86,5 @@ public class ImagePanel
             System.out.println("getImagePanel ( String imageUrl ) : " + ex.getMessage() );
         }
         return null ;
-    }
-    
-    
+    }    
 }

@@ -1,11 +1,23 @@
-package myz.image;
+package com.myz.image;
 
 /**
+ *
  * @author Montazar
  */
-
 public class Line 
 {
+
+    private Point  m_startPoint ;
+    private Point  m_endPoint ;
+    private double m_lineSlope ;
+    private double m_yIntercept ;
+    private int    m_minX ;
+    private int    m_maxX ;
+    private int    m_minY ;
+    private int    m_maxY ;
+    
+    //Class Members
+    public static final int CM = 0 ;
     //Constructor
     public Line ( Point startPoint , Point endPoint )
     {
@@ -16,26 +28,15 @@ public class Line
         initLineRanges();
     }
     
-    //Class Members
-    public static final int CM = 0 ;    
-    
-    //Members
-    private Point  m_startPoint ;
-    private Point  m_endPoint ;
-    private double m_lineSlope ;
-    private double m_yIntercept ;
-    private int    m_minX ;
-    private int    m_maxX ;
-    private int    m_minY ;
-    private int    m_maxY ; 
 
     //Methods
+    
     //Equation m = y2 - y1 / x2 - x1
     private double calculateSlope ()
     {
         double tmp1 = ( getEndPoint().getY() - getStartPoint().getY() ) ;
         double tmp2 = ( getEndPoint().getX() - getStartPoint().getX() ) ;
-        return  tmp1  / tmp2;
+        return  tmp1  / tmp2  ;
     }
     
     //Equation y = mx + b ---> here we calculate b
@@ -46,7 +47,6 @@ public class Line
         double slope    = getLineSlope() ;
         return y - ( slope * x ) ;
     }
-    
     //Equation sqrt ( (x2*x2 - x1*x1) + (y2*y2 - y1*y1) )
     public double calculateDistance ()
     {
@@ -58,21 +58,19 @@ public class Line
         double tmp1 = (Math.pow(x2 , 2) - Math.pow(x1 , 2) ) ;
         double tmp2 = (Math.pow(y2 , 2) - Math.pow(y1 , 2) );
         
-        return Math.sqrt( tmp1 + tmp2 );        
+        return Math.sqrt( tmp1 + tmp2 );
+        
     }
-    
     //calculate y depend on x and line Equation
-    public int getY (int x)
+    public  int getY (int x)
     {
-        return (int) ( getLineSlope() * x + getYIntercept() ) ;
+        return (int) ( (getLineSlope() * x) + getYIntercept() ) ;
     }
-    
     //calculate x depend on y and line Equation
     public int getX (int y)
     {
         return (int) ( ( y - getYIntercept() ) / getLineSlope() ) ;
     }
-    
     // set the range of starting and ending this line when draw 
     private void initLineRanges ()
     {
@@ -81,7 +79,6 @@ public class Line
         setMaxY( getMax( (int) getStartPoint().getY() , (int) getEndPoint().getY() ) );
         setMinY( getMin( (int) getStartPoint().getY() , (int)  getEndPoint().getY() ) );
     }
-    
     private int getMin ( int number1 , int number2)
     {
         if (number1 > number2)
@@ -89,7 +86,6 @@ public class Line
         else
             return number1 ;
     }
-    
     private int getMax ( int number1 , int number2)
     {
         if (number1 > number2)
@@ -97,15 +93,22 @@ public class Line
         else
             return number2 ;
     }
-    
     // Check to draw 
     public boolean isInLine ( int x , int y )
     {
         if ( getMinX() <= x && x <= getMaxX() && getMinY() <= y && y <= getMaxY())
-            return (getY(x) == y || getX(y) == x) ;
+        {
+            // in these case the slope is undefined because can not divide on zero ( x2 - x1 = 0 ) 
+            if ( getLineSlope() == Double.NEGATIVE_INFINITY )
+                return true ;
+            
+            return ((getY(x) == y || getX(y) == x) );
+        }
+
+        return false ;
         
-        return false ;        
     }
+
     
     // Setter Methods
     private void setStartPoint ( Point startPoint )
@@ -140,7 +143,6 @@ public class Line
     {
         m_maxY = maxY ;
     }
-    
     // Getter Methods 
     public Point getStartPoint ()
     {
