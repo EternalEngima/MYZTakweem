@@ -1,4 +1,5 @@
 package takweem;
+import static com.myz.image.ImagePanel.getImagePanel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -246,7 +247,7 @@ public class Takweem extends Application {
         m_centerLabel.setCaption("label.drag.image");
         m_centerLabel.setParentPane(m_centerPane);
         m_centerPane.getChildren().addAll(m_centerLabel , m_imageView);
-
+        getImagePanel(m_centerPane);
         m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
         {
             @Override
@@ -302,7 +303,8 @@ public class Takweem extends Application {
         refreshAlignment(oldBundle);
     }
     
-    private void mouseDragDropped(final DragEvent e) {
+    private void mouseDragDropped(final DragEvent e)
+    {
         final Dragboard db = e.getDragboard();
         boolean success = false;
         if (db.hasFiles()) {
@@ -337,7 +339,9 @@ public class Takweem extends Application {
             {
                 e.acceptTransferModes(TransferMode.COPY);
             }
-        } else {
+        }
+        else 
+        {
             e.consume();
         }
     }
@@ -404,7 +408,8 @@ public class Takweem extends Application {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
     
