@@ -25,7 +25,7 @@ public class Operation extends MYZXmlObject
     public static final String TYPE_ANGEL_BETWEEN_TWO_LINES                       = "MYZOperationTypeAngelBetweenTwoLines";
     public static final String TYPE_RATIO_BETWEEN_TWO_LINES                       = "MYZOperationTypeRatioBetweenTwoLines";
 
-     //Classification
+     //Classification TODO
     public static final String CLASSIFICATION_SKELETON = "MYZOperationClassificationSkeleton";
     public static final String CLASSIFICATION_1        = "MYZOperationClassification";
     public static final String CLASSIFICATION_2        = "MYZOperationClassification";
