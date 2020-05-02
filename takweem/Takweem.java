@@ -1,13 +1,10 @@
 package takweem;
-import static com.myz.image.ImagePanel.getImagePanel;
+import com.myz.image.ImagePanel;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,9 +19,6 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -44,16 +38,20 @@ import myzReport.TakweemReport;
 /**
  * @author yazan
  */
-public class Takweem extends Application {
+public class Takweem extends Application 
+{
     
-    public static final ResourceBundle   m_ArabicBundle   =  ResourceBundle.getBundle("captions",new Locale("ar", "sy"));
-    public static final ResourceBundle   m_EnglishBundle  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
-    public static final ResourceBundle   m_FrenchBundle   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
+    public static final ResourceBundle   ARABIC_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("ar", "sy"));
+    public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
+    public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
     public static       ResourceBundle   m_bundle         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
     BorderPane          m_container                       = new BorderPane();
     
     public Stage m_primaryStage ;
+    
+    //ImagePanel
+    ImagePanel   m_imagePanel = new ImagePanel();//add by montazar 
     
     // header component 
     VBox         m_header                = new VBox(10);
@@ -68,26 +66,16 @@ public class Takweem extends Application {
         public void buttonPressed()
         {
             FileChooser  fileChooser   = new FileChooser(); 
-            File         file          = fileChooser.showOpenDialog(m_primaryStage);               
+            File         file          = fileChooser.showOpenDialog(m_primaryStage);   
             try 
             {
-                if (file != null && file.isFile())
-                    m_selectedImage = new Image ( new FileInputStream(file));
+                //Modified by montazar 
+                m_imagePanel.insertImage( file );
             }
-            catch ( Exception ex)
+            catch(Exception ex)
             {
                 ex.printStackTrace();
-            }
-            if ( m_selectedImage == null )
-            {
-                myzMessage.noteMessage(getCaption("imageview.not.select.image"), m_bundle);
-            }
-            else 
-            {
-                m_imageView.setFitWidth(500);
-                m_imageView.setFitHeight(500);
-                m_imageView.setImage(m_selectedImage);
-            }        
+            }     
         }
     };
     
@@ -96,7 +84,9 @@ public class Takweem extends Application {
         @Override
         public void buttonPressed()
         {
-           TakweemReport.callFrame(m_primaryStage , m_selectedImage);
+            //add by montazar 
+            Image selectedImage = m_imagePanel.getSelectedImage();
+           TakweemReport.callFrame(m_primaryStage , selectedImage);
 
         }
     };
@@ -107,11 +97,7 @@ public class Takweem extends Application {
     myzButton    m_deleteAnatomy         = new myzButton();
 
     
-    // center Component 
-    StackPane    m_centerPane            = new StackPane();
-    myzLabel     m_centerLabel           = new myzLabel();
-    Image        m_selectedImage         = null;
-    ImageView    m_imageView             = new ImageView();
+
 
     //center Component 
     Label        m_fixedFooterLabel = new Label();
@@ -135,10 +121,11 @@ public class Takweem extends Application {
     
         initHeader();
         initBottom();
-        initCenter();
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
-        m_container.setCenter(m_centerPane); 
+        //Modified by montazar 
+        StackPane centerPanel = m_imagePanel.getCenterPane() ;
+        m_container.setCenter(centerPanel); 
         m_container.setBottom(m_footer);
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
@@ -179,11 +166,11 @@ public class Takweem extends Application {
                 eventItem.setSelected(true);
                 ResourceBundle old  = m_bundle;
                 if ( eventItem.getText().equals("English"))
-                    m_bundle = m_EnglishBundle;
+                    m_bundle = ENGLISH_BUNDLE;
                 if ( eventItem.getText().equals("\u0627\u0644\u0639\u0631\u0628\u064a\u0629"))
-                    m_bundle = m_ArabicBundle;
+                    m_bundle = ARABIC_BUNDLE;
                 if ( eventItem.getText().equals("French"))
-                    m_bundle = m_FrenchBundle;
+                    m_bundle = FRENCH_BUNDLE;
                 refreshComponent(old);
             } 
         };
@@ -242,42 +229,7 @@ public class Takweem extends Application {
     }
     
     
-    public void initCenter()
-    {
-        m_centerLabel.setCaption("label.drag.image");
-        m_centerLabel.setParentPane(m_centerPane);
-        m_centerPane.getChildren().addAll(m_centerLabel , m_imageView);
-        getImagePanel(m_centerPane);
-        m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
-        {
-            @Override
-            public void handle(DragEvent event) 
-            {
-                m_centerPane.setStyle("-fx-background-color:#fffff2;");
-                mouseDragOver(event);
-            }
-            
-        });
-        
-        m_centerPane.setOnDragDropped(new EventHandler<DragEvent>() 
-        {
-            @Override
-            public void handle(final DragEvent event)
-            {
-                mouseDragDropped(event);
-            }
-        });
 
-         m_centerPane.setOnDragExited(new EventHandler<DragEvent>() 
-         {
-            @Override
-            public void handle(final DragEvent event)
-            {
-                m_centerPane.setStyle("-fx-border-color: #C6C6C6;");
-            }
-        });
-
-    }
     
     
     public void initBottom()
@@ -303,52 +255,11 @@ public class Takweem extends Application {
         refreshAlignment(oldBundle);
     }
     
-    private void mouseDragDropped(final DragEvent e)
-    {
-        final Dragboard db = e.getDragboard();
-        boolean success = false;
-        if (db.hasFiles()) {
-            success = true;
-            try {
-                m_selectedImage = new Image(new FileInputStream(db.getFiles().get(0)));
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(Takweem.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        m_imageView.setFitWidth(500);
-        m_imageView.setFitHeight(500);
-        m_imageView.setImage(m_selectedImage);
-           
-        }
-        e.setDropCompleted(success);
-        e.consume();
-    }
-    
-    private  void mouseDragOver(final DragEvent e) 
-    {
-        final Dragboard db = e.getDragboard();
- 
-        final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".png")
-                || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpeg")
-                || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpg")
-                || db.getFiles().get(0).getName().endsWith(".Gif");
 
- 
-        if (db.hasFiles())
-        {
-            if (isAccepted)
-            {
-                e.acceptTransferModes(TransferMode.COPY);
-            }
-        }
-        else 
-        {
-            e.consume();
-        }
-    }
     
     public void refreshAlignment(ResourceBundle oldBundle)
     {
-        if ((oldBundle == m_EnglishBundle || oldBundle == m_FrenchBundle) && m_bundle == m_ArabicBundle)
+        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && m_bundle == ARABIC_BUNDLE)
         {
             ObservableList<Node> workingCollection = FXCollections.observableArrayList(m_headerPane.getChildren());
             Collections.reverse(workingCollection);
@@ -357,11 +268,11 @@ public class Takweem extends Application {
             
             return;
         }
-        if ((oldBundle == m_EnglishBundle || oldBundle == m_FrenchBundle) && (m_bundle == m_EnglishBundle || m_bundle == m_FrenchBundle) )
+        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && (m_bundle == ENGLISH_BUNDLE || m_bundle == FRENCH_BUNDLE) )
         {
             return;
         }
-        if (oldBundle == m_ArabicBundle && (m_bundle == m_EnglishBundle || m_bundle == m_FrenchBundle))
+        if (oldBundle == ARABIC_BUNDLE && (m_bundle == ENGLISH_BUNDLE || m_bundle == FRENCH_BUNDLE))
         {
             ObservableList<Node> workingCollection = FXCollections.observableArrayList(m_headerPane.getChildren());
             Collections.reverse(workingCollection);
@@ -385,7 +296,8 @@ public class Takweem extends Application {
         m_deleteAnatomy.refreshCaption();
 
         // center
-        m_centerLabel.refreshCaption();
+        myzLabel centerLabel = m_imagePanel.getCenterLabel();//Modified by montazar 
+        centerLabel.refreshCaption();
         
         //footer
         m_fixedFooterLabel.setText(getCaption("window.footer.title"));

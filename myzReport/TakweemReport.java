@@ -264,7 +264,7 @@ public class TakweemReport
 
     private int getRunDirection()
     {
-        if ( takweem.Takweem.m_bundle == takweem.Takweem.m_ArabicBundle)
+        if ( takweem.Takweem.m_bundle == takweem.Takweem.ARABIC_BUNDLE)
             return PdfWriter.RUN_DIRECTION_RTL;
         else 
             return PdfWriter.RUN_DIRECTION_LTR;
