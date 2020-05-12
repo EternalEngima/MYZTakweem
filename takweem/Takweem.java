@@ -1,7 +1,7 @@
 package takweem;
 import com.myz.image.ImagePanel;
 import java.io.File;
-import java.io.FileInputStream;
+import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -22,14 +22,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import myzComponent.myzButton;
 import myzComponent.myzComboBox;
+import myzComponent.myzComponent;
 import myzComponent.myzLabel;
+import myzComponent.myzMagnifier;
 import myzComponent.myzScene;
 import myzComponent.myzTableView;
 import myzMessage.myzMessage;
@@ -47,11 +48,13 @@ public class Takweem extends Application
 
     public static       ResourceBundle   m_bundle         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
     BorderPane          m_container                       = new BorderPane();
-    
+
     public Stage m_primaryStage ;
     
     //ImagePanel
-    ImagePanel   m_imagePanel = new ImagePanel();//add by montazar 
+    public ImagePanel   m_imagePanel = new ImagePanel();//add by montazar 
+    //Magnifier
+    public myzMagnifier m_magnifier  = new myzMagnifier();//add by montazar
     
     // header component 
     VBox         m_header                = new VBox(10);
@@ -60,6 +63,23 @@ public class Takweem extends Application
     Menu         m_langMenu              = new Menu(getCaption("application.lang"));
     
     HBox         m_headerPane            = new HBox(20);
+    myzButton    m_rotateLeftButton      = new myzButton()
+    {
+        @Override
+        public void buttonPressed()
+        {
+            m_imagePanel.rotateImageLeft();
+        }
+    };
+    myzButton    m_rotateRightButton      = new myzButton()
+    {
+        @Override
+        public void buttonPressed()
+        {
+            m_imagePanel.rotateImageRight();
+        }
+    };
+
     myzButton    m_addPhotoButton        = new myzButton()
     {
         @Override
@@ -70,7 +90,7 @@ public class Takweem extends Application
             try 
             {
                 //Modified by montazar 
-                m_imagePanel.insertImage( file );
+                m_imagePanel.insertImage( file );               
             }
             catch(Exception ex)
             {
@@ -101,9 +121,9 @@ public class Takweem extends Application
 
     //center Component 
     Label        m_fixedFooterLabel = new Label();
-    
-    // Bottom
-    VBox         m_footer           = new VBox(10);
+    //Left 
+    VBox         m_leftSidebar      = new VBox(10);
+
     Pane         m_TablePan         = new Pane();
     myzTableView m_calculateTable   = new myzTableView();
 
@@ -120,13 +140,13 @@ public class Takweem extends Application
     {
     
         initHeader();
-        initBottom();
+        initLeftSidebar();
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
         //Modified by montazar 
-        StackPane centerPanel = m_imagePanel.getCenterPane() ;
-        m_container.setCenter(centerPanel); 
-        m_container.setBottom(m_footer);
+        m_container.setCenter(m_imagePanel); 
+        m_container.setLeft(m_leftSidebar);
+
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
         m_primaryStage.setScene(scene);
@@ -178,11 +198,25 @@ public class Takweem extends Application
         arab.setOnAction(event);
         fran.setOnAction(event);
 
-        m_langMenu.getItems().addAll(eng, arab , fran);
+        m_langMenu.getItems().addAll(eng , arab , fran);
         m_sittingsMenu.getItems().add(m_langMenu);
         
         m_sittingsBar.getMenus().add(m_sittingsMenu);
         
+        m_rotateLeftButton.setCaption("rotate.left");
+        m_rotateLeftButton.setGraphic(new ImageView("icon\\rotate_left.png"));
+        m_rotateLeftButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_rotateLeftButton.setMaxHeight(25);
+        m_rotateLeftButton.setParentPane(m_headerPane);
+        m_rotateLeftButton.setReSizeOnParentSize(true);
+        
+        m_rotateRightButton.setCaption("rotate.right");
+        m_rotateRightButton.setGraphic(new ImageView("icon\\rotate_right.png"));
+        m_rotateRightButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_rotateRightButton.setMaxHeight(25);
+        m_rotateRightButton.setParentPane(m_headerPane);
+        m_rotateRightButton.setReSizeOnParentSize(true);                
+                
         m_addPhotoButton.setCaption("button.add.photo");
         m_addPhotoButton.setGraphic(new ImageView("icon\\addphoto.png"));
         m_addPhotoButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
@@ -222,32 +256,42 @@ public class Takweem extends Application
         m_deleteAnatomy.setParentPane(m_headerPane);
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
-        m_headerPane.getChildren().addAll(m_addPhotoButton , m_printResultButton ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
-        
-        m_header.getChildren().addAll(m_sittingsBar , m_headerPane);
+        m_headerPane.getChildren().addAll(   m_rotateLeftButton , m_rotateRightButton , m_addPhotoButton , m_printResultButton ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
+
+        m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
 //        m_header.setStyle("-fx-border-color : black ;");
     }
     
-    
+    public void initLeftSidebar()
+    {
+        String cssLayout = "-fx-border-color: black;\n" +
+                           "-fx-border-width: 2;\n" ;
+        
+        m_magnifier.startRunning();//start magnifier thread
+        
+        m_leftSidebar.getChildren().addAll(m_magnifier);
+        m_leftSidebar.setAlignment(Pos.TOP_LEFT);
+        m_leftSidebar.setStyle(cssLayout);
+    }
 
     
     
-    public void initBottom()
-    {
-                
-        
-        m_fixedFooterLabel.setText(getCaption("window.footer.title"));   
-        m_fixedFooterLabel.setFont(new Font(15));
-//        m_calculateTable.setMinWidth(900);
-        m_calculateTable.setMinHeight(100);
-        m_calculateTable.setCenterShape(true);
-        m_calculateTable.setParentPane(m_TablePan);
-        m_calculateTable.setReSizeOnParentSize(true);
-        m_TablePan.getChildren().add(m_calculateTable);
-        
-        m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
-        m_footer.setAlignment(Pos.CENTER);
-    }
+//    public void initBottom()
+//    {
+//                
+//        
+//        m_fixedFooterLabel.setText(getCaption("window.footer.title"));   
+//        m_fixedFooterLabel.setFont(new Font(15));
+////        m_calculateTable.setMinWidth(900);
+//        m_calculateTable.setMinHeight(100);
+//        m_calculateTable.setCenterShape(true);
+//        m_calculateTable.setParentPane(m_TablePan);
+//        m_calculateTable.setReSizeOnParentSize(true);
+//        m_TablePan.getChildren().add(m_calculateTable);
+//        
+//        m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
+//        m_footer.setAlignment(Pos.CENTER);
+//    }
     
     public void refreshComponent(ResourceBundle oldBundle)
     {
@@ -265,7 +309,6 @@ public class Takweem extends Application
             Collections.reverse(workingCollection);
             m_headerPane.getChildren().setAll(workingCollection);
             m_headerPane.setAlignment(Pos.CENTER_RIGHT);
-            
             return;
         }
         if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && (m_bundle == ENGLISH_BUNDLE || m_bundle == FRENCH_BUNDLE) )
@@ -286,19 +329,28 @@ public class Takweem extends Application
        
     public void refreshCaption()
     {
+        try
+        {
+            Field []     buttons   = Takweem.class.getDeclaredFields();
+            myzComponent component = null ;
+            for( Field field : buttons)
+            {
+                Class className = field.getType() ;
+                if ( Class.forName("myzComponent.myzComponent").isAssignableFrom(className) )
+                {
+                    component = (myzComponent)field.get(this);
+                    component.refreshCaption();
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
         // header 
         m_sittingsMenu.setText(getCaption("menubar.settings"));
         m_langMenu.setText(getCaption("application.lang"));
-        m_addPhotoButton.refreshCaption();
-        m_printResultButton.refreshCaption();
-        m_anatomyLabel.refreshCaption();
-        m_modifyAnatomy.refreshCaption();
-        m_deleteAnatomy.refreshCaption();
-
-        // center
-        myzLabel centerLabel = m_imagePanel.getCenterLabel();//Modified by montazar 
-        centerLabel.refreshCaption();
-        
         //footer
         m_fixedFooterLabel.setText(getCaption("window.footer.title"));
     }

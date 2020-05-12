@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 /**
  * @author yazan
  */
-public class myzLabel extends Label
+public class myzLabel extends Label implements myzComponent
 {
     myzScene  m_scene       = null; 
     String    m_captionKey  = null;

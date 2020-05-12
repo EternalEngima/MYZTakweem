@@ -6,19 +6,15 @@
 package myzComponent;
 
 
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 /**
  * @author yazan
  */
-public class myzButton extends Button
+public class myzButton extends Button implements myzComponent
 {
     myzScene  m_scene       = null; 
     String    m_captionKey  = null;
@@ -66,6 +62,7 @@ public class myzButton extends Button
             setText(key);
     }
     
+    @Override
     public void refreshCaption()
     {
         if (m_captionKey !=  null)

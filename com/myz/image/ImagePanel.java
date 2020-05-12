@@ -2,26 +2,18 @@ package com.myz.image;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Field;
 import java.util.Vector;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.EventHandler;
-import javafx.geometry.Bounds;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.util.Duration;
+import myzComponent.myzComponent;
+import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 
 /**
@@ -37,39 +29,46 @@ import myzComponent.myzLabel;
  * @author Montazar
  */
 
-public class ImagePanel 
+public class ImagePanel extends StackPane implements myzComponent
 {
     
     //Constructor
     public ImagePanel ()
     {
+        super();
         initCenter();
     }
     // Class Members 
-    private static final double IMAGE_VIEW_WIDTH  = 500 ;
-    private static final double IMAGE_VIEW_HEIGHT = 600 ;
+    private static final double IMAGE_VIEW_WIDTH   = 400 ;
+    private static final double IMAGE_VIEW_HEIGHT  = 400 ;
+    public  static final int    IMAGE_ROTATE_VALUE = 1 ; 
+    public static  int          IMAGE_ROTATE_ANGLE = 0 ;
     
     //Data Members
-    Image        m_selectedImage         = null;
-    StackPane    m_centerPane            = new StackPane();
-    myzLabel     m_centerLabel           = new myzLabel();
-    ImageView    m_imageView             = new ImageView();
-    ImageView    m_blankImageView        = new ImageView();
+    Image           m_selectedImage    = null;
+    StackPane       m_centerPane       = new StackPane();
+    myzLabel        m_centerLabel      = new myzLabel();
+    ImageView       m_imageView        = new ImageView();
+    ImageView       m_blankImageView   = new ImageView();
+    myzIntegerField m_rotateValue      = new myzIntegerField();//TODO
+    myzIntegerField m_rotateAngle      = new myzIntegerField();//TODO
+    
     //TODO temp
     Vector vLinePointes       = new Vector ();
     
     // Class Methods 
     public void insertImage( File file ) 
     {   
-        String blankImageUrl      = "src\\blank.png" ;
+        String blankImageUrl      = "src\\blank400x400.png" ;
         try 
         {
             setSelectedImage(new Image ( new FileInputStream (file) ));
-            Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));            
-            m_imageView        = new ImageView( getSelectedImage() );
-            m_blankImageView   = new ImageView( blankImage );
+            Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
             getImageView().setFitWidth(IMAGE_VIEW_WIDTH);
             getImageView().setFitHeight(IMAGE_VIEW_HEIGHT);
+            
+            m_imageView.setImage(getSelectedImage());
+            m_blankImageView.setImage(blankImage);
             
             EventHandler<MouseEvent> eventHandler = (MouseEvent e ) -> 
             {
@@ -78,51 +77,28 @@ public class ImagePanel
             m_blankImageView.addEventHandler(MouseEvent.MOUSE_CLICKED , eventHandler );
             //it's to make the transparent image writable 
             m_blankImageView.setPickOnBounds(true);
-            //TODO
-            m_centerPane.getChildren().add( 1 , getImageView() );
-            m_centerPane.getChildren().add( 2 , getBlankImageView() );
         }
         catch (Exception ex)
         {
             System.out.println("getImagePanel ( String imageUrl ) : " + ex.getMessage() );
+            ex.printStackTrace();
         }
     }    
-    
+
     public void paint ( MouseEvent event , ImageView blankimageView)
     {
-        int x = new Double ( ( event.getX()  )  ).intValue();
-        int y = new Double ( ( event.getY()  )  ).intValue();
-        
-        Image         tmp         = blankimageView.getImage();
-        double width              = tmp.getWidth()  ;
-        double height             = tmp.getHeight() ;
-        PixelReader   pixelReader = tmp.getPixelReader() ;
-        WritableImage wImage      = new WritableImage( (int) width , (int) height);
-        Point point               = new Point ( x , y ) ;
-        //Temp
+        int   x      = new Double ( ( event.getX()  )  ).intValue();
+        int   y      = new Double ( ( event.getY()  )  ).intValue();
+        Point point  = new Point ( x , y ) ;
+        point.draw(blankimageView);
+        //TODO
         vLinePointes.addElement(point);
-        Line line  ;
+        Line line  = null ;
         if ( vLinePointes.size() == 2)
         {
-        line = new Line ( (Point) vLinePointes.get(0) , (Point) vLinePointes.get(1) );
-        vLinePointes.removeAllElements();
-
-        //getting the pixel writer
-        PixelWriter writer = wImage.getPixelWriter();           
-
-        for( int X = 0 ; X < width ; X++ )
-        {
-            for( int Y = 0 ; Y < height ; Y++ )
-            {
-                //Retrieving the color of the pixel of the loaded image
-                Color color = pixelReader.getColor( X , Y );
-                if ( line.isInLine( X , Y ) )
-                  writer.setColor( X , Y , Color.AQUA);                
-                else
-                  writer.setColor( X , Y , color);
-            } 
-        }
-        blankimageView.setImage(wImage);
+            line = new Line ( (Point) vLinePointes.get(0) , (Point) vLinePointes.get(1) );
+            line.draw(blankimageView);
+            vLinePointes.removeAllElements();
         }
     }
     
@@ -131,7 +107,10 @@ public class ImagePanel
     {
         m_centerLabel.setCaption("label.drag.image");
         m_centerLabel.setParentPane(m_centerPane);
-        m_centerPane.getChildren().addAll( getCenterLabel()  );
+        m_centerPane.setMaxSize(IMAGE_VIEW_WIDTH  , IMAGE_VIEW_HEIGHT);
+
+        m_centerPane.getChildren().addAll(getCenterLabel() , getImageView() , getBlankImageView());
+
         m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
         {
             @Override
@@ -160,32 +139,25 @@ public class ImagePanel
                 m_centerPane.setStyle("-fx-border-color: #C6C6C6;");
             }
         });
-
-         /////////////////////////////////////////////////////////////////
-         //
-         //                         ZOOM TESTING 
-         //
-         ////////////////////////////////////////////////////////////////
-        // Create operator
-        AnimatedZoomOperator zoomOperator = new AnimatedZoomOperator();
-
-        // Listen to scroll events (similarly you could listen to a button click, slider, ...)
-        m_centerPane.setOnScroll(new EventHandler<ScrollEvent>()
-        {
-            @Override
-            public void handle(ScrollEvent event) 
-            {
-                double zoomFactor = 1.5;
-                if (event.getDeltaY() <= 0) 
-                {
-                    // zoom out
-                    zoomFactor = 1 / zoomFactor;
-                }
-                zoomOperator.zoom( m_centerPane , zoomFactor , event.getSceneX(), event.getSceneY());
-            }
-        });
+         getChildren().addAll(getCenterPane());
     }
     
+    public void rotateImageLeft ()
+    {
+        if(getSelectedImage() != null)
+        {
+            IMAGE_ROTATE_ANGLE -= IMAGE_ROTATE_VALUE; 
+            getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);         
+        }
+    }
+    public void rotateImageRight()
+    {
+        if(getSelectedImage() != null)
+        {
+            IMAGE_ROTATE_ANGLE += IMAGE_ROTATE_VALUE ; 
+            getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);  
+        }
+    }
     private void mouseDragDropped(final DragEvent e)
     {
         final Dragboard db = e.getDragboard();
@@ -222,7 +194,29 @@ public class ImagePanel
             e.consume();
         }
     }
-    
+    @Override
+    public void refreshCaption()
+    {  
+        try
+        {
+            Field []     buttons   = ImagePanel.class.getDeclaredFields();
+            myzComponent component = null ;
+            for( Field field : buttons)
+            {
+                Class className = field.getType() ;
+                if ( Class.forName("myzComponent.myzComponent").isAssignableFrom(className) )
+                {
+                    component = (myzComponent)field.get(this);
+                    component.refreshCaption();
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        
+    }
     //Setter methods
     public void setSelectedImage ( Image selectedImage )
     {
@@ -265,37 +259,4 @@ public class ImagePanel
     {
         return m_blankImageView ;
     }
-    
- class AnimatedZoomOperator 
- {
-
-    private Timeline timeline;
-
-    public AnimatedZoomOperator() 
-    {         
-         this.timeline = new Timeline(60);
-    }
-
-    public void zoom(Node node, double factor, double x, double y) {    
-        // determine scale
-        double oldScale = node.getScaleX();
-        double scale    = oldScale * factor;
-        double f        = (scale / oldScale) - 1;
-
-        // determine offset that we will have to move the node
-        Bounds bounds = node.localToScene(node.getBoundsInLocal());
-//        double dx = (x - (bounds.getWidth() / 2 + bounds.getMinX()));
-//        double dy = (y - (bounds.getHeight() / 2 + bounds.getMinY()));
-
-        // timeline that scales and moves the node
-        timeline.getKeyFrames().clear();
-        timeline.getKeyFrames().addAll(
-            new KeyFrame(Duration.millis(200), new KeyValue(node.translateXProperty(), node.getTranslateX() - f  )),
-            new KeyFrame(Duration.millis(200), new KeyValue(node.translateYProperty(), node.getTranslateY() - f )),
-            new KeyFrame(Duration.millis(200), new KeyValue(node.scaleXProperty(), scale)),
-            new KeyFrame(Duration.millis(200), new KeyValue(node.scaleYProperty(), scale))
-        );
-        timeline.play();
-    }
-}
 }
