@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import myzComponent.myzButton;
 import myzComponent.myzComboBox;
 import myzComponent.myzComponent;
@@ -133,6 +134,13 @@ public class Takweem extends Application
         m_primaryStage = primaryStage;
         // we can not write init() method cuz there is some class have and it is think we override it
         initFrame();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+        @Override
+        public void handle(WindowEvent t) 
+        {    closeMe(m_primaryStage);
+            System.exit(0);
+        }
+});
         
     } 
     
@@ -366,7 +374,10 @@ public class Takweem extends Application
     {
         boolean answer = myzMessage.confirmMessage(m_bundle.getString("exit.confirmation") , m_bundle);
         if (answer)
+        {
             primaryStage.close();
+            m_magnifier.stopRunning();
+        }
     }
     
     /**
