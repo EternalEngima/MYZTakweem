@@ -26,17 +26,17 @@ public class Operation extends MYZXmlObject
     public static final String TYPE_RATIO_BETWEEN_TWO_LINES                       = "MYZOperationTypeRatioBetweenTwoLines";
 
      //Classification TODO
-    public static final String CLASSIFICATION_SKELETON = "MYZOperationClassificationSkeleton";
-    public static final String CLASSIFICATION_1        = "MYZOperationClassification";
-    public static final String CLASSIFICATION_2        = "MYZOperationClassification";
+//    public static final String CLASSIFICATION_SKELETON = "MYZOperationClassificationSkeleton";
+//    public static final String CLASSIFICATION_1        = "MYZOperationClassification";
+//    public static final String CLASSIFICATION_2        = "MYZOperationClassification";
     
     //Members
-    String m_name;
-    String m_description;
-    String m_classification;
-    String m_type;
-    double m_correctValue;
-    //m_errorRange
+    protected String m_name;
+    protected String m_description;
+    protected String m_type;
+    protected double m_correctValue;
+    //String m_classification; TODO 
+    //m_errorRange TODO
     Vector< Point > m_vPoint;
     
     //Methods
@@ -48,7 +48,7 @@ public class Operation extends MYZXmlObject
         m_description    = getAttributeAsString( attributes , "description" );
         m_type           = getAttributeAsString( attributes , "type" );
         m_correctValue   = getAttributeAsDobule( attributes , "correctValue" );
-        m_classification = getAttributeAsString( attributes , m_classification );
+        //m_classification = getAttributeAsString( attributes ,  );
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Operation extends MYZXmlObject
                    + setAttribute( "description" , m_description )
                    + setAttribute( "type" , m_type )
                    + setAttribute( "correctValue" , m_correctValue )
-                   + setAttribute( "classification" , m_classification )
+                   //+ setAttribute( "classification" , m_classification )
                    + " > ";
         for( Point point : m_vPoint )
             XML += point.toXml();

@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
  */
 public class Line 
 {
-
     private Point  m_startPoint ;
     private Point  m_endPoint ;
     private double m_lineSlope ;
@@ -54,6 +53,7 @@ public class Line
         double slope    = getLineSlope() ;
         return y - ( slope * x ) ;
     }
+    
     //Equation sqrt ( (x2*x2 - x1*x1) + (y2*y2 - y1*y1) )
     public double calculateDistance ()
     {
