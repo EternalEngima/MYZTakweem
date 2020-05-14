@@ -68,4 +68,28 @@ public class Point
         }
         image.setImage(wImage);
     }
+    public void unDraw(ImageView image)
+    {
+        Image  tmp                = image.getImage();
+        double width              = tmp.getWidth()  ;
+        double height             = tmp.getHeight() ;
+        PixelReader   pixelReader = tmp.getPixelReader() ;
+        WritableImage wImage      = new WritableImage( (int) width , (int) height);
+        //getting the pixel writer
+        PixelWriter writer = wImage.getPixelWriter();           
+
+        for( int x = 0 ; x < width ; x++ )
+        {
+            for( int y = 0 ; y < height ; y++ )
+            {
+                //Retrieving the color of the pixel of the loaded image
+                Color color = pixelReader.getColor( x , y );
+                if ( x == getX() && y == getY() )
+                  writer.setColor( x , y , Color.TRANSPARENT);                
+                else
+                  writer.setColor( x , y , color);
+            } 
+        }
+        image.setImage(wImage);
+    }
 }

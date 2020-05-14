@@ -46,7 +46,22 @@ public class myzIntegerField extends TextField
         }
             
     }
+    public void onValueChange()
+    {
         
+    }
+    
+    public void setValue(int value)
+    {
+        setText(String.valueOf(value));
+    }
+    public int getValue()
+    {
+        if(!"".equals(getText()))
+            return Integer.parseInt(getText());
+        else
+            return 0 ;
+    }
  
 }
 
@@ -72,6 +87,7 @@ class myzIntegerField_actionAdapter implements ChangeListener
         {
             m_integerField.setText(newVal.replaceAll("[^\\d]", ""));
         }   
+        m_integerField.onValueChange();
     }
     
     

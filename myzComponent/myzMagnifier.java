@@ -7,10 +7,11 @@ package myzComponent;
 
 import com.myz.image.Magnifier;
 import java.lang.reflect.Field;
-import javafx.embed.swing.SwingFXUtils;
+import javafx.embed.swing.SwingNode;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -23,21 +24,20 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
     public myzMagnifier()
     {
         super();
-        m_imageView.setFitHeight(160);
-        m_imageView.setFitWidth(180);
     }
     //Class Members
-    public static  Thread THREAD     = null;
-    public static  int    ZOOM_RATIO = 5   ;
-    public static  int    ENABLE     = 1   ;
-    public static  int    STOP       = 2   ;
-    public static  int    DISABLE    = 3   ;
+    public static  Thread THREAD           = null;
+    public static  int    ZOOM_RATIO       = 5   ;
+    public static  int    ENABLE           = 1   ;
+    public static  int    STOP             = 2   ;
+    public static  int    DISABLE          = 3   ;
     
     //Data Members
+    Magnifier m_magnifier    = new Magnifier();
     int       m_status       = 0;
-    int       m_zoomValue    = 50 ;
+    int       m_zoomValue    = 25 ;
+    SwingNode m_swingNode    = new SwingNode();
     HBox      m_zoomBox      = new HBox(10);
-    ImageView m_imageView    = new ImageView ();
     myzButton m_zoomIn       = new myzButton()
     {
         @Override
@@ -67,13 +67,11 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
             {
                 m_controller.setCaption("enable.magnifier");
                 setStatus(DISABLE);
-//                disable();
             }
             else
             {
                 m_controller.setCaption("disable.magnifier");
                 setStatus(ENABLE);
-//                enable();
             }
         }
     };
@@ -84,11 +82,12 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         while(getStatus() != STOP)
         {
             if (getStatus() == ENABLE)
-                m_imageView.setImage(SwingFXUtils.toFXImage(Magnifier.getRImage(getZoomValue()) , null) );
+                m_magnifier.work(getZoomValue());
+//                m_imageView.setImage(SwingFXUtils.toFXImage(magnifier.getRImage(getZoomValue()) , null) );
             else
-                m_imageView.setImage(null);
+                m_magnifier.removeAll();
+//                m_imageView.setImage(null);
         }
-        System.out.println("exit from thread");
     }
     
     public void startRunning()
@@ -116,50 +115,32 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         
         m_zoomBox.setAlignment(Pos.BOTTOM_CENTER);
         m_zoomBox.getChildren().addAll(m_zoomIn , m_controller , m_zoomOut);
-       
+
+        //Add JPanel node to swingNode then add swingNode to stackPane 
+        m_swingNode.setContent(m_magnifier);
+        
+        ImageView  plusSign = new ImageView("icon\\plus_sign.png") ;
+        StackPane  stack    = new StackPane(m_swingNode , plusSign);
+        plusSign.resize(25 , 25);
+        plusSign.setFitHeight(50);
+        plusSign.setFitWidth(50);
+        stack.setAlignment(Pos.CENTER);
+        stack.setMaxSize(150, 150);
+        
         setStyle(cssLayout);
-        setMaxSize(200, 200);
-        getChildren().addAll(m_imageView , m_zoomBox );
+        setMaxSize(50, 50);
+        getChildren().addAll( stack , m_zoomBox );
         setStatus(ENABLE);
         
         THREAD = new Thread(this);
+        THREAD.setDaemon(true);
         THREAD.start();
+
     }
     public void stopRunning()
     {
         setStatus(STOP);
     }
-//    public void disable()
-//    {
-//        try
-//        {
-//            synchronized (main)
-//            {
-//                THREAD.wait();
-//            }
-//            m_imageView.setImage(null);
-//        }
-//        catch (Exception ex)
-//        {
-//            ex.printStackTrace();
-//        }
-//    }
-//    public void enable()
-//    {
-//        try
-//        {
-//            synchronized (main)
-//            {
-//
-//                main.notify();
-//                
-//            }
-//        }
-//        catch (Exception ex)
-//        {
-//            ex.printStackTrace();
-//        }
-//    }
     @Override
     public void refreshCaption()
     {  
@@ -201,5 +182,4 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         return m_status ;
     }
     
-
 }

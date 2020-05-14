@@ -1,5 +1,7 @@
 package takweem;
 import com.myz.image.ImagePanel;
+import static com.myz.image.ImagePanel.IMAGE_ROTATE_VALUE;
+import static com.myz.image.ImagePanel.IMAGE_ROTATE_ANGLE;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -9,6 +11,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -30,6 +33,7 @@ import javafx.stage.WindowEvent;
 import myzComponent.myzButton;
 import myzComponent.myzComboBox;
 import myzComponent.myzComponent;
+import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 import myzComponent.myzMagnifier;
 import myzComponent.myzScene;
@@ -47,15 +51,26 @@ public class Takweem extends Application
     public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
-    public static       ResourceBundle   m_bundle         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
-    BorderPane          m_container                       = new BorderPane();
+    public static       ResourceBundle   m_bundle        = ResourceBundle.getBundle("captions",new Locale("en", "en"));
+    BorderPane          m_container                      = new BorderPane();
 
     public Stage m_primaryStage ;
     
     //ImagePanel
-    public ImagePanel   m_imagePanel = new ImagePanel();//add by montazar 
+    public ImagePanel      m_imagePanel       = new ImagePanel();//add by montazar 
+    public myzLabel        m_rotateAngleLabel = new myzLabel();
+    public myzLabel        m_rotateValueLabel = new myzLabel();
+    public myzIntegerField m_rotateAngleField = new myzIntegerField();
+    public myzIntegerField m_rotateValueField = new myzIntegerField()
+    {
+      @Override
+      public void onValueChange()
+      {
+        IMAGE_ROTATE_VALUE  = m_rotateValueField.getValue() ;
+      }
+    };
     //Magnifier
-    public myzMagnifier m_magnifier  = new myzMagnifier();//add by montazar
+    public myzMagnifier m_magnifier      = new myzMagnifier();//add by montazar
     
     // header component 
     VBox         m_header                = new VBox(10);
@@ -70,6 +85,7 @@ public class Takweem extends Application
         public void buttonPressed()
         {
             m_imagePanel.rotateImageLeft();
+            m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);//update field value
         }
     };
     myzButton    m_rotateRightButton      = new myzButton()
@@ -78,6 +94,7 @@ public class Takweem extends Application
         public void buttonPressed()
         {
             m_imagePanel.rotateImageRight();
+            m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);//update field value
         }
     };
 
@@ -134,13 +151,14 @@ public class Takweem extends Application
         m_primaryStage = primaryStage;
         // we can not write init() method cuz there is some class have and it is think we override it
         initFrame();
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-        @Override
-        public void handle(WindowEvent t) 
-        {    closeMe(m_primaryStage);
-            System.exit(0);
-        }
-});
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+            @Override
+            public void handle(WindowEvent widowEvent) 
+            {    
+                closeMe(m_primaryStage , widowEvent );
+            }
+        });
         
     } 
     
@@ -255,6 +273,25 @@ public class Takweem extends Application
         m_modifyAnatomy.setParentPane(m_headerPane);
         m_modifyAnatomy.setReSizeOnParentSize(true);
         
+        m_rotateValueField.setMinSize(50, 25);
+        m_rotateValueField.setParentPane(m_headerPane);
+        m_rotateValueField.setValue(IMAGE_ROTATE_VALUE);
+        
+        m_rotateAngleField.setMinSize(50, 25);
+        m_rotateAngleField.setParentPane(m_headerPane);
+        m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);
+        m_rotateAngleField.setDisable(true);
+
+        m_rotateAngleLabel.setCaption("rotate.angle");
+        m_rotateAngleLabel.setParentPane(m_headerPane);
+        m_rotateAngleLabel.setReSizeOnParentSize(true);
+        m_rotateAngleLabel.setFont(new Font(14));
+                
+        m_rotateValueLabel.setCaption("rotate.value");
+        m_rotateValueLabel.setParentPane(m_headerPane);
+        m_rotateValueLabel.setReSizeOnParentSize(true);
+        m_rotateValueLabel.setFont(new Font(14));
+        
         m_deleteAnatomy.setCaption("anatomy.delete");
         m_deleteAnatomy.setGraphic(new ImageView("icon\\delete.png"));
         m_deleteAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
@@ -264,7 +301,9 @@ public class Takweem extends Application
         m_deleteAnatomy.setParentPane(m_headerPane);
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
-        m_headerPane.getChildren().addAll(   m_rotateLeftButton , m_rotateRightButton , m_addPhotoButton , m_printResultButton ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
+        m_headerPane.getChildren().addAll( m_rotateAngleLabel , m_rotateAngleField , m_rotateValueLabel , m_rotateValueField 
+                                          ,m_rotateLeftButton , m_rotateRightButton , m_addPhotoButton , m_printResultButton 
+                                          ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
 //        m_header.setStyle("-fx-border-color : black ;");
@@ -370,7 +409,7 @@ public class Takweem extends Application
     }
     
     
-    public void closeMe(Stage primaryStage)
+    public void closeMe(Stage primaryStage , Event windoEvent )
     {
         boolean answer = myzMessage.confirmMessage(m_bundle.getString("exit.confirmation") , m_bundle);
         if (answer)
@@ -378,6 +417,8 @@ public class Takweem extends Application
             primaryStage.close();
             m_magnifier.stopRunning();
         }
+        else
+            windoEvent.consume();
     }
     
     /**

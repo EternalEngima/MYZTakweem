@@ -13,7 +13,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import myzComponent.myzComponent;
-import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 
 /**
@@ -41,8 +40,8 @@ public class ImagePanel extends StackPane implements myzComponent
     // Class Members 
     private static final double IMAGE_VIEW_WIDTH   = 400 ;
     private static final double IMAGE_VIEW_HEIGHT  = 400 ;
-    public  static final int    IMAGE_ROTATE_VALUE = 1 ; 
-    public static  int          IMAGE_ROTATE_ANGLE = 0 ;
+    public  static int          IMAGE_ROTATE_VALUE = 1 ; 
+    public  static int          IMAGE_ROTATE_ANGLE = 0 ;
     
     //Data Members
     Image           m_selectedImage    = null;
@@ -50,13 +49,12 @@ public class ImagePanel extends StackPane implements myzComponent
     myzLabel        m_centerLabel      = new myzLabel();
     ImageView       m_imageView        = new ImageView();
     ImageView       m_blankImageView   = new ImageView();
-    myzIntegerField m_rotateValue      = new myzIntegerField();//TODO
-    myzIntegerField m_rotateAngle      = new myzIntegerField();//TODO
+
     
     //TODO temp
     Vector vLinePointes       = new Vector ();
     
-    // Class Methods 
+    //Class Methods 
     public void insertImage( File file ) 
     {   
         String blankImageUrl      = "src\\blank400x400.png" ;
@@ -85,13 +83,13 @@ public class ImagePanel extends StackPane implements myzComponent
         }
     }    
 
+    //TODO 
     public void paint ( MouseEvent event , ImageView blankimageView)
     {
         int   x      = new Double ( ( event.getX()  )  ).intValue();
         int   y      = new Double ( ( event.getY()  )  ).intValue();
         Point point  = new Point ( x , y ) ;
         point.draw(blankimageView);
-        //TODO
         vLinePointes.addElement(point);
         Line line  = null ;
         if ( vLinePointes.size() == 2)
@@ -146,7 +144,12 @@ public class ImagePanel extends StackPane implements myzComponent
     {
         if(getSelectedImage() != null)
         {
+            //To keep angle between 0 & 360 degree
             IMAGE_ROTATE_ANGLE -= IMAGE_ROTATE_VALUE; 
+            if (IMAGE_ROTATE_ANGLE >= 360)
+                IMAGE_ROTATE_ANGLE = IMAGE_ROTATE_ANGLE % 360;
+            else if (IMAGE_ROTATE_ANGLE < 0)
+                IMAGE_ROTATE_ANGLE = 360 + IMAGE_ROTATE_ANGLE ;
             getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);         
         }
     }
@@ -154,7 +157,12 @@ public class ImagePanel extends StackPane implements myzComponent
     {
         if(getSelectedImage() != null)
         {
-            IMAGE_ROTATE_ANGLE += IMAGE_ROTATE_VALUE ; 
+            //To keep angle between 0 & 360 degree
+            IMAGE_ROTATE_ANGLE += IMAGE_ROTATE_VALUE ;
+            if (IMAGE_ROTATE_ANGLE >= 360)
+                IMAGE_ROTATE_ANGLE = IMAGE_ROTATE_ANGLE % 360;
+            else if (IMAGE_ROTATE_ANGLE < 0)
+                IMAGE_ROTATE_ANGLE = 360 + IMAGE_ROTATE_ANGLE ;
             getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);  
         }
     }

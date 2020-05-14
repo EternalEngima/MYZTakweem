@@ -4,58 +4,55 @@ package com.myz.image;
  *
  * @author Montazar Hamoud 10.5.2020
  */
-
+import javax.swing.*; 
 import java.awt.*; 
-import java.awt.image.BufferedImage;
-
-public class Magnifier 
+public class Magnifier extends JPanel
 { 
+  
+  
 
   
-    //Default constrcutor 
-    Magnifier() 
+    // default constrcutor 
+    public Magnifier() 
     { 
-        
+        setMinimumSize(new Dimension(200, 200));
+        show(); 
     } 
   
-
-    public static BufferedImage getRImage( int zoomValue )
-    {
-        try
-        {
-            GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
-            Robot robot = new Robot(screens[0]); 
+    //Data members
+    Image m_image;
+    
+    public void work(int zoomValue) 
+    { 
+        try 
+        { 
+            // create a robot 
+            Robot r = new Robot(); 
             // get the position of mouse 
             java.awt.Point p = MouseInfo.getPointerInfo().getLocation(); 
-  
+
             // create a screen capture around the mouse pointer 
-            return toBufferedImage(robot.createScreenCapture(new Rectangle((int)p.getX(), 
-                                                        (int)p.getY() , zoomValue , zoomValue))) ;
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        
-        return null ;
-    }
-    public static BufferedImage toBufferedImage(Image img)
-    {
-        if (img instanceof BufferedImage)
-        {
-            return (BufferedImage) img;
-        }
+            m_image = r.createScreenCapture(new Rectangle((int)p.getX() - zoomValue, 
+                                                    (int)p.getY() - zoomValue , zoomValue * 2 , zoomValue * 2)); 
 
-        // Create a buffered image with transparency
-        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-    
-        // Draw the image on to the buffered image
-        Graphics2D bGr = bimage.createGraphics();
-        bGr.drawImage(img, 0, 0, null);
-        bGr.dispose();
+            // repaint the conatiner 
+            repaint(); 
+  
 
-        // Return the buffered image
-        return bimage;
-    }
+
+        } 
+        catch (Exception e) { 
+            System.err.println(e.getMessage()); 
+        } 
+    } 
+  
+    // paint function 
+    @Override
+    public void paint(Graphics g) 
+    { 
+  
+        // draw the image 
+        g.drawImage(m_image, 0, 0, 200, 200, this); 
+    } 
 
 } 
