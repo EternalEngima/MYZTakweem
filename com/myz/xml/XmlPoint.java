@@ -6,12 +6,18 @@ import org.xml.sax.Attributes;
  * @author Zaid
  */
 
-public class Point extends MYZXmlObject
+public class XmlPoint extends MYZXmlObject
 {
     //Constructor
-    public Point()
+    public XmlPoint()
     {
         
+    }
+    public XmlPoint( XmlPoint point )
+    {
+        m_name        = point.m_name;
+        m_symbol      = point.m_symbol;
+        m_description = point.m_description;
     }
     
     //Members
@@ -20,7 +26,6 @@ public class Point extends MYZXmlObject
     String m_description;
     
     //Methods
-
     @Override
     public void initialize( Attributes attributes )  
     {
@@ -40,6 +45,6 @@ public class Point extends MYZXmlObject
         return XML;
     }
     @Override
-    public void append(MYZXmlObject xmlObject){}
+    public void append( MYZXmlObject xmlObject ){}
     
 }

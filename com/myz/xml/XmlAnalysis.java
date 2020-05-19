@@ -7,12 +7,12 @@ import org.xml.sax.Attributes;
  * @author Zaid
  */
 
-public class Analysis extends MYZXmlObject
+public class XmlAnalysis extends MYZXmlObject
 {
     //Constructor
-    public Analysis()
+    public XmlAnalysis()
     {
-        m_vOperation = new Vector< Operation >();
+        m_vOperation = new Vector< XmlOperation >();
     }
     
     //Statics
@@ -53,7 +53,7 @@ public class Analysis extends MYZXmlObject
     public int          m_type;
     public String       m_name;
     public String       m_description;
-    Vector< Operation > m_vOperation;
+    Vector< XmlOperation > m_vOperation;
     
     //Methods
 
@@ -68,8 +68,8 @@ public class Analysis extends MYZXmlObject
     @Override
     public void append( MYZXmlObject xmlObject )
     {
-        if( xmlObject instanceof Operation )
-            m_vOperation.addElement( (Operation) xmlObject );
+        if( xmlObject instanceof XmlOperation )
+            m_vOperation.addElement( (XmlOperation) xmlObject );
     }
     
     @Override
@@ -80,7 +80,7 @@ public class Analysis extends MYZXmlObject
                    + setAttribute( "description" , m_description )
                    + setAttribute( "category" , m_category )
                    + " > ";
-        for( Operation operation : m_vOperation )
+        for( XmlOperation operation : m_vOperation )
             XML += operation.toXml();
         XML += "/Analysis>";
         return "";

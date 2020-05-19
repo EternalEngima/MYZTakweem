@@ -22,11 +22,11 @@ public abstract class MYZXmlObject
     public static MYZXmlObject create( String tag )
     {
         if( "Analysis".equals( tag ) )
-            return new Analysis();
+            return new XmlAnalysis();
         if( "Operation".equals( tag ) )
-            return new Operation();
+            return new XmlOperation();
         if( "Point".equals( tag ) )
-            return new Point();
+            return new XmlPoint();
         return null;
     }
     

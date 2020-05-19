@@ -7,12 +7,12 @@ import org.xml.sax.Attributes;
  * @author Zaid
  */
 
-public class Operation extends MYZXmlObject
+public class XmlOperation extends MYZXmlObject
 {
     //Constructor
-    public Operation()
+    public XmlOperation()
     {
-        m_vPoint = new Vector< Point >();
+        m_vXmlPoint = new Vector< XmlPoint >();
     }
     
     //Statics
@@ -37,10 +37,9 @@ public class Operation extends MYZXmlObject
     protected double m_correctValue;
     //String m_classification; TODO 
     //m_errorRange TODO
-    Vector< Point > m_vPoint;
+    protected Vector< XmlPoint > m_vXmlPoint;
     
     //Methods
-
     @Override
     public void initialize( Attributes attributes )
     {
@@ -54,8 +53,8 @@ public class Operation extends MYZXmlObject
     @Override
     public void append( MYZXmlObject xmlObject ) 
     {
-        if( xmlObject instanceof Point )
-            m_vPoint.addElement( (Point) xmlObject );        
+        if( xmlObject instanceof XmlPoint )
+            m_vXmlPoint.addElement( (XmlPoint) xmlObject );        
     }
     
     @Override
@@ -68,7 +67,7 @@ public class Operation extends MYZXmlObject
                    + setAttribute( "correctValue" , m_correctValue )
                    //+ setAttribute( "classification" , m_classification )
                    + " > ";
-        for( Point point : m_vPoint )
+        for( XmlPoint point : m_vXmlPoint )
             XML += point.toXml();
         XML += "</Operation>";
         return XML;

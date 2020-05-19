@@ -1,19 +1,22 @@
 package com.myz.calculable;
 
+import com.myz.image.Point;
+import com.myz.xml.XmlPoint;
+
 /**
  * @author Zaid
  */
 
-public class MYZPoint
+public class MYZPoint extends XmlPoint
 {
     //Constructor
     public MYZPoint()
     {
+        
     }
     
     //Members
-    int m_xAxis;
-    int m_yAxis;
+    Point m_point;
     
     
     

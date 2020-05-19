@@ -106,14 +106,13 @@ public class Line
         if ( getMinX() <= x && x <= getMaxX() && getMinY() <= y && y <= getMaxY())
         {
             // in these case the slope is undefined because can not divide on zero ( x2 - x1 = 0 ) 
-            if ( getLineSlope() == Double.NEGATIVE_INFINITY )
+            if ( getLineSlope() == Double.NEGATIVE_INFINITY || getLineSlope() == Double.POSITIVE_INFINITY )
                 return true ;
             
             return ((getY(x) == y || getX(y) == x) );
         }
 
-        return false ;
-        
+        return false;        
     }
 
     public void draw (ImageView image)
@@ -125,13 +124,13 @@ public class Line
         WritableImage wImage      = new WritableImage( (int) width , (int) height);
         //getting the pixel writer
         PixelWriter writer = wImage.getPixelWriter();           
-
+        Color color;
         for( int x = 0 ; x < width ; x++ )
         {
             for( int y = 0 ; y < height ; y++ )
             {
                 //Retrieving the color of the pixel of the loaded image
-                Color color = pixelReader.getColor( x , y );
+                color = pixelReader.getColor( x , y );
                 if ( isInLine( x , y ) )
                   writer.setColor( x , y , Color.AQUA);                
                 else
@@ -149,13 +148,13 @@ public class Line
         WritableImage wImage      = new WritableImage( (int) width , (int) height);
         //getting the pixel writer
         PixelWriter writer = wImage.getPixelWriter();           
-
+        Color color;
         for( int x = 0 ; x < width ; x++ )
         {
             for( int y = 0 ; y < height ; y++ )
             {
                 //Retrieving the color of the pixel of the loaded image
-                Color color = pixelReader.getColor( x , y );
+                color = pixelReader.getColor( x , y );
                 if ( isInLine( x , y ) )
                   writer.setColor( x , y , Color.TRANSPARENT);                
                 else
