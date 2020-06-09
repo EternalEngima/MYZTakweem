@@ -1,7 +1,6 @@
 package takweem;
+import com.myz.image.ImageEditorStage;
 import com.myz.image.ImagePanel;
-import static com.myz.image.ImagePanel.IMAGE_ROTATE_VALUE;
-import static com.myz.image.ImagePanel.IMAGE_ROTATE_ANGLE;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collections;
@@ -33,7 +32,6 @@ import javafx.stage.WindowEvent;
 import myzComponent.myzButton;
 import myzComponent.myzComboBox;
 import myzComponent.myzComponent;
-import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 import myzComponent.myzMagnifier;
 import myzComponent.myzScene;
@@ -58,17 +56,8 @@ public class Takweem extends Application
     
     //ImagePanel
     public ImagePanel      m_imagePanel       = new ImagePanel();//add by montazar 
-    public myzLabel        m_rotateAngleLabel = new myzLabel();
-    public myzLabel        m_rotateValueLabel = new myzLabel();
-    public myzIntegerField m_rotateAngleField = new myzIntegerField();
-    public myzIntegerField m_rotateValueField = new myzIntegerField()
-    {
-      @Override
-      public void onValueChange()
-      {
-        IMAGE_ROTATE_VALUE  = m_rotateValueField.getValue() ;
-      }
-    };
+
+
     //Magnifier
     public myzMagnifier m_magnifier      = new myzMagnifier();//add by montazar
     
@@ -79,24 +68,16 @@ public class Takweem extends Application
     Menu         m_langMenu              = new Menu(getCaption("application.lang"));
     
     HBox         m_headerPane            = new HBox(20);
-    myzButton    m_rotateLeftButton      = new myzButton()
+    myzButton    m_saveImageButton             = new myzButton()
     {
+        
         @Override
         public void buttonPressed()
         {
-            m_imagePanel.rotateImageLeft();
-            m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);//update field value
+            m_imagePanel.saveImage();
         }
     };
-    myzButton    m_rotateRightButton      = new myzButton()
-    {
-        @Override
-        public void buttonPressed()
-        {
-            m_imagePanel.rotateImageRight();
-            m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);//update field value
-        }
-    };
+
 
     myzButton    m_addPhotoButton        = new myzButton()
     {
@@ -107,8 +88,8 @@ public class Takweem extends Application
             File         file          = fileChooser.showOpenDialog(m_primaryStage);   
             try 
             {
-                //Modified by montazar 
-                m_imagePanel.insertImage( file );               
+                //Modified by montazar
+                new ImageEditorStage(file , m_imagePanel);            
             }
             catch(Exception ex)
             {
@@ -181,6 +162,7 @@ public class Takweem extends Application
 //        primaryStage.setResizable(false);
 //        primaryStage.setOnCloseRequest(e -> {e.consume();closeMe(primaryStage);} );
         m_primaryStage.show();
+        m_primaryStage.setMaximized(true);
         
     }
     
@@ -229,20 +211,13 @@ public class Takweem extends Application
         
         m_sittingsBar.getMenus().add(m_sittingsMenu);
         
-        m_rotateLeftButton.setCaption("rotate.left");
-        m_rotateLeftButton.setGraphic(new ImageView("icon\\rotate_left.png"));
-        m_rotateLeftButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_rotateLeftButton.setMaxHeight(25);
-        m_rotateLeftButton.setParentPane(m_headerPane);
-        m_rotateLeftButton.setReSizeOnParentSize(true);
+        m_saveImageButton.setCaption("save.image");
+        m_saveImageButton.setGraphic(new ImageView("icon\\save.png"));
+        m_saveImageButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_saveImageButton.setMaxHeight(25);
+        m_saveImageButton.setParentPane(m_headerPane);
+        m_saveImageButton.setReSizeOnParentSize(true);
         
-        m_rotateRightButton.setCaption("rotate.right");
-        m_rotateRightButton.setGraphic(new ImageView("icon\\rotate_right.png"));
-        m_rotateRightButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_rotateRightButton.setMaxHeight(25);
-        m_rotateRightButton.setParentPane(m_headerPane);
-        m_rotateRightButton.setReSizeOnParentSize(true);                
-                
         m_addPhotoButton.setCaption("button.add.photo");
         m_addPhotoButton.setGraphic(new ImageView("icon\\addphoto.png"));
         m_addPhotoButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
@@ -272,26 +247,7 @@ public class Takweem extends Application
         m_modifyAnatomy.setMaxHeight(25);
         m_modifyAnatomy.setParentPane(m_headerPane);
         m_modifyAnatomy.setReSizeOnParentSize(true);
-        
-        m_rotateValueField.setMinSize(50, 25);
-        m_rotateValueField.setParentPane(m_headerPane);
-        m_rotateValueField.setValue(IMAGE_ROTATE_VALUE);
-        
-        m_rotateAngleField.setMinSize(50, 25);
-        m_rotateAngleField.setParentPane(m_headerPane);
-        m_rotateAngleField.setValue(IMAGE_ROTATE_ANGLE);
-        m_rotateAngleField.setDisable(true);
-
-        m_rotateAngleLabel.setCaption("rotate.angle");
-        m_rotateAngleLabel.setParentPane(m_headerPane);
-        m_rotateAngleLabel.setReSizeOnParentSize(true);
-        m_rotateAngleLabel.setFont(new Font(14));
-                
-        m_rotateValueLabel.setCaption("rotate.value");
-        m_rotateValueLabel.setParentPane(m_headerPane);
-        m_rotateValueLabel.setReSizeOnParentSize(true);
-        m_rotateValueLabel.setFont(new Font(14));
-        
+         
         m_deleteAnatomy.setCaption("anatomy.delete");
         m_deleteAnatomy.setGraphic(new ImageView("icon\\delete.png"));
         m_deleteAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
@@ -301,8 +257,7 @@ public class Takweem extends Application
         m_deleteAnatomy.setParentPane(m_headerPane);
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
-        m_headerPane.getChildren().addAll( m_rotateAngleLabel , m_rotateAngleField , m_rotateValueLabel , m_rotateValueField 
-                                          ,m_rotateLeftButton , m_rotateRightButton , m_addPhotoButton , m_printResultButton 
+        m_headerPane.getChildren().addAll(m_saveImageButton , m_addPhotoButton , m_printResultButton 
                                           ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
@@ -420,7 +375,7 @@ public class Takweem extends Application
         else
             windoEvent.consume();
     }
-    
+
     /**
      * @param args the command line arguments
      */

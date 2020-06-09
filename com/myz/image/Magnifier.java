@@ -8,10 +8,7 @@ import javax.swing.*;
 import java.awt.*; 
 public class Magnifier extends JPanel
 { 
-  
-  
 
-  
     // default constrcutor 
     public Magnifier() 
     { 
@@ -45,7 +42,12 @@ public class Magnifier extends JPanel
             System.err.println(e.getMessage()); 
         } 
     } 
-  
+    
+    public void stopWork()
+    {
+        m_image = new ImageIcon("src\\icon\\magnifierStopScreen.png").getImage();
+        repaint();
+    }
     // paint function 
     @Override
     public void paint(Graphics g) 

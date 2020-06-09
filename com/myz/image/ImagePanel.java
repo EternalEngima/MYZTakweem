@@ -1,17 +1,31 @@
 package com.myz.image;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
+import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javax.imageio.ImageIO;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
 
@@ -40,8 +54,7 @@ public class ImagePanel extends StackPane implements myzComponent
     // Class Members 
     private static final double IMAGE_VIEW_WIDTH   = 400 ;
     private static final double IMAGE_VIEW_HEIGHT  = 400 ;
-    public  static int          IMAGE_ROTATE_VALUE = 1 ; 
-    public  static int          IMAGE_ROTATE_ANGLE = 0 ;
+
     
     //Data Members
     Image           m_selectedImage    = null;
@@ -49,21 +62,24 @@ public class ImagePanel extends StackPane implements myzComponent
     myzLabel        m_centerLabel      = new myzLabel();
     ImageView       m_imageView        = new ImageView();
     ImageView       m_blankImageView   = new ImageView();
+    int             m_rotateAngle      = 0;
 
     
     //TODO temp
     Vector vLinePointes       = new Vector ();
     
     //Class Methods 
-    public void insertImage( File file ) 
+    public void insertImage( Image image ) 
     {   
         String blankImageUrl      = "src\\blank400x400.png" ;
         try 
         {
-            setSelectedImage(new Image ( new FileInputStream (file) ));
+            setSelectedImage( image );
             Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
+            
             getImageView().setFitWidth(IMAGE_VIEW_WIDTH);
             getImageView().setFitHeight(IMAGE_VIEW_HEIGHT);
+            
             
             m_imageView.setImage(getSelectedImage());
             m_blankImageView.setImage(blankImage);
@@ -140,32 +156,7 @@ public class ImagePanel extends StackPane implements myzComponent
          getChildren().addAll(getCenterPane());
     }
     
-    public void rotateImageLeft ()
-    {
-        if(getSelectedImage() != null)
-        {
-            //To keep angle between 0 & 360 degree
-            IMAGE_ROTATE_ANGLE -= IMAGE_ROTATE_VALUE; 
-            if (IMAGE_ROTATE_ANGLE >= 360)
-                IMAGE_ROTATE_ANGLE = IMAGE_ROTATE_ANGLE % 360;
-            else if (IMAGE_ROTATE_ANGLE < 0)
-                IMAGE_ROTATE_ANGLE = 360 + IMAGE_ROTATE_ANGLE ;
-            getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);         
-        }
-    }
-    public void rotateImageRight()
-    {
-        if(getSelectedImage() != null)
-        {
-            //To keep angle between 0 & 360 degree
-            IMAGE_ROTATE_ANGLE += IMAGE_ROTATE_VALUE ;
-            if (IMAGE_ROTATE_ANGLE >= 360)
-                IMAGE_ROTATE_ANGLE = IMAGE_ROTATE_ANGLE % 360;
-            else if (IMAGE_ROTATE_ANGLE < 0)
-                IMAGE_ROTATE_ANGLE = 360 + IMAGE_ROTATE_ANGLE ;
-            getCenterPane().setRotate(IMAGE_ROTATE_ANGLE);  
-        }
-    }
+
     private void mouseDragDropped(final DragEvent e)
     {
         final Dragboard db = e.getDragboard();
@@ -173,8 +164,7 @@ public class ImagePanel extends StackPane implements myzComponent
         if (db.hasFiles()) 
         {
             success = true;
-            insertImage( db.getFiles().get(0));
-           
+            ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) , this);
         }
         e.setDropCompleted(success);
         e.consume();
@@ -219,11 +209,67 @@ public class ImagePanel extends StackPane implements myzComponent
                 }
             }
         }
-        catch(Exception ex)
+        catch(SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException ex)
         {
             ex.printStackTrace();
         }
         
+    }
+    public void saveImage ()
+    {
+        
+        new Thread()
+        {
+              @Override
+              public void run()
+              {
+                BufferedImage         bImage       = null ;
+                ByteArrayOutputStream outputStream = null ;
+                InputStream           inputStream  = null ;
+
+                try
+                {
+                    if(m_selectedImage == null)
+                        return ;
+                    bImage       = SwingFXUtils.fromFXImage(m_blankImageView.getImage(), null);
+                    outputStream = new ByteArrayOutputStream();
+                    ImageIO.write(bImage , "png" , outputStream);//TODO png
+                    byte[] res  = outputStream.toByteArray();
+                    inputStream = new ByteArrayInputStream(res);
+                    Image tmp   = new Image ( inputStream , m_selectedImage.getWidth(), m_selectedImage.getHeight() , false , false );
+
+                    PixelReader   pixelReader1 = tmp.getPixelReader() ;
+                    PixelReader   pixelReader2 = m_selectedImage.getPixelReader() ;
+
+                    double width               = tmp.getWidth()  ;
+                    double height              = tmp.getHeight() ;
+                    WritableImage wImage       = new WritableImage((int) width , (int) height );
+                    PixelWriter writer         = wImage.getPixelWriter();   
+
+                    for (int x = 0 ; x < width ; x++)
+                    {
+                        for(int y = 0 ; y < height ; y++)
+                        {
+                            Color color1  = pixelReader1.getColor(x, y);
+                            Color color2  = pixelReader2.getColor(x, y);
+                            if(!color1.equals(Color.TRANSPARENT))
+                                writer.setColor(x, y, color1);
+                            else
+                                writer.setColor(x, y, color2);                            
+                        }
+                    }
+
+                    ImageIO.write(SwingFXUtils.fromFXImage(wImage, null), "png", new File("D:\\temp.png"));//TODO
+                }
+                catch (Exception ex)
+                {
+                    ex.printStackTrace();
+                }
+            }
+            
+                
+        }.start();
+
     }
     //Setter methods
     public void setSelectedImage ( Image selectedImage )
@@ -246,6 +292,10 @@ public class ImagePanel extends StackPane implements myzComponent
     {
         m_blankImageView = blankImageView ;
     }
+    void setRotateAngle(int rotateAngle)
+    {
+        m_rotateAngle = rotateAngle ;
+    }
     //Getter Methods
     public Image getSelectedImage ( )
     {
@@ -266,5 +316,9 @@ public class ImagePanel extends StackPane implements myzComponent
     public ImageView getBlankImageView ()
     {
         return m_blankImageView ;
+    }
+    public int getRotateAngle()
+    {
+        return m_rotateAngle ;
     }
 }

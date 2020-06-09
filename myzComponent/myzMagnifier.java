@@ -85,7 +85,7 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
                 m_magnifier.work(getZoomValue());
 //                m_imageView.setImage(SwingFXUtils.toFXImage(magnifier.getRImage(getZoomValue()) , null) );
             else
-                m_magnifier.removeAll();
+                m_magnifier.stopWork();
 //                m_imageView.setImage(null);
         }
     }

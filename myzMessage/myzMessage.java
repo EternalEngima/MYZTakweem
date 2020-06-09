@@ -79,7 +79,7 @@ public class myzMessage
         
         return m_answer;
     }
-    
+
     public static void alertMessage(String alter , ResourceBundle bundle)
     {
         Stage   m_window = new Stage();
