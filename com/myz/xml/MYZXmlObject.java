@@ -11,7 +11,6 @@ public abstract class MYZXmlObject
     //Constructor
     public MYZXmlObject()
     {
-        
     }
     
     //Statics

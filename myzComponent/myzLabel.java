@@ -52,7 +52,15 @@ public class myzLabel extends Label implements myzComponent
     public void setCaption(String key)
     {
         m_captionKey = key;
-        String str = takweem.Takweem.m_bundle.getString(key);
+        String str = null;
+        try
+        {
+            str = takweem.Takweem.m_bundle.getString( key );
+        }
+        catch( Exception e )
+        {
+            e.printStackTrace();//TODO do something nice -MZM            
+        }        
         if ( str != null)
             setText(str);
         else

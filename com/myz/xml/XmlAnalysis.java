@@ -47,7 +47,7 @@ public class XmlAnalysis extends MYZXmlObject
     public static String TYPE_GYPSUM_                 = "MYZAnalysisTypeGypsum_";
     public static String TYPE_GYPSUM_OCCLUSAL_CANTING = "MYZAnalysisTypeGypsumOcclusalCanting";
     public static String TYPE_GYPSUM_BOLTON           = "MYZAnalysisTypeGypsumBolton";
-    
+            
     //Members
     public int          m_category;
     public int          m_type;

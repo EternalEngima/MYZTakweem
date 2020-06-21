@@ -7,16 +7,42 @@ import com.myz.image.Point;
  */
 public class MYZMathTools
 {
+    //Driver
+    public static void main( String[] args )
+    {        
+        Point  point1, point2, point3, point4, pResult;
+        double dResult, dResult1;
+        
+        point1 = new Point( 2 , 2 );
+        point2 = new Point( 1 , 1 );
+        
+        point3 = new Point( 2 , 2 );
+        point4 = new Point( 2 , 4 );
+            
+        dResult  = calculateDistanceBetweenTwoPoints( point1 , point2 );
+        dResult1 = calculateAngelBetweenTwoLines( point1 , point2 , point3 , point4 );        
+    }
+    
     //Statics
-    public static double NO_ANGEL = -99999999;//return value of calculateAngelBetweenTwoLines(..) if the two line were parallel
+    public static double NO_ANGEL = 180;//return value of calculateAngelBetweenTwoLines(..) if the two line were paralle
     
     //Class methods
-    public static Point caluclateProjectedPointOnLine( Point l1 , Point l2 , Point p )
+    public static Point calculateProjectedPointOnLine( Point l1 , Point l2 , Point p )
     {
         Point projected = null;
         
         //calculate the slope and YIntercept of the line
         double slope      = calculateSlope( l1.getX() , l1.getY() , l2.getX() , l2.getY() );
+        if( slope == Double.NEGATIVE_INFINITY || slope == Double.POSITIVE_INFINITY )
+        {
+            projected = new Point( l1.getX() , p.getY() );
+            return projected;
+        }
+        if( slope == 0 )
+        {
+            projected = new Point( p.getX() , l1.getY() );
+            return projected;
+        }
         double yIntercept = calculateYIntercept( slope , l1 );
         
         //calculate the inverse slope and it's YIntercept
@@ -81,6 +107,7 @@ public class MYZMathTools
         else if( m2 == Double.NEGATIVE_INFINITY || m2 == Double.POSITIVE_INFINITY )
         {
             double temp = Math.atan( m1 );
+            temp = Math.toDegrees( temp );
             result = 90 - temp;
         }
         else
@@ -90,17 +117,19 @@ public class MYZMathTools
 
             result = temp1 / temp2;
             result = Math.abs( result );
-            result = Math.atan( result );            
+            result = Math.atan( result );    
+            result = Math.toDegrees( result );
+            int x;
         }
         
         return result;
     }
     
-      //Equation sqrt ( (x2*x2 - x1*x1) + (y2*y2 - y1*y1) )
+      //Equation sqrt ( ( x2 - x1 )^2 + ( y2 - y1 )^2 )
     public static double calculateDistanceBetweenTwoPoints( double x1 , double y1 , double x2 , double y2 )
     {        
-        double tmp1 = ( Math.pow( x2 , 2 ) - Math.pow( x1 , 2 ) );
-        double tmp2 = ( Math.pow( y2 , 2 ) - Math.pow( y1 , 2 ) );
+        double tmp1 = Math.pow( x2 - x1 , 2 );
+        double tmp2 = Math.pow( y2 - y1 , 2 );
         
         double result = Math.sqrt( tmp1 + tmp2 );        
         return result;

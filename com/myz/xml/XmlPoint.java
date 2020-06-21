@@ -11,10 +11,11 @@ public class XmlPoint extends MYZXmlObject
     //Constructor
     public XmlPoint()
     {
-        
+        super();
     }
     public XmlPoint( XmlPoint point )
     {
+        super();
         m_name        = point.m_name;
         m_symbol      = point.m_symbol;
         m_description = point.m_description;

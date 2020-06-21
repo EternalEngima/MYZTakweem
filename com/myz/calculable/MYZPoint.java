@@ -10,15 +10,19 @@ import com.myz.xml.XmlPoint;
 public class MYZPoint extends XmlPoint
 {
     //Constructor
-    public MYZPoint()
-    {
-        
+    public MYZPoint( XmlPoint point )
+    {        
+        super( point );
+         
     }
+    public MYZPoint( Point point )
+    {
+        super();
+        m_point = point;        
+    }
+    
     
     //Members
     Point m_point;
-    
-    
-    
     
 }

@@ -53,13 +53,13 @@ public class Point
         WritableImage wImage      = new WritableImage( (int) width , (int) height);
         //getting the pixel writer
         PixelWriter writer = wImage.getPixelWriter();           
-
+        Color       color;
         for( int x = 0 ; x < width ; x++ )
         {
             for( int y = 0 ; y < height ; y++ )
             {
                 //Retrieving the color of the pixel of the loaded image
-                Color color = pixelReader.getColor( x , y );
+                color = pixelReader.getColor( x , y );
                 if ( x == getX() && y == getY() )
                   writer.setColor( x , y , Color.AQUA);                
                 else

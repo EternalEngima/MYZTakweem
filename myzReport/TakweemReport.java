@@ -94,7 +94,7 @@ public class TakweemReport
     Image       m_image;
 
     //Constructer
-    TakweemReport(Stage primaryStage , Image image)
+    TakweemReport( Stage primaryStage , Image image )
     {
         m_primaryStage = primaryStage;
         m_image        = image;
@@ -135,7 +135,7 @@ public class TakweemReport
         hBox.getChildren().addAll(m_okButton , m_cancelButton);
         m_vBox.getChildren().add(hBox);
         m_vBox.setAlignment(Pos.CENTER);
-        m_scene = new Scene(m_vBox , 400, 150 );
+        m_scene = new Scene(m_vBox , 400, 170 );
         m_window.setScene(m_scene);
         m_window.getIcons().add(new Image("icon\\save.png"));
         m_window.showAndWait();
