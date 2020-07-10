@@ -134,6 +134,7 @@ public class MYZMathTools
         double result = Math.sqrt( tmp1 + tmp2 );        
         return result;
     }
+    
       //Equation y = mx + b ---> b = y - ( m x )
     public static double calculateYIntercept( double slope , double x , double y )    
     {

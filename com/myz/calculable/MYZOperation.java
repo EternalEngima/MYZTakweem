@@ -27,7 +27,7 @@ public class MYZOperation extends XmlOperation
         operation.m_vPoint.addElement( new MYZPoint( lPoint1 ) );
         operation.m_vPoint.addElement( new MYZPoint( lPoint2 ) );
         operation.m_vPoint.addElement( new MYZPoint( point1 ) );
-        result = operation.calucate();        
+        result = operation.calculate();        
         //Vertical line
         lPoint1 = new Point( 1 , 1 );
         lPoint2 = new Point( 1 , 5 );
@@ -36,7 +36,7 @@ public class MYZOperation extends XmlOperation
         operation.m_vPoint.addElement( new MYZPoint( lPoint1 ) );
         operation.m_vPoint.addElement( new MYZPoint( lPoint2 ) );
         operation.m_vPoint.addElement( new MYZPoint( point1 ) );
-        result = operation.calucate();
+        result = operation.calculate();
         //testCase#1
         lPoint1 = new Point( 1 , 1 );
         lPoint2 = new Point( 1 , 5 );
@@ -45,7 +45,7 @@ public class MYZOperation extends XmlOperation
         operation.m_vPoint.addElement( new MYZPoint( lPoint1 ) );
         operation.m_vPoint.addElement( new MYZPoint( lPoint2 ) );
         operation.m_vPoint.addElement( new MYZPoint( point1 ) );
-        result = operation.calucate();
+        result = operation.calculate();
         lPoint1 = new Point( 1 , 1 );
         lPoint2 = new Point( 2 , 2 );
         point1  = new Point( 3 , 3 );
@@ -53,7 +53,7 @@ public class MYZOperation extends XmlOperation
         operation.m_vPoint.addElement( new MYZPoint( lPoint1 ) );
         operation.m_vPoint.addElement( new MYZPoint( lPoint2 ) );
         operation.m_vPoint.addElement( new MYZPoint( point1 ) );
-        result = operation.calucate();        
+        result = operation.calculate();        
         
         //Distance between two projected points on a line
         operation = new MYZOperation();
@@ -67,7 +67,7 @@ public class MYZOperation extends XmlOperation
         operation.m_vPoint.addElement( new MYZPoint( lPoint2 ) );
         operation.m_vPoint.addElement( new MYZPoint( point1 ) );
         operation.m_vPoint.addElement( new MYZPoint( point2 ) );
-        result = operation.calucate();                
+        result = operation.calculate();                
     }
     
     //Constructor
@@ -82,7 +82,7 @@ public class MYZOperation extends XmlOperation
     Vector< MYZPoint > m_vPoint;
     
     //Methods
-    public double calucate()
+    public double calculate()
     {
         m_value = 0;
         

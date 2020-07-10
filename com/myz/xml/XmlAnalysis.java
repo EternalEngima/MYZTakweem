@@ -49,14 +49,13 @@ public class XmlAnalysis extends MYZXmlObject
     public static String TYPE_GYPSUM_BOLTON           = "MYZAnalysisTypeGypsumBolton";
             
     //Members
-    public int          m_category;
-    public int          m_type;
-    public String       m_name;
-    public String       m_description;
+    public int             m_category;
+    public int             m_type;
+    public String          m_name;
+    public String          m_description;
     Vector< XmlOperation > m_vOperation;
     
     //Methods
-
     @Override
     public void initialize( Attributes attributes ) 
     {
