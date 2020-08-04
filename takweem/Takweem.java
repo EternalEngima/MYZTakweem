@@ -31,6 +31,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import myzComponent.myzButton;
 import myzComponent.myzComboBox;
+import myzComponent.myzComboBoxItem;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
 import myzComponent.myzMagnifier;
@@ -52,12 +53,9 @@ public class Takweem extends Application
     public static       ResourceBundle   m_bundle        = ResourceBundle.getBundle("captions",new Locale("en", "en"));
     BorderPane          m_container                      = new BorderPane();
 
-    public Stage m_primaryStage ;
-    
+    public Stage        m_primaryStage ;
     //ImagePanel
-    public ImagePanel      m_imagePanel       = new ImagePanel();//add by montazar 
-
-
+    public ImagePanel   m_imagePanel     = new ImagePanel();//add by montazar 
     //Magnifier
     public myzMagnifier m_magnifier      = new myzMagnifier();//add by montazar
     
@@ -68,17 +66,14 @@ public class Takweem extends Application
     Menu         m_langMenu              = new Menu(getCaption("application.lang"));
     
     HBox         m_headerPane            = new HBox(20);
-    myzButton    m_saveImageButton             = new myzButton()
-    {
-        
+    myzButton    m_saveImageButton       = new myzButton()
+    {        
         @Override
         public void buttonPressed()
         {
             m_imagePanel.saveImage();
         }
     };
-
-
     myzButton    m_addPhotoButton        = new myzButton()
     {
         @Override
@@ -96,8 +91,7 @@ public class Takweem extends Application
                 ex.printStackTrace();
             }     
         }
-    };
-    
+    }; 
     myzButton    m_printResultButton     = new myzButton()
     {
         @Override
@@ -105,27 +99,35 @@ public class Takweem extends Application
         {
             //add by montazar 
             Image selectedImage = m_imagePanel.getSelectedImage();
-           TakweemReport.callFrame(m_primaryStage , selectedImage);
+            TakweemReport.callFrame(m_primaryStage , selectedImage);
 
         }
     };
-    
     myzLabel     m_anatomyLabel          = new myzLabel();
-    myzComboBox  m_anatomyCombo          = new myzComboBox();
+    myzComboBox  m_anatomyCombo          = new myzComboBox()
+    {
+        @Override
+        public void selectionChange()
+        {
+            // some code should be added here
+
+        }
+    };
     myzButton    m_modifyAnatomy         = new myzButton();
     myzButton    m_deleteAnatomy         = new myzButton();
 
-    
-
-
     //center Component 
-    Label        m_fixedFooterLabel = new Label();
-    //Left 
-    VBox         m_leftSidebar      = new VBox(10);
+    Label        m_fixedFooterLabel      = new Label();
+    
+    //Left Component
+    VBox         m_leftSidebar           = new VBox(10);
 
-    Pane         m_TablePan         = new Pane();
-    myzTableView m_calculateTable   = new myzTableView();
+    // Bottom Component
+    Pane         m_TablePan              = new Pane();
+    myzTableView m_calculateTable        = new myzTableView();
+    VBox         m_footer                = new VBox();
 
+    
     @Override
     public void start(Stage primaryStage)
     {
@@ -139,8 +141,7 @@ public class Takweem extends Application
             {    
                 closeMe(m_primaryStage , widowEvent );
             }
-        });
-        
+        });   
     } 
     
     public void initFrame()// wtf is going on if we mdelete this parameterc  
@@ -148,12 +149,13 @@ public class Takweem extends Application
     
         initHeader();
         initLeftSidebar();
+        initBottom();
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
         //Modified by montazar 
         m_container.setCenter(m_imagePanel); 
         m_container.setLeft(m_leftSidebar);
-
+        m_container.setBottom(m_footer);
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
         m_primaryStage.setScene(scene);
@@ -167,10 +169,8 @@ public class Takweem extends Application
     }
     
     public void initHeader()
-    {
-            
+    {        
         // Header-------------------------------------------------------------------------------------------------------------
-        
         CheckMenuItem  eng  = new  CheckMenuItem ("English");
         eng.setSelected(true);// set the default language to english
         CheckMenuItem  arab = new CheckMenuItem ("\u0627\u0644\u0639\u0631\u0628\u064a\u0629");
@@ -188,8 +188,7 @@ public class Takweem extends Application
                     if (!item.getText().equals(eventItem.getText()))
                     {
                         item.setSelected(false);
-                    }
-                    
+                    }  
                 }  
                 eventItem.setSelected(true);
                 ResourceBundle old  = m_bundle;
@@ -239,7 +238,11 @@ public class Takweem extends Application
         m_anatomyCombo.setMinSize(250, 25);
         m_anatomyCombo.setParentPane(m_headerPane);
         m_anatomyCombo.setReSizeOnParentSize(true);
-        
+        m_anatomyCombo.setPromptText("Please select anatomy");
+        myzComboBoxItem test  = new myzComboBoxItem("sadas" , 1);
+        myzComboBoxItem test1 = new myzComboBoxItem("aaaa"  , 2);
+        m_anatomyCombo.addItems(test , test1);
+                
         m_modifyAnatomy.setCaption("anatomy.modify");
         m_modifyAnatomy.setGraphic(new ImageView("icon\\modify.png"));
         m_modifyAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
@@ -251,14 +254,14 @@ public class Takweem extends Application
         m_deleteAnatomy.setCaption("anatomy.delete");
         m_deleteAnatomy.setGraphic(new ImageView("icon\\delete.png"));
         m_deleteAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-//        m_deleteAnatomy.setOnAction(e -> {e.consume();closeMe(primaryStage);} );
         m_deleteAnatomy.setDisable(true);
         m_deleteAnatomy.setMaxHeight(25);
         m_deleteAnatomy.setParentPane(m_headerPane);
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
-        m_headerPane.getChildren().addAll(m_saveImageButton , m_addPhotoButton , m_printResultButton 
-                                          ,m_anatomyLabel ,m_anatomyCombo , m_modifyAnatomy ,m_deleteAnatomy );
+        m_headerPane.getChildren().addAll( m_saveImageButton , m_addPhotoButton , m_printResultButton 
+                                          ,m_anatomyLabel    , m_anatomyCombo   , m_modifyAnatomy 
+                                          ,m_deleteAnatomy );
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
 //        m_header.setStyle("-fx-border-color : black ;");
@@ -278,30 +281,26 @@ public class Takweem extends Application
 
     
     
-//    public void initBottom()
-//    {
-//                
-//        
-//        m_fixedFooterLabel.setText(getCaption("window.footer.title"));   
-//        m_fixedFooterLabel.setFont(new Font(15));
-////        m_calculateTable.setMinWidth(900);
-//        m_calculateTable.setMinHeight(100);
-//        m_calculateTable.setCenterShape(true);
-//        m_calculateTable.setParentPane(m_TablePan);
-//        m_calculateTable.setReSizeOnParentSize(true);
-//        m_TablePan.getChildren().add(m_calculateTable);
-//        
-//        m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
-//        m_footer.setAlignment(Pos.CENTER);
-//    }
+    public void initBottom()
+    {       
+        m_fixedFooterLabel.setText(getCaption("window.footer.title"));   
+        m_fixedFooterLabel.setFont(new Font(15));
+//        m_calculateTable.setMinWidth(900);
+        m_calculateTable.setMinHeight(100);
+        m_calculateTable.setCenterShape(true);
+        m_calculateTable.setParentPane(m_TablePan);
+        m_calculateTable.setReSizeOnParentSize(true);
+        m_TablePan.getChildren().add(m_calculateTable);
+        
+        m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
+//        m_TablePan.setAlignment(Pos.CENTER);
+    }
     
     public void refreshComponent(ResourceBundle oldBundle)
     {
         refreshCaption();
         refreshAlignment(oldBundle);
     }
-    
-
     
     public void refreshAlignment(ResourceBundle oldBundle)
     {
@@ -323,9 +322,7 @@ public class Takweem extends Application
             Collections.reverse(workingCollection);
             m_headerPane.getChildren().setAll(workingCollection);
             m_headerPane.setAlignment(Pos.CENTER_LEFT);
-
         }
-
     }
     
        
