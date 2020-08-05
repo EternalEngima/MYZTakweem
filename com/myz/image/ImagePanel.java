@@ -52,17 +52,17 @@ public class ImagePanel extends StackPane implements myzComponent
         initCenter();
     }
     // Class Members 
-    private static final double IMAGE_VIEW_WIDTH   = 400 ;
-    private static final double IMAGE_VIEW_HEIGHT  = 400 ;
+    private static final double IMAGE_VIEW_WIDTH   = 600 ;
+    private static final double IMAGE_VIEW_HEIGHT  = 500 ;
 
     
     //Data Members
     Image           m_selectedImage    = null;
     StackPane       m_centerPane       = new StackPane();
     myzLabel        m_centerLabel      = new myzLabel();
-    ImageView       m_imageView        = new ImageView();
-    ImageView       m_blankImageView   = new ImageView();
     int             m_rotateAngle      = 0;
+    ImageView       m_imageView        ;
+    ImageView       m_blankImageView   ;
 
     
     //TODO temp
@@ -71,16 +71,21 @@ public class ImagePanel extends StackPane implements myzComponent
     //Class Methods 
     public void insertImage( Image image ) 
     {   
-        String blankImageUrl      = "src\\blank400x400.png" ;
+        String blankImageUrl      = "src\\blank600x500.png" ;
         try 
         {
+            m_imageView      =  new ImageView() ;
+            m_blankImageView =  new ImageView() ;
+            
+            m_centerPane.getChildren().addAll( getImageView() , getBlankImageView());
+
             setSelectedImage( image );
             Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
             
             getImageView().setFitWidth(IMAGE_VIEW_WIDTH);
             getImageView().setFitHeight(IMAGE_VIEW_HEIGHT);
             
-            
+                        
             m_imageView.setImage(getSelectedImage());
             m_blankImageView.setImage(blankImage);
             
@@ -123,7 +128,7 @@ public class ImagePanel extends StackPane implements myzComponent
         m_centerLabel.setParentPane(m_centerPane);
         m_centerPane.setMaxSize(IMAGE_VIEW_WIDTH  , IMAGE_VIEW_HEIGHT);
 
-        m_centerPane.getChildren().addAll(getCenterLabel() , getImageView() , getBlankImageView());
+        m_centerPane.getChildren().addAll(getCenterLabel());
 
         m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
         {
@@ -215,6 +220,7 @@ public class ImagePanel extends StackPane implements myzComponent
         }
         
     }
+    //TODO open file choser and notify the image saved  
     public void saveImage ()
     {
         

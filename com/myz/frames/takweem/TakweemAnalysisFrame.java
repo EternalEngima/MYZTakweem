@@ -28,7 +28,7 @@ public class TakweemAnalysisFrame
     //Driver
     public static void main( String[] args )
     {
-        //callFrame( new Stage() );
+        callFrame( new Stage() );
     }
     
     //Constructor
