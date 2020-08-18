@@ -82,6 +82,6 @@ public class XmlAnalysis extends MYZXmlObject
         for( XmlOperation operation : m_vOperation )
             XML += operation.toXml();
         XML += "/Analysis>";
-        return "";
+        return XML;
     }
 }

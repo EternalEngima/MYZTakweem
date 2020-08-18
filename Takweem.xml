@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Takweem>
+    
+    <PointsPool>
+        <Point
+            symbol      = ""
+            name        = ""
+            describtion = ""
+        />
+        <Point
+            symbol      = ""
+            name        = ""
+            describtion = ""
+        />
+        <Point
+            symbol      = ""
+            name        = ""
+            describtion = ""
+        />
+        <Point
+            symbol      = ""
+            name        = ""
+            describtion = ""
+        />
+        <Point
+            symbol      = ""
+            name        = ""
+            describtion = ""
+        />
+        
+    </PointsPool>
+    
     <Analysis
         name        = ""
         description = ""
