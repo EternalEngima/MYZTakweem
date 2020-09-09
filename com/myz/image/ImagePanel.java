@@ -1,13 +1,14 @@
 package com.myz.image;
 
+import com.myz.calculable.MYZPoint;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Vector;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -24,6 +25,7 @@ import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
+import static takweem.Takweem.m_runTimeObject;
 
 /**
  * Class Description :
@@ -38,7 +40,7 @@ import myzComponent.myzLabel;
  * @author Montazar
  */
 
-public class ImagePanel extends StackPane implements myzComponent
+public class ImagePanel extends StackPane implements myzComponent , Serializable
 {
     
     //Constructor
@@ -53,17 +55,14 @@ public class ImagePanel extends StackPane implements myzComponent
 
     
     //Data Members
-    Image           m_selectedImage    = null;
-    StackPane       m_centerPane       = new StackPane();
-    myzLabel        m_centerLabel      = new myzLabel();
-    int             m_rotateAngle      = 0;
-    ImageView       m_imageView        ;
-    ImageView       m_blankImageView   ;
+    Image            m_selectedImage    = null;
+    StackPane        m_centerPane       = new StackPane();
+    myzLabel         m_centerLabel      = new myzLabel();
+    int              m_rotateAngle      = 0;
+    ImageView        m_imageView        ;
+    ImageView        m_blankImageView   ;
 
-    
-    //TODO temp
-    Vector vLinePointes       = new Vector ();
-    
+
     //Class Methods 
     public void insertImage( Image image ) 
     {   
@@ -100,20 +99,28 @@ public class ImagePanel extends StackPane implements myzComponent
         }
     }    
 
-    //TODO 
     public void paint ( MouseEvent event , ImageView blankimageView)
     {
-        int   x      = new Double ( ( event.getX()  )  ).intValue();
-        int   y      = new Double ( ( event.getY()  )  ).intValue();
-        Point point  = new Point ( x , y ) ;
-        point.draw(blankimageView);
-        vLinePointes.addElement(point);
-        Line line  = null ;
-        if ( vLinePointes.size() == 2)
+        if(m_runTimeObject.getRunTimePointsPool() != null && !m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty() )
         {
-            line = new Line ( (Point) vLinePointes.get(0) , (Point) vLinePointes.get(1) );
-            line.draw(blankimageView);
-            vLinePointes.removeAllElements();
+            int   x      = new Double ( ( event.getX()  )  ).intValue();
+            int   y      = new Double ( ( event.getY()  )  ).intValue();
+            
+            MYZPoint point     = m_runTimeObject.getRunTimePointsPool().getVMYZPoint().remove(0);
+            Point    tempPoint = new Point(x, y) ; 
+            
+            point.setPoint(tempPoint);
+            tempPoint.draw(blankimageView);
+            
+            m_runTimeObject.getRunTimePointsPool().getVMYZPointValue().addElement(point);
+            
+            if(m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty())
+            {
+                if(m_runTimeObject.getRunTimeAnalysis() != null)
+                {
+                    m_runTimeObject.calculateOperationsAndShow();
+                }
+            }
         }
     }
     
@@ -156,7 +163,6 @@ public class ImagePanel extends StackPane implements myzComponent
         });
          getChildren().addAll(getCenterPane());
     }
-    
 
     private void mouseDragDropped(final DragEvent e)
     {
@@ -165,7 +171,7 @@ public class ImagePanel extends StackPane implements myzComponent
         if (db.hasFiles()) 
         {
             success = true;
-            ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) , this);
+            ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) );
         }
         e.setDropCompleted(success);
         e.consume();
@@ -178,7 +184,8 @@ public class ImagePanel extends StackPane implements myzComponent
         final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".png")
                 || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpeg")
                 || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpg")
-                || db.getFiles().get(0).getName().endsWith(".Gif");
+                || db.getFiles().get(0).getName().endsWith(".Gif")
+                || db.getFiles().get(0).getName().endsWith(".MYZ");
 
  
         if (db.hasFiles())

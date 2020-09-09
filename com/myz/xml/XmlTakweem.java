@@ -11,8 +11,7 @@ public class XmlTakweem extends MYZXmlObject
 {
     
     //Data mambers 
-    Vector <XmlAnalysis> m_vXmlAnalysis  = new Vector<XmlAnalysis>();
-    XmlPointsPool        m_xmlPointsPool = new XmlPointsPool() ;
+    Vector <XmlCategory> m_vXmlCategory  = new Vector<>();
     
     //Methods
     @Override
@@ -24,10 +23,8 @@ public class XmlTakweem extends MYZXmlObject
     @Override
     public void append(MYZXmlObject xmlObject) 
     {
-        if( xmlObject instanceof XmlAnalysis )
-            m_vXmlAnalysis.addElement( (XmlAnalysis) xmlObject);
-        else if (xmlObject instanceof XmlPointsPool)
-            m_xmlPointsPool = (XmlPointsPool) xmlObject ;
+        if( xmlObject instanceof XmlCategory )
+            m_vXmlCategory.addElement( (XmlCategory) xmlObject);
         
     }
 
@@ -35,11 +32,25 @@ public class XmlTakweem extends MYZXmlObject
     public String toXml() 
     {
         String XML = "<Takweem> ";
-        for( XmlAnalysis analysis : m_vXmlAnalysis )
-            XML += analysis.toXml();
+        for( XmlCategory category : m_vXmlCategory )
+            XML += category.toXml();
         XML += "/Takweem>";
         return XML;
     }
+    //Getter methods
+    public Vector<XmlCategory> getVCategory()
+    {
+        return m_vXmlCategory ;
+    }
     
+    public XmlCategory getCategoryByName(String categoryName)
+    {
+        for(XmlCategory category : m_vXmlCategory)
+        {
+            if(categoryName.equals(category.getName()))
+                return category ;
+        }
+        return null ;
+    }
     
 }

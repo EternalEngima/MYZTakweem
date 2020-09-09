@@ -31,10 +31,10 @@ public class XmlOperation extends MYZXmlObject
 //    public static final String CLASSIFICATION_2        = "MYZOperationClassification";
     
     //Members
-    protected String m_name;
-    protected String m_description;
-    protected String m_type;
-    protected double m_correctValue;
+    public String m_name;
+    public String m_description;
+    public String m_type;
+    public double m_correctValue;
     //String m_classification; TODO 
     //m_errorRange TODO
     protected Vector< XmlPoint > m_vXmlPoint;
@@ -71,5 +71,10 @@ public class XmlOperation extends MYZXmlObject
             XML += point.toXml();
         XML += "</Operation>";
         return XML;
+    }
+    //Getter Methods
+    public Vector<XmlPoint> getVXmlPoint()
+    {
+        return m_vXmlPoint ;
     }
 }

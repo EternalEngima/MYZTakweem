@@ -117,6 +117,11 @@ public class Line
 
     public void draw (ImageView image)
     {
+        if(image == null)
+        {
+            System.out.println("Line.Draw : the image is null");
+            return ;
+        }
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
         double height             = tmp.getHeight() ;
@@ -139,8 +144,13 @@ public class Line
         }
         image.setImage(wImage);
     }
-    public void unDraw(ImageView image)
+    public void erase(ImageView image)
     {
+        if(image == null)
+        {
+            System.out.println("Line.unDraw : the image is null");
+            return ;
+        }
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
         double height             = tmp.getHeight() ;
@@ -156,7 +166,10 @@ public class Line
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
                 if ( isInLine( x , y ) )
+                {
                   writer.setColor( x , y , Color.TRANSPARENT);                
+                    
+                }
                 else
                   writer.setColor( x , y , color);
             } 

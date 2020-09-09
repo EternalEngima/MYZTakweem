@@ -83,10 +83,8 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         {
             if (getStatus() == ENABLE)
                 m_magnifier.work(getZoomValue());
-//                m_imageView.setImage(SwingFXUtils.toFXImage(magnifier.getRImage(getZoomValue()) , null) );
             else
                 m_magnifier.stopWork();
-//                m_imageView.setImage(null);
         }
     }
     
@@ -107,7 +105,7 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         m_zoomOut.setParentPane(this);
         m_zoomOut.setReSizeOnParentSize(true);
         
-        m_controller.setCaption("disable.magnifier");
+        m_controller.setCaption("enable.magnifier");
         m_controller.setStyle("-fx-border-color: #ccc; -fx-border-width: 2px;-fx-background-color:#ffffff;");
         m_controller.setMaxSize(100 , 18);
         m_controller.setParentPane(this);
@@ -130,7 +128,7 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         setStyle(cssLayout);
         setMaxSize(50, 50);
         getChildren().addAll( stack , m_zoomBox );
-        setStatus(ENABLE);
+        setStatus(DISABLE);
         
         THREAD = new Thread(this);
         THREAD.setDaemon(true);
@@ -158,7 +156,7 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
                 }
             }
         }
-        catch(Exception ex)
+        catch(SecurityException | ClassNotFoundException | IllegalArgumentException | IllegalAccessException ex)
         {
             ex.printStackTrace();
         }

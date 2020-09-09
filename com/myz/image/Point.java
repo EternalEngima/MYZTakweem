@@ -46,6 +46,8 @@ public class Point
     
     public void draw (ImageView image)
     {
+        if(image == null)
+            return;
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
         double height             = tmp.getHeight() ;
@@ -68,7 +70,7 @@ public class Point
         }
         image.setImage(wImage);
     }
-    public void unDraw(ImageView image)
+    public void erase(ImageView image)
     {
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
@@ -91,5 +93,11 @@ public class Point
             } 
         }
         image.setImage(wImage);
+    }
+    public boolean equals(Point point)
+    {
+        if(point.m_x == m_x && point.m_y == m_y)
+            return true;
+        return false ;
     }
 }

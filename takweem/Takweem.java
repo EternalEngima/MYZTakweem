@@ -1,11 +1,14 @@
 package takweem;
 import com.myz.image.ImageEditorStage;
-import com.myz.image.ImagePanel;
+import com.myz.xml.XmlAnalysis;
+import com.myz.xml.XmlCategory;
+import com.myz.xml.XmlClassification;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.Vector;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,7 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -36,7 +40,6 @@ import myzComponent.myzComponent;
 import myzComponent.myzLabel;
 import myzComponent.myzMagnifier;
 import myzComponent.myzScene;
-import myzComponent.myzTableView;
 import myzMessage.myzMessage;
 import myzReport.TakweemReport;
 
@@ -46,32 +49,39 @@ import myzReport.TakweemReport;
 public class Takweem extends Application 
 {
     
+    //Class members
     public static final ResourceBundle   ARABIC_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("ar", "sy"));
     public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
     public static       ResourceBundle   m_bundle        = ResourceBundle.getBundle("captions",new Locale("en", "en"));
+    //Data members
     BorderPane          m_container                      = new BorderPane();
 
     public Stage        m_primaryStage ;
-    //ImagePanel
-    public ImagePanel   m_imagePanel     = new ImagePanel();//add by montazar 
+    
+    //RunTime takweem object
+    public static RunTimeObject       m_runTimeObject  = new RunTimeObject();
+    
+
+    
     //Magnifier
     public myzMagnifier m_magnifier      = new myzMagnifier();//add by montazar
-    
-    // header component 
-    VBox         m_header                = new VBox(10);
+   
+    //Header component 
+    VBox         m_header                = new VBox(5);
     MenuBar      m_sittingsBar           = new MenuBar();
     Menu         m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
     Menu         m_langMenu              = new Menu(getCaption("application.lang"));
     
-    HBox         m_headerPane            = new HBox(20);
+    HBox         m_headerPane            = new HBox(5);
+    MenuButton   m_categoryMenuButton    = new MenuButton("Category");
     myzButton    m_saveImageButton       = new myzButton()
     {        
         @Override
         public void buttonPressed()
         {
-            m_imagePanel.saveImage();
+            m_runTimeObject.getImagePanel().saveImage();
         }
     };
     myzButton    m_addPhotoButton        = new myzButton()
@@ -79,12 +89,14 @@ public class Takweem extends Application
         @Override
         public void buttonPressed()
         {
-            FileChooser  fileChooser   = new FileChooser(); 
-            File         file          = fileChooser.showOpenDialog(m_primaryStage);   
+            FileChooser      fileChooser      = new FileChooser(); 
+            File             file             = fileChooser.showOpenDialog(m_primaryStage); 
+            ImageEditorStage imageEditorStage = null ;
             try 
             {
                 //Modified by montazar
-                new ImageEditorStage(file , m_imagePanel);            
+                if(file != null)
+                    imageEditorStage = new ImageEditorStage(file );            
             }
             catch(Exception ex)
             {
@@ -98,7 +110,7 @@ public class Takweem extends Application
         public void buttonPressed()
         {
             //add by montazar 
-            Image selectedImage = m_imagePanel.getSelectedImage();
+            Image selectedImage = m_runTimeObject.getImagePanel().getSelectedImage();
             TakweemReport.callFrame(m_primaryStage , selectedImage);
 
         }
@@ -109,30 +121,62 @@ public class Takweem extends Application
         @Override
         public void selectionChange()
         {
-            // some code should be added here
-
+            String analysisName = getItemValue().getValue();                        
+            
+            //On change analysis we should remove the previouse analysis
+            if(m_runTimeObject.getRunTimeAnalysis() != null)
+            {
+                m_runTimeObject.erasePreviouseAnalysis();
+            }
+            //Init the choosen analysis
+            m_runTimeObject.setRunTimeAnalysisByName(analysisName);
+            m_calculateTable.setTableData(m_runTimeObject.getRunTimeAnalysis().getVOperation());
+            
+            //if the vMYZPoint is empty that's mean all the points have been sets 
+            if(m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty())
+            {
+                if(m_runTimeObject.getImagePanel().getBlankImageView() != null)
+                    m_runTimeObject.calculateOperationsAndShow();
+            }
+            //else i will calculate after last point the user set
+            //TODO if there are lines you have to remove it 
         }
     };
     myzButton    m_modifyAnatomy         = new myzButton();
     myzButton    m_deleteAnatomy         = new myzButton();
 
-    //center Component 
+    //Center Component 
     Label        m_fixedFooterLabel      = new Label();
     
     //Left Component
     VBox         m_leftSidebar           = new VBox(10);
-
+    VBox         m_rightSidebar          = new VBox(10);
+    Pane         m_pointsTablePan        = new Pane();
+    PointsTable  m_pointsTable           ;
+    myzButton    m_undoButton            = new myzButton()//TODO
+    {
+        @Override
+        public void buttonPressed()
+        {
+            /*
+            * 1.undo in runtime object will remove the last point's value and remove it from image  
+            * 2.return to the previous row in table points to navigate on this point (its current point you have to put it)
+            */
+            m_runTimeObject.Undo();
+        }
+    };
+    
     // Bottom Component
-    Pane         m_TablePan              = new Pane();
-    myzTableView m_calculateTable        = new myzTableView();
-    VBox         m_footer                = new VBox();
+    VBox m_footer   = new VBox();
+    Pane m_TablePan = new Pane();
+    public static AnalysisResultTable m_calculateTable ;
 
     
     @Override
     public void start(Stage primaryStage)
     {
         m_primaryStage = primaryStage;
-        // we can not write init() method cuz there is some class have and it is think we override it
+        //we can not write init() method cuz there is some class have and it is think we override it
         initFrame();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {
@@ -149,28 +193,27 @@ public class Takweem extends Application
     
         initHeader();
         initLeftSidebar();
+        initRightSidebar();
         initBottom();
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
         //Modified by montazar 
-        m_container.setCenter(m_imagePanel); 
+        m_container.setCenter(m_runTimeObject.getImagePanel()); 
         m_container.setLeft(m_leftSidebar);
+        m_container.setRight(m_rightSidebar);
         m_container.setBottom(m_footer);
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
         m_primaryStage.setScene(scene);
-//        primaryStage.setMinHeight(700);
-//        primaryStage.setMinWidth(700);
-//        primaryStage.setResizable(false);
-//        primaryStage.setOnCloseRequest(e -> {e.consume();closeMe(primaryStage);} );
+
         m_primaryStage.show();
         m_primaryStage.setMaximized(true);
         
     }
     
     public void initHeader()
-    {        
-        // Header-------------------------------------------------------------------------------------------------------------
+    {   // Header-------------------------------------------------------------------------------------------------------------
+        initAnalysisComponents();
         CheckMenuItem  eng  = new  CheckMenuItem ("English");
         eng.setSelected(true);// set the default language to english
         CheckMenuItem  arab = new CheckMenuItem ("\u0627\u0644\u0639\u0631\u0628\u064a\u0629");
@@ -208,7 +251,7 @@ public class Takweem extends Application
         m_langMenu.getItems().addAll(eng , arab , fran);
         m_sittingsMenu.getItems().add(m_langMenu);
         
-        m_sittingsBar.getMenus().add(m_sittingsMenu);
+        m_sittingsBar.getMenus().addAll(m_sittingsMenu );
         
         m_saveImageButton.setCaption("save.image");
         m_saveImageButton.setGraphic(new ImageView("icon\\save.png"));
@@ -235,13 +278,10 @@ public class Takweem extends Application
         m_anatomyLabel.setReSizeOnParentSize(true);
         m_anatomyLabel.setFont(new Font(14));
         
-        m_anatomyCombo.setMinSize(250, 25);
+        m_anatomyCombo.setMinSize(200, 25);
         m_anatomyCombo.setParentPane(m_headerPane);
         m_anatomyCombo.setReSizeOnParentSize(true);
         m_anatomyCombo.setPromptText("Please select anatomy");
-        myzComboBoxItem test  = new myzComboBoxItem("sadas" , 1);
-        myzComboBoxItem test1 = new myzComboBoxItem("aaaa"  , 2);
-        m_anatomyCombo.addItems(test , test1);
                 
         m_modifyAnatomy.setCaption("anatomy.modify");
         m_modifyAnatomy.setGraphic(new ImageView("icon\\modify.png"));
@@ -259,43 +299,123 @@ public class Takweem extends Application
         m_deleteAnatomy.setParentPane(m_headerPane);
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
-        m_headerPane.getChildren().addAll( m_saveImageButton , m_addPhotoButton , m_printResultButton 
-                                          ,m_anatomyLabel    , m_anatomyCombo   , m_modifyAnatomy 
-                                          ,m_deleteAnatomy );
+        m_categoryMenuButton.setMinWidth(100);
 
-        m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
+        // m_modifyAnatomy,  m_deleteAnatomy
+        m_headerPane.setAlignment(Pos.CENTER);
+        m_headerPane.getChildren().addAll(  m_categoryMenuButton , m_anatomyLabel 
+                                          , m_anatomyCombo       , m_addPhotoButton  
+                                          , m_saveImageButton    , m_printResultButton);
+
+        m_header.getChildren().addAll( m_sittingsBar , m_headerPane );
 //        m_header.setStyle("-fx-border-color : black ;");
     }
     
     public void initLeftSidebar()
     {
+        m_pointsTable    = new PointsTable(m_primaryStage);
         String cssLayout = "-fx-border-color: black;\n" +
                            "-fx-border-width: 2;\n" ;
         
         m_magnifier.startRunning();//start magnifier thread
         
-        m_leftSidebar.getChildren().addAll(m_magnifier);
+        m_pointsTablePan.getChildren().add(m_pointsTable);
+        m_pointsTable.setParentPane(m_pointsTablePan);
+
+        m_undoButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_undoButton.setParentPane(m_leftSidebar);
+        m_undoButton.setReSizeOnParentSize(true);
+        m_undoButton.setMaxSize(75,40);
+        m_undoButton.setText("UNDO");//TODO
+        
+        m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton);
         m_leftSidebar.setAlignment(Pos.TOP_LEFT);
         m_leftSidebar.setStyle(cssLayout);
     }
 
+    public void initRightSidebar()
+    {
+        String cssLayout = "-fx-border-color: black;\n" +
+                           "-fx-border-width: 2;\n" ;
+                
+        m_rightSidebar.getChildren().addAll( m_magnifier );
+        m_rightSidebar.setAlignment(Pos.TOP_RIGHT);
+        m_rightSidebar.setStyle(cssLayout);
+    }
     
     
     public void initBottom()
     {       
         m_fixedFooterLabel.setText(getCaption("window.footer.title"));   
         m_fixedFooterLabel.setFont(new Font(15));
-//        m_calculateTable.setMinWidth(900);
-        m_calculateTable.setMinHeight(100);
+        m_calculateTable = new AnalysisResultTable(m_primaryStage);
+        
+        m_calculateTable.setMinHeight(150);
         m_calculateTable.setCenterShape(true);
         m_calculateTable.setParentPane(m_TablePan);
         m_calculateTable.setReSizeOnParentSize(true);
         m_TablePan.getChildren().add(m_calculateTable);
         
         m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
-//        m_TablePan.setAlignment(Pos.CENTER);
     }
     
+    public void initAnalysisComponents()
+    {
+        Vector<XmlCategory> xmlCategory                     = m_runTimeObject.getRunTimeTakweem().getVCategory();
+        EventHandler<ActionEvent> chooseClassificationEvent = new EventHandler<ActionEvent>()
+        {
+            //TODO remove the check box when chose other classification 
+            @Override
+            public void handle(ActionEvent e) 
+            { 
+                ObservableList<MenuItem> items     = ((CheckMenuItem)e.getSource()).getParentMenu().getItems();
+                CheckMenuItem            eventItem = (CheckMenuItem)e.getSource();
+                for ( int i = 0 ; i < items.size() ; i++)
+                {
+                    CheckMenuItem item = (CheckMenuItem) items.get(i);
+                    if (!item.getText().equals(eventItem.getText()))
+                    {
+                        item.setSelected(false);
+                    }  
+                }  
+                eventItem.setSelected(true);
+                
+                int    index              = 0 ;
+                String categoryName       = eventItem.getParentMenu().getText();
+                String classificationName = eventItem.getText();
+                
+                m_runTimeObject.setRunTimeCategoryByName(categoryName);
+                m_runTimeObject.setRunTimeClassifiactionByName(classificationName);
+                m_anatomyCombo.deleteAllItems();
+                
+                for(XmlAnalysis analysis : m_runTimeObject.getRunTimeClassification().getVAnalysis())
+                {
+                    m_anatomyCombo.addItems(new myzComboBoxItem(analysis.getName() , index) ) ;
+                    index++;
+                }
+                
+                //Get points vector from points pool and set it to point table data
+                m_runTimeObject.initRunTimePointsPool();
+                m_pointsTable.setTableData(m_runTimeObject.getRunTimePointsPool().getVMYZPoint() ) ;
+            } 
+        };
+        
+        for(XmlCategory category :xmlCategory)
+        {
+            Menu categoryMenu = new Menu(category.getName());
+            categoryMenu.setGraphic(new ImageView("icon\\" + category.getName() + ".jpg"));//temp should fetch the path from xml 
+            
+            for(XmlClassification classification :category.gteVClassification())
+            {
+                CheckMenuItem classificationItem = new CheckMenuItem(classification.getName());
+                categoryMenu.getItems().add(classificationItem);
+                classificationItem.setOnAction(chooseClassificationEvent);
+                classificationItem.setGraphic(new ImageView("icon\\save.png"));
+            }
+            
+            m_categoryMenuButton.getItems().add(categoryMenu);
+        }
+    }
     public void refreshComponent(ResourceBundle oldBundle)
     {
         refreshCaption();
@@ -372,6 +492,7 @@ public class Takweem extends Application
         else
             windoEvent.consume();
     }
+
 
     /**
      * @param args the command line arguments

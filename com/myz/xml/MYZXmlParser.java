@@ -85,14 +85,13 @@ public class MYZXmlParser extends DefaultHandler2
             {
                 m_xmlObject = peekedObject;
             }
-            String peekedObjectClass = peekedObject.getClass().toString().substring(6);
+            String peekedObjectClass = peekedObject.getClass().toString().substring(21);
             if( peekedObjectClass.equals( tag ) )            
                 m_stack.pop();            
             else
                 System.out.println( "Error while parsing : trying to endElement peekedObject : " + peekedObjectClass + " and the qName is : " + tag );
         
         }
-            m_stack.pop();
     }
     
 }

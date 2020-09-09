@@ -1,5 +1,6 @@
 package com.myz.xml;
 
+import com.myz.calculable.MYZPoint;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 
@@ -36,4 +37,9 @@ public class XmlPointsPool extends MYZXmlObject
         return XML;
     }
     
+    //Getter Methods
+    public Vector<XmlPoint> getVPoints()
+    {
+        return m_vXmlPoints ;
+    }
 }

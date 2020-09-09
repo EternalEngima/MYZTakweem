@@ -88,6 +88,10 @@ public class myzComboBox extends ComboBox
         return null;
     }
     
+    public void deleteAllItems()
+    {
+        getItems().clear();
+    }
 
     
 }

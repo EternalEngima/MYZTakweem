@@ -42,6 +42,7 @@ import myzComponent.myzLabel;
 import myzMessage.myzMessage;
 import static takweem.Takweem.ARABIC_BUNDLE;
 import static takweem.Takweem.m_bundle;
+import static takweem.Takweem.m_runTimeObject;
 
 /**
  *
@@ -50,7 +51,7 @@ import static takweem.Takweem.m_bundle;
 public class ImageEditorStage 
 {
 
-    public ImageEditorStage(File file , ImagePanel imagePanel ) 
+    public ImageEditorStage(File file ) 
     {  
         try
         {
@@ -66,7 +67,7 @@ public class ImageEditorStage
         reverseHeader();
         m_imageViewParent.getChildren().add(m_imageView);
         
-        m_imagePanel = imagePanel ;
+        m_imagePanel =  m_runTimeObject.getImagePanel() ;
         
         m_container.setTop(m_headerPane);
         m_container.setCenter(m_imageViewParent);

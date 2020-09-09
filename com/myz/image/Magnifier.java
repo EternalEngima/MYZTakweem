@@ -34,9 +34,6 @@ public class Magnifier extends JPanel
 
             // repaint the conatiner 
             repaint(); 
-  
-
-
         } 
         catch (Exception e) { 
             System.err.println(e.getMessage()); 

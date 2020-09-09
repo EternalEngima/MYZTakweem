@@ -14,7 +14,12 @@ public class XmlAnalysis extends MYZXmlObject
     {
         m_vOperation = new Vector< XmlOperation >();
     }
-    
+    public XmlAnalysis ( XmlAnalysis analysis )
+    {
+        super();
+        m_name        = analysis.m_name;
+        m_description = analysis.m_description;
+    }
     //Statics
      //Category
     public static String CATEGORY_RAYS      = "MYZAnalysisCategoryRays";
@@ -83,5 +88,15 @@ public class XmlAnalysis extends MYZXmlObject
             XML += operation.toXml();
         XML += "/Analysis>";
         return XML;
+    }
+    
+    //Getter Methods
+    public String getName()
+    {
+        return m_name ;
+    }
+    public Vector<XmlOperation> getVXmlOperation()
+    {
+        return m_vOperation ; 
     }
 }
