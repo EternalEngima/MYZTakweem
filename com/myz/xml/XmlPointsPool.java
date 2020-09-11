@@ -1,6 +1,6 @@
 package com.myz.xml;
 
-import com.myz.calculable.MYZPoint;
+import java.io.Serializable;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 
@@ -8,7 +8,7 @@ import org.xml.sax.Attributes;
  * @author Montazar Hamoud
  *
  */
-public class XmlPointsPool extends MYZXmlObject
+public class XmlPointsPool extends MYZXmlObject implements Serializable
 {
     //Data members
     Vector<XmlPoint> m_vXmlPoints   = new Vector<>();

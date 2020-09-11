@@ -2,12 +2,13 @@ package com.myz.calculable;
 
 import com.myz.image.Point;
 import com.myz.xml.XmlPoint;
+import java.io.Serializable;
 
 /**
  * @author Zaid
  */
 
-public class MYZPoint extends XmlPoint
+public class MYZPoint extends XmlPoint implements Serializable
 {
     //Constructor
     public MYZPoint(String name , String symbol , String description)

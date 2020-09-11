@@ -1,6 +1,7 @@
 package com.myz.image;
 
 import com.myz.calculable.MYZPoint;
+import com.myz.files.MYZFile;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -20,11 +21,14 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
+import takweem.Takweem;
 import static takweem.Takweem.m_runTimeObject;
 
 /**
@@ -61,6 +65,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
     int              m_rotateAngle      = 0;
     ImageView        m_imageView        ;
     ImageView        m_blankImageView   ;
+    Pane             m_parentPane ;
 
 
     //Class Methods 
@@ -170,8 +175,19 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
         boolean success = false;
         if (db.hasFiles()) 
         {
+            if(db.getFiles().get(0).getName().endsWith(".MYZ"))
+            {
+                MYZFile  file = new MYZFile();
+                file.read(db.getFiles().get(0));
+                ((BorderPane) getParentPane()).setCenter(null);
+                ((BorderPane) getParentPane()).setCenter(Takweem.m_runTimeObject.m_imagePanel);
+                m_runTimeObject.calculateOperationsAndShow();
+            }
+            else
+            {
+                ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) );
+            }
             success = true;
-            ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) );
         }
         e.setDropCompleted(success);
         e.consume();
@@ -223,8 +239,8 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
         }
         
     }
-    //TODO open file choser and notify the image saved  
-    public void saveImage ()
+
+    public void saveImage (File file )
     {
         
         new Thread()
@@ -232,9 +248,12 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
               @Override
               public void run()
               {
-                BufferedImage         bImage       = null ;
-                ByteArrayOutputStream outputStream = null ;
-                InputStream           inputStream  = null ;
+                String                fileName      = file.getName();          
+                String                fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, file.getName().length());
+                InputStream           inputStream   = null ;
+                BufferedImage         bImage        = null ;
+                ByteArrayOutputStream outputStream  = null ;
+
 
                 try
                 {
@@ -242,11 +261,12 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
                         return ;
                     bImage       = SwingFXUtils.fromFXImage(m_blankImageView.getImage(), null);
                     outputStream = new ByteArrayOutputStream();
-                    ImageIO.write(bImage , "png" , outputStream);//TODO png
+                    ImageIO.write(bImage , fileExtension , outputStream);
+                    
                     byte[] res  = outputStream.toByteArray();
                     inputStream = new ByteArrayInputStream(res);
                     Image tmp   = new Image ( inputStream , m_selectedImage.getWidth(), m_selectedImage.getHeight() , false , false );
-
+                    
                     PixelReader   pixelReader1 = tmp.getPixelReader() ;
                     PixelReader   pixelReader2 = m_selectedImage.getPixelReader() ;
 
@@ -268,7 +288,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
                         }
                     }
 
-                    ImageIO.write(SwingFXUtils.fromFXImage(wImage, null), "png", new File("D:\\temp.png"));//TODO
+                    ImageIO.write(SwingFXUtils.fromFXImage(wImage, null), fileExtension , file);
                 }
                 catch (Exception ex)
                 {
@@ -305,6 +325,10 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
     {
         m_rotateAngle = rotateAngle ;
     }
+    public void setParentPane(Pane pane)
+    {
+        m_parentPane = pane;
+    }
     //Getter Methods
     public Image getSelectedImage ( )
     {
@@ -329,5 +353,9 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
     public int getRotateAngle()
     {
         return m_rotateAngle ;
+    }
+    public Pane getParentPane()
+    {
+        return m_parentPane;
     }
 }

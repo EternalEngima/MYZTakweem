@@ -7,13 +7,14 @@ package com.myz.calculable;
 
 import com.myz.xml.XmlPoint;
 import com.myz.xml.XmlPointsPool;
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
  *
  * @author Montazar Hamoud
  */
-public class MYZPointsPool extends XmlPointsPool
+public class MYZPointsPool extends XmlPointsPool implements Serializable
 {
     public MYZPointsPool (XmlPointsPool pointsPool)
     {

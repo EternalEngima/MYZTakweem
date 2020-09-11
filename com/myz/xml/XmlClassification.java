@@ -4,6 +4,7 @@
  */
 package com.myz.xml;
 
+import java.io.Serializable;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 
@@ -11,7 +12,7 @@ import org.xml.sax.Attributes;
  *
  * @author Montazar Hamoud
  */
-public class XmlClassification extends MYZXmlObject
+public class XmlClassification extends MYZXmlObject implements Serializable
 {
 
     //Data member

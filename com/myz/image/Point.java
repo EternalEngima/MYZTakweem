@@ -1,5 +1,6 @@
 package com.myz.image;
 
+import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
  * @author Montazar
  */
 
-public class Point 
+public class Point implements Serializable
 {
     //Constructor
     public Point ( double x , double y )
@@ -62,8 +63,8 @@ public class Point
             {
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
-                if ( x == getX() && y == getY() )
-                  writer.setColor( x , y , Color.AQUA);                
+                if ( isDraw( x , y ) )
+                  writer.setColor( x , y , Color.BLACK);                
                 else
                   writer.setColor( x , y , color);
             } 
@@ -86,13 +87,37 @@ public class Point
             {
                 //Retrieving the color of the pixel of the loaded image
                 Color color = pixelReader.getColor( x , y );
-                if ( x == getX() && y == getY() )
+                if ( isDraw( x , y ) )
                   writer.setColor( x , y , Color.TRANSPARENT);                
                 else
                   writer.setColor( x , y , color);
             } 
         }
         image.setImage(wImage);
+    }
+    //Draw the all point beside this point
+    public boolean isDraw(int x , int y)
+    {
+        if(x == getX() && y == getY())
+            return true;
+        else if(x == getX() && (y+1) == getY())
+            return true;
+        else if(x == getX() && (y-1) == getY())
+            return true;
+        else if((x+1) == getX() && y == getY())
+            return true ;
+        else if((x-1) == getX() && y == getY())
+            return true;
+        else if((x+1) == getX() && (y+1) == getY())
+            return true;
+        else if((x-1) == getX() && (y-1) == getY())
+            return true;
+        else if((x-1) == getX() && (y+1) == getY())
+            return true;
+        else if((x+1) == getX() && (y-1) == getY())
+            return true;
+        else
+            return false;
     }
     public boolean equals(Point point)
     {

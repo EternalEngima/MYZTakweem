@@ -2,6 +2,7 @@ package com.myz.xml;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Stack;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -15,7 +16,7 @@ import org.xml.sax.ext.DefaultHandler2;
  * @author Zaid 
  */
 
-public class MYZXmlParser extends DefaultHandler2
+public class MYZXmlParser extends DefaultHandler2 implements Serializable
 {
     //Driver
     public static void main( String[] args )

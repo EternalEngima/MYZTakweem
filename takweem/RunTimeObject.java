@@ -1,5 +1,11 @@
 /*
- *
+ *This RunTime Object is represnt that the current values that the user has set 
+ * 1. Category
+ * 2. Classification
+ * 3. Analysis
+ * 4. Points pool
+ * 5. XmlObject
+ * This class will lead the whole process ( Calculate - Draw - Erase )
  */
 package takweem;
 
@@ -16,13 +22,14 @@ import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import com.myz.xml.XmlPointsPool;
 import com.myz.xml.XmlTakweem;
+import java.io.Serializable;
 import static takweem.Takweem.m_calculateTable;
 
 /**
  *
  * @author Montazar Hamoud
  */
-public class RunTimeObject 
+public class RunTimeObject implements Serializable
 {
 
     public RunTimeObject() 
@@ -40,7 +47,7 @@ public class RunTimeObject
     MYZPointsPool     m_RunTimePointsPool;
     MYZAnalysis       m_RunTimeAnalysis ;
     //ImagePanel
-    public ImagePanel   m_imagePanel     = new ImagePanel();//add by montazar 
+    public transient  ImagePanel    m_imagePanel     = new ImagePanel();//add by montazar 
     
     //Methods
     public void setRunTimeCategoryByName(String categoryName)
@@ -79,11 +86,19 @@ public class RunTimeObject
             {
                 line = operation.getVLine().elementAt(i);
                 //That's mean it's the first time to choose analysis
-                if(point.equals(line.getStartPoint()) || point.equals(line.getEndPoint()) )
+                if(point.equals(line.getStartPoint()) )
                 {
-                    line.erase(m_imagePanel.getBlankImageView());//TODO repaint the not removed point 
+                    line.erase(m_imagePanel.getBlankImageView());
                     operation.getVLine().removeElementAt(i);
                     i -= 1 ;
+                    line.getEndPoint().draw(m_imagePanel.getBlankImageView());
+                }
+                else if(point.equals(line.getEndPoint()))
+                {
+                    line.erase(m_imagePanel.getBlankImageView());
+                    operation.getVLine().removeElementAt(i);
+                    i -= 1 ;
+                    line.getStartPoint().draw(m_imagePanel.getBlankImageView());
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.myz.image;
 
+import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
  *
  * @author Montazar
  */
-public class Line 
+public class Line implements Serializable
 {
     private Point  m_startPoint ;
     private Point  m_endPoint ;
@@ -137,7 +138,7 @@ public class Line
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
                 if ( isInLine( x , y ) )
-                  writer.setColor( x , y , Color.AQUA);                
+                  writer.setColor( x , y , Color.GREEN);                
                 else
                   writer.setColor( x , y , color);
             } 

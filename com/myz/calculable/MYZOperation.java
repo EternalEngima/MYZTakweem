@@ -4,6 +4,7 @@ import com.myz.image.Line;
 import com.myz.image.Point;
 import com.myz.xml.XmlOperation;
 import com.myz.xml.XmlPoint;
+import java.io.Serializable;
 import java.util.Vector;
 import javafx.scene.image.ImageView;
 
@@ -11,7 +12,7 @@ import javafx.scene.image.ImageView;
  * @author Zaid
  */
 
-public class MYZOperation extends XmlOperation
+public class MYZOperation extends XmlOperation implements Serializable
 {
     //Driver
     public static void main( String[] args )

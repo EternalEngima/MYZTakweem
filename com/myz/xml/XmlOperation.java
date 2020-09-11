@@ -1,5 +1,6 @@
 package com.myz.xml;
 
+import java.io.Serializable;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 
@@ -7,7 +8,7 @@ import org.xml.sax.Attributes;
  * @author Zaid
  */
 
-public class XmlOperation extends MYZXmlObject
+public class XmlOperation extends MYZXmlObject implements Serializable
 {
     //Constructor
     public XmlOperation()

@@ -1,4 +1,5 @@
 package takweem;
+import com.myz.files.MYZFile;
 import com.myz.image.ImageEditorStage;
 import com.myz.xml.XmlAnalysis;
 import com.myz.xml.XmlCategory;
@@ -21,7 +22,6 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import myzComponent.myzButton;
@@ -39,6 +40,7 @@ import myzComponent.myzComboBoxItem;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
 import myzComponent.myzMagnifier;
+import myzComponent.myzMenuButton;
 import myzComponent.myzScene;
 import myzMessage.myzMessage;
 import myzReport.TakweemReport;
@@ -54,14 +56,14 @@ public class Takweem extends Application
     public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
+    //RunTime takweem object
     public static       ResourceBundle   m_bundle        = ResourceBundle.getBundle("captions",new Locale("en", "en"));
+    public static       RunTimeObject    m_runTimeObject = new RunTimeObject();
     //Data members
     BorderPane          m_container                      = new BorderPane();
 
     public Stage        m_primaryStage ;
     
-    //RunTime takweem object
-    public static RunTimeObject       m_runTimeObject  = new RunTimeObject();
     
 
     
@@ -74,14 +76,36 @@ public class Takweem extends Application
     Menu         m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
     Menu         m_langMenu              = new Menu(getCaption("application.lang"));
     
-    HBox         m_headerPane            = new HBox(5);
-    MenuButton   m_categoryMenuButton    = new MenuButton("Category");
-    myzButton    m_saveImageButton       = new myzButton()
+    HBox           m_headerPane         = new HBox(5);
+    myzMenuButton  m_categoryMenuButton = new myzMenuButton();
+    myzButton      m_saveAnalysisButton    = new myzButton()
     {        
         @Override
         public void buttonPressed()
         {
-            m_runTimeObject.getImagePanel().saveImage();
+            MYZFile          save        = new MYZFile();
+            FileChooser      fileChooser = new FileChooser();
+            ExtensionFilter  extFilter   = new FileChooser.ExtensionFilter( "Analysis File", "*." + MYZFile.FILE_EXTENSION );
+            fileChooser.getExtensionFilters().add(extFilter);
+            fileChooser.setSelectedExtensionFilter(extFilter);
+            File file = fileChooser.showSaveDialog(m_primaryStage);
+            
+            if(file != null)
+                save.write(file);
+        }
+    };
+    myzButton      m_saveImageButton    = new myzButton()
+    {        
+        @Override
+        public void buttonPressed()
+        {
+            FileChooser      fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+            File file = fileChooser.showSaveDialog(m_primaryStage);
+            
+            if(file != null)
+                m_runTimeObject.getImagePanel().saveImage(file );
         }
     };
     myzButton    m_addPhotoButton        = new myzButton()
@@ -90,13 +114,13 @@ public class Takweem extends Application
         public void buttonPressed()
         {
             FileChooser      fileChooser      = new FileChooser(); 
-            File             file             = fileChooser.showOpenDialog(m_primaryStage); 
+            File             file             = fileChooser.showOpenDialog(m_primaryStage);
             ImageEditorStage imageEditorStage = null ;
             try 
             {
                 //Modified by montazar
                 if(file != null)
-                    imageEditorStage = new ImageEditorStage(file );            
+                    imageEditorStage = new ImageEditorStage(file);            
             }
             catch(Exception ex)
             {
@@ -137,9 +161,7 @@ public class Takweem extends Application
             {
                 if(m_runTimeObject.getImagePanel().getBlankImageView() != null)
                     m_runTimeObject.calculateOperationsAndShow();
-            }
-            //else i will calculate after last point the user set
-            //TODO if there are lines you have to remove it 
+            } 
         }
     };
     myzButton    m_modifyAnatomy         = new myzButton();
@@ -153,7 +175,7 @@ public class Takweem extends Application
     VBox         m_rightSidebar          = new VBox(10);
     Pane         m_pointsTablePan        = new Pane();
     PointsTable  m_pointsTable           ;
-    myzButton    m_undoButton            = new myzButton()//TODO
+    myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
         @Override
         public void buttonPressed()
@@ -198,6 +220,7 @@ public class Takweem extends Application
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
         //Modified by montazar 
+        m_runTimeObject.getImagePanel().setParentPane(m_container);//it's used when loading file and replace the image panel with onther one
         m_container.setCenter(m_runTimeObject.getImagePanel()); 
         m_container.setLeft(m_leftSidebar);
         m_container.setRight(m_rightSidebar);
@@ -252,6 +275,13 @@ public class Takweem extends Application
         m_sittingsMenu.getItems().add(m_langMenu);
         
         m_sittingsBar.getMenus().addAll(m_sittingsMenu );
+
+        m_saveAnalysisButton.setCaption("save.analysis");
+        m_saveAnalysisButton.setGraphic(new ImageView("icon\\save.png"));
+        m_saveAnalysisButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_saveAnalysisButton.setMaxHeight(25);
+        m_saveAnalysisButton.setParentPane(m_headerPane);
+        m_saveAnalysisButton.setReSizeOnParentSize(true);
         
         m_saveImageButton.setCaption("save.image");
         m_saveImageButton.setGraphic(new ImageView("icon\\save.png"));
@@ -300,15 +330,17 @@ public class Takweem extends Application
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
         m_categoryMenuButton.setMinWidth(100);
-
-        // m_modifyAnatomy,  m_deleteAnatomy
+        m_categoryMenuButton.setCaption("category");
+        m_categoryMenuButton.setParentPane(m_headerPane);
+        m_categoryMenuButton.setReSizeOnParentSize(true);
+        
+        // m_modifyAnatomy,  m_deleteAnatomy TODO
         m_headerPane.setAlignment(Pos.CENTER);
         m_headerPane.getChildren().addAll(  m_categoryMenuButton , m_anatomyLabel 
                                           , m_anatomyCombo       , m_addPhotoButton  
-                                          , m_saveImageButton    , m_printResultButton);
+                                          , m_saveAnalysisButton , m_saveImageButton    , m_printResultButton);
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane );
-//        m_header.setStyle("-fx-border-color : black ;");
     }
     
     public void initLeftSidebar()
@@ -326,7 +358,7 @@ public class Takweem extends Application
         m_undoButton.setParentPane(m_leftSidebar);
         m_undoButton.setReSizeOnParentSize(true);
         m_undoButton.setMaxSize(75,40);
-        m_undoButton.setText("UNDO");//TODO
+        m_undoButton.setCaption("analysis.undo");
         
         m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton);
         m_leftSidebar.setAlignment(Pos.TOP_LEFT);
@@ -414,6 +446,7 @@ public class Takweem extends Application
             }
             
             m_categoryMenuButton.getItems().add(categoryMenu);
+            
         }
     }
     public void refreshComponent(ResourceBundle oldBundle)

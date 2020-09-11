@@ -1,12 +1,13 @@
 package com.myz.xml;
 
+import java.io.Serializable;
 import org.xml.sax.Attributes;
 
 /**
  * @author Zaid
  */
 
-public class XmlPoint extends MYZXmlObject
+public class XmlPoint extends MYZXmlObject implements Serializable
 {
     //Constructor
     public XmlPoint()

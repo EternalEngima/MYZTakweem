@@ -2,13 +2,14 @@ package com.myz.calculable;
 
 import com.myz.xml.XmlAnalysis;
 import com.myz.xml.XmlOperation;
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
  *
  * @author Montazar Hamoud
  */
-public class MYZAnalysis extends XmlAnalysis
+public class MYZAnalysis extends XmlAnalysis implements Serializable
 {
     public MYZAnalysis(XmlAnalysis analysis)
     {
