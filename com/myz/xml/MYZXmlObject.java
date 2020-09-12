@@ -11,6 +11,7 @@ public abstract class MYZXmlObject
     //Constructor
     public MYZXmlObject()
     {
+        
     }
     
     //Statics
@@ -20,11 +21,19 @@ public abstract class MYZXmlObject
     //Methods
     public static MYZXmlObject create( String tag )
     {
-        if( "Analysis".equals( tag ) )
+        if("Takweem".equals(tag))
+            return new XmlTakweem();
+        else if("Category".equals(tag))
+            return new XmlCategory();
+        else if("Classification".equals(tag))
+            return new XmlClassification();
+        else if("PointsPool".equals(tag))
+            return new XmlPointsPool();
+        else if( "Analysis".equals( tag ) )
             return new XmlAnalysis();
-        if( "Operation".equals( tag ) )
+        else if( "Operation".equals( tag ) )
             return new XmlOperation();
-        if( "Point".equals( tag ) )
+        else if( "Point".equals( tag ) )
             return new XmlPoint();
         return null;
     }

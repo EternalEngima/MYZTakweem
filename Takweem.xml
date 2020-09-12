@@ -1,76 +1,444 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Takweem>
-    <Analysis
-        name        = ""
-        description = ""
-        category    = ""
-        >
-        <Operation 
-            name         = ""
-            description  = ""
-            correctValue = ""
-            type         = ""                                    
-        >
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />            
-        </Operation>
-        <Operation 
-            name         = ""
-            description  = ""
-            correctValue = ""
-            type         = ""                                    
-        >
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />            
-        </Operation>
-        <Operation 
-            name         = ""
-            description  = ""
-            correctValue = ""
-            type         = ""                                    
-        >
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />
-            <Point
-                symbol      = ""
-                name        = ""
-                describtion = ""
-            />            
-        </Operation>                
-    </Analysis>
+    
+    <Category name = "X-Ray">
+ 
+        <Classification name = "MYZAnalysisTypeRaysLateralCephalometric">
+             <PointsPool>
+                <Point
+                    symbol      = "@"
+                    name        = "a"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "#"
+                    name        = "b"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "$"
+                    name        = "c"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "%"
+                    name        = "d"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^"
+                    name        = "e"
+                    describtion = ""
+                />
+            </PointsPool>
+            <Analysis
+                name        = "Analysis1"
+                description = ""
+                category    = ""
+                >
+                <Operation 
+                    name         = "operation1"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = ""
+                    type         = "MYZOperationTypeAngelBetweenTwoLines"                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = "a"
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = "b"
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = "c"
+                        describtion = ""
+                    />   
+                    <Point
+                        symbol      = ""
+                        name        = "d"
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = "operation2"
+                    description  = "operation2"
+                    correctValue = ""
+                    type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = "d"
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = "b"
+                        describtion = ""
+                    />
+          
+                </Operation>
+             
+            </Analysis>
+            <Analysis
+                name        = "Analysis2"
+                description = ""
+                category    = ""
+                >
+                    <Operation 
+                    name         = "operation1"
+                    description  = "operation1"
+                    correctValue = ""
+                    type         = "MYZOperationTypeAngelBetweenTwoLines"                                    
+                    >
+                    <Point
+                        symbol      = ""
+                        name        = "a"
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = "b"
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = "c"
+                        describtion = ""
+                    />   
+                    <Point
+                        symbol      = ""
+                        name        = "d"
+                        describtion = ""
+                    />            
+                </Operation>
+            </Analysis>
+        </Classification>
+    </Category>
+    <Category name = "Face">
+        
+        <Classification name = "MYZAnalysisTypeRaysLateralCephalometric">
+            <PointsPool>
+                <Point
+                    symbol      = "@"
+                    name        = "a"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "#"
+                    name        = "b"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "$"
+                    name        = "c"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "%"
+                    name        = "d"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^"
+                    name        = "e"
+                    describtion = ""
+                />
+            </PointsPool>
+            <Analysis
+                name        = "Analysis2"
+                description = ""
+                category    = ""
+                >
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>                
+            </Analysis>
+        </Classification>
+    </Category>
+    <Category name = "Intraoral">
+        <Classification name = "MYZAnalysisTypeRaysLateralCephalometric">
+            <PointsPool>
+                <Point
+                    symbol      = "@"
+                    name        = "a"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "#"
+                    name        = "b"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "$"
+                    name        = "c"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "%"
+                    name        = "d"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^"
+                    name        = "e"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^"
+                    name        = "f"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^"
+                    name        = "g"
+                    describtion = ""
+                />
+            </PointsPool>
+            <Analysis
+                name        = "Analysis3"
+                description = ""
+                category    = ""
+                >
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>                
+            </Analysis>
+        </Classification>
+    </Category>
+    <Category name = "Gypsum">
+        <Classification name = "MYZAnalysisTypeRaysLateralCephalometric">
+            <PointsPool>
+                <Point
+                    symbol      = "@123"
+                    name        = "aa"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "#123"
+                    name        = "bb"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "$123"
+                    name        = "cc"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "%123"
+                    name        = "dd"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "^123"
+                    name        = "ee"
+                    describtion = ""
+                />
+            </PointsPool>
+            <Analysis
+                name        = "Analysis4"
+                description = ""
+                category    = ""
+                >
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>
+                <Operation 
+                    name         = ""
+                    description  = ""
+                    correctValue = ""
+                    type         = ""                                    
+                >
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />
+                    <Point
+                        symbol      = ""
+                        name        = ""
+                        describtion = ""
+                    />            
+                </Operation>                
+            </Analysis>
+        </Classification>
+    </Category>
 </Takweem>

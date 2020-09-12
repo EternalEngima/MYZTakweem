@@ -1,12 +1,13 @@
 package com.myz.xml;
 
+import java.io.Serializable;
 import org.xml.sax.Attributes;
 
 /**
  * @author Zaid
  */
 
-public class XmlPoint extends MYZXmlObject
+public class XmlPoint extends MYZXmlObject implements Serializable
 {
     //Constructor
     public XmlPoint()
@@ -22,9 +23,9 @@ public class XmlPoint extends MYZXmlObject
     }
     
     //Members
-    String m_name;
-    String m_symbol;
-    String m_description;
+    public String m_name;
+    public String m_symbol;
+    public String m_description;
     
     //Methods
     @Override
@@ -47,5 +48,19 @@ public class XmlPoint extends MYZXmlObject
     }
     @Override
     public void append( MYZXmlObject xmlObject ){}
-    
+   
+    //it's used for PointsTable 
+    public String getM_name()
+    {
+        return m_name ;
+    }
+    public String getM_symbol()
+    {
+        return m_symbol ;
+    }
+
+    public String getM_description() 
+    {
+        return m_description;
+    }
 }

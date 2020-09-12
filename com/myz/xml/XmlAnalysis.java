@@ -1,5 +1,6 @@
 package com.myz.xml;
 
+import java.io.Serializable;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 
@@ -7,14 +8,19 @@ import org.xml.sax.Attributes;
  * @author Zaid
  */
 
-public class XmlAnalysis extends MYZXmlObject
+public class XmlAnalysis extends MYZXmlObject implements Serializable
 {
     //Constructor
     public XmlAnalysis()
     {
         m_vOperation = new Vector< XmlOperation >();
     }
-    
+    public XmlAnalysis ( XmlAnalysis analysis )
+    {
+        super();
+        m_name        = analysis.m_name;
+        m_description = analysis.m_description;
+    }
     //Statics
      //Category
     public static String CATEGORY_RAYS      = "MYZAnalysisCategoryRays";
@@ -82,6 +88,16 @@ public class XmlAnalysis extends MYZXmlObject
         for( XmlOperation operation : m_vOperation )
             XML += operation.toXml();
         XML += "/Analysis>";
-        return "";
+        return XML;
+    }
+    
+    //Getter Methods
+    public String getName()
+    {
+        return m_name ;
+    }
+    public Vector<XmlOperation> getVXmlOperation()
+    {
+        return m_vOperation ; 
     }
 }

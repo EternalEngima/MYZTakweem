@@ -5,22 +5,26 @@
  */
 package myzComponent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import javafx.collections.FXCollections;
-import javafx.scene.control.TableView;
+import javafx.scene.control.MenuButton;
 import javafx.scene.layout.Pane;
 
 /**
- * @author yazan
+ *
+ * @author Montazar Hamoud
  */
-public class myzTableView extends TableView
+public class myzMenuButton extends MenuButton implements myzComponent
 {
     myzScene  m_scene       = null; 
+    String    m_captionKey  = null;
     Pane      m_parentPane  = null;
-    public void buttonPressed(){}
 
+    
+    public myzMenuButton()
+    {
+        super();
+    
+    }
+    
     public void setParentPane(Pane pane)
     {
         m_parentPane = pane;
@@ -40,13 +44,25 @@ public class myzTableView extends TableView
         }
             
     }
-    public void setTableData(Vector  vData)
+    
+    public void setCaption(String key)
     {
-        List list = new ArrayList();
-        vData.stream().forEach(list::add);
-        setItems(FXCollections.observableList(list));
-        refresh();
+        m_captionKey = key;
+        String str = takweem.Takweem.m_bundle.getString(key);
+        if ( str != null)
+            setText(str);
+        else
+            setText(key);
+    }
+        
+    @Override
+    public void refreshCaption()
+    {
+        if (m_captionKey !=  null)
+        {
+            String str = takweem.Takweem.m_bundle.getString(m_captionKey);
+            setText(str);
+        }
     }
     
- 
 }

@@ -4,7 +4,8 @@ package myzComponent;
  *
  * @author yazan
  */
-public class myzComboBoxItem implements Comparable<myzComboBoxItem>{ 
+public class myzComboBoxItem implements Comparable<myzComboBoxItem>
+{ 
     private String m_value;
     private int    m_key;
     private Object m_extraData = null;

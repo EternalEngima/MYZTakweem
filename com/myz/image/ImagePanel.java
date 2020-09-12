@@ -1,19 +1,17 @@
 package com.myz.image;
 
+import com.myz.calculable.MYZPoint;
+import com.myz.files.MYZFile;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
-import javafx.scene.chart.XYChart;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -23,11 +21,15 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
+import takweem.Takweem;
+import static takweem.Takweem.m_runTimeObject;
 
 /**
  * Class Description :
@@ -42,7 +44,7 @@ import myzComponent.myzLabel;
  * @author Montazar
  */
 
-public class ImagePanel extends StackPane implements myzComponent
+public class ImagePanel extends StackPane implements myzComponent , Serializable
 {
     
     //Constructor
@@ -52,35 +54,38 @@ public class ImagePanel extends StackPane implements myzComponent
         initCenter();
     }
     // Class Members 
-    private static final double IMAGE_VIEW_WIDTH   = 400 ;
-    private static final double IMAGE_VIEW_HEIGHT  = 400 ;
+    private static final double IMAGE_VIEW_WIDTH   = 600 ;
+    private static final double IMAGE_VIEW_HEIGHT  = 500 ;
 
     
     //Data Members
-    Image           m_selectedImage    = null;
-    StackPane       m_centerPane       = new StackPane();
-    myzLabel        m_centerLabel      = new myzLabel();
-    ImageView       m_imageView        = new ImageView();
-    ImageView       m_blankImageView   = new ImageView();
-    int             m_rotateAngle      = 0;
+    Image            m_selectedImage    = null;
+    StackPane        m_centerPane       = new StackPane();
+    myzLabel         m_centerLabel      = new myzLabel();
+    int              m_rotateAngle      = 0;
+    ImageView        m_imageView        ;
+    ImageView        m_blankImageView   ;
+    Pane             m_parentPane ;
 
-    
-    //TODO temp
-    Vector vLinePointes       = new Vector ();
-    
+
     //Class Methods 
     public void insertImage( Image image ) 
     {   
-        String blankImageUrl      = "src\\blank400x400.png" ;
+        String blankImageUrl      = "src\\blank600x500.png" ;
         try 
         {
+            m_imageView      =  new ImageView() ;
+            m_blankImageView =  new ImageView() ;
+            
+            m_centerPane.getChildren().addAll( getImageView() , getBlankImageView());
+
             setSelectedImage( image );
             Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
             
             getImageView().setFitWidth(IMAGE_VIEW_WIDTH);
             getImageView().setFitHeight(IMAGE_VIEW_HEIGHT);
             
-            
+                        
             m_imageView.setImage(getSelectedImage());
             m_blankImageView.setImage(blankImage);
             
@@ -99,20 +104,28 @@ public class ImagePanel extends StackPane implements myzComponent
         }
     }    
 
-    //TODO 
     public void paint ( MouseEvent event , ImageView blankimageView)
     {
-        int   x      = new Double ( ( event.getX()  )  ).intValue();
-        int   y      = new Double ( ( event.getY()  )  ).intValue();
-        Point point  = new Point ( x , y ) ;
-        point.draw(blankimageView);
-        vLinePointes.addElement(point);
-        Line line  = null ;
-        if ( vLinePointes.size() == 2)
+        if(m_runTimeObject.getRunTimePointsPool() != null && !m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty() )
         {
-            line = new Line ( (Point) vLinePointes.get(0) , (Point) vLinePointes.get(1) );
-            line.draw(blankimageView);
-            vLinePointes.removeAllElements();
+            int   x      = new Double ( ( event.getX()  )  ).intValue();
+            int   y      = new Double ( ( event.getY()  )  ).intValue();
+            
+            MYZPoint point     = m_runTimeObject.getRunTimePointsPool().getVMYZPoint().remove(0);
+            Point    tempPoint = new Point(x, y) ; 
+            
+            point.setPoint(tempPoint);
+            tempPoint.draw(blankimageView);
+            
+            m_runTimeObject.getRunTimePointsPool().getVMYZPointValue().addElement(point);
+            
+            if(m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty())
+            {
+                if(m_runTimeObject.getRunTimeAnalysis() != null)
+                {
+                    m_runTimeObject.calculateOperationsAndShow();
+                }
+            }
         }
     }
     
@@ -123,7 +136,7 @@ public class ImagePanel extends StackPane implements myzComponent
         m_centerLabel.setParentPane(m_centerPane);
         m_centerPane.setMaxSize(IMAGE_VIEW_WIDTH  , IMAGE_VIEW_HEIGHT);
 
-        m_centerPane.getChildren().addAll(getCenterLabel() , getImageView() , getBlankImageView());
+        m_centerPane.getChildren().addAll(getCenterLabel());
 
         m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
         {
@@ -155,7 +168,6 @@ public class ImagePanel extends StackPane implements myzComponent
         });
          getChildren().addAll(getCenterPane());
     }
-    
 
     private void mouseDragDropped(final DragEvent e)
     {
@@ -163,8 +175,19 @@ public class ImagePanel extends StackPane implements myzComponent
         boolean success = false;
         if (db.hasFiles()) 
         {
+            if(db.getFiles().get(0).getName().endsWith(".MYZ"))
+            {
+                MYZFile  file = new MYZFile();
+                file.read(db.getFiles().get(0));
+                ((BorderPane) getParentPane()).setCenter(null);
+                ((BorderPane) getParentPane()).setCenter(Takweem.m_runTimeObject.m_imagePanel);
+                m_runTimeObject.calculateOperationsAndShow();
+            }
+            else
+            {
+                ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) );
+            }
             success = true;
-            ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) , this);
         }
         e.setDropCompleted(success);
         e.consume();
@@ -177,7 +200,8 @@ public class ImagePanel extends StackPane implements myzComponent
         final boolean isAccepted = db.getFiles().get(0).getName().toLowerCase().endsWith(".png")
                 || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpeg")
                 || db.getFiles().get(0).getName().toLowerCase().endsWith(".jpg")
-                || db.getFiles().get(0).getName().endsWith(".Gif");
+                || db.getFiles().get(0).getName().endsWith(".Gif")
+                || db.getFiles().get(0).getName().endsWith(".MYZ");
 
  
         if (db.hasFiles())
@@ -215,7 +239,8 @@ public class ImagePanel extends StackPane implements myzComponent
         }
         
     }
-    public void saveImage ()
+
+    public void saveImage (File file )
     {
         
         new Thread()
@@ -223,9 +248,12 @@ public class ImagePanel extends StackPane implements myzComponent
               @Override
               public void run()
               {
-                BufferedImage         bImage       = null ;
-                ByteArrayOutputStream outputStream = null ;
-                InputStream           inputStream  = null ;
+                String                fileName      = file.getName();          
+                String                fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1, file.getName().length());
+                InputStream           inputStream   = null ;
+                BufferedImage         bImage        = null ;
+                ByteArrayOutputStream outputStream  = null ;
+
 
                 try
                 {
@@ -233,11 +261,12 @@ public class ImagePanel extends StackPane implements myzComponent
                         return ;
                     bImage       = SwingFXUtils.fromFXImage(m_blankImageView.getImage(), null);
                     outputStream = new ByteArrayOutputStream();
-                    ImageIO.write(bImage , "png" , outputStream);//TODO png
+                    ImageIO.write(bImage , fileExtension , outputStream);
+                    
                     byte[] res  = outputStream.toByteArray();
                     inputStream = new ByteArrayInputStream(res);
                     Image tmp   = new Image ( inputStream , m_selectedImage.getWidth(), m_selectedImage.getHeight() , false , false );
-
+                    
                     PixelReader   pixelReader1 = tmp.getPixelReader() ;
                     PixelReader   pixelReader2 = m_selectedImage.getPixelReader() ;
 
@@ -259,7 +288,7 @@ public class ImagePanel extends StackPane implements myzComponent
                         }
                     }
 
-                    ImageIO.write(SwingFXUtils.fromFXImage(wImage, null), "png", new File("D:\\temp.png"));//TODO
+                    ImageIO.write(SwingFXUtils.fromFXImage(wImage, null), fileExtension , file);
                 }
                 catch (Exception ex)
                 {
@@ -296,6 +325,10 @@ public class ImagePanel extends StackPane implements myzComponent
     {
         m_rotateAngle = rotateAngle ;
     }
+    public void setParentPane(Pane pane)
+    {
+        m_parentPane = pane;
+    }
     //Getter Methods
     public Image getSelectedImage ( )
     {
@@ -320,5 +353,9 @@ public class ImagePanel extends StackPane implements myzComponent
     public int getRotateAngle()
     {
         return m_rotateAngle ;
+    }
+    public Pane getParentPane()
+    {
+        return m_parentPane;
     }
 }

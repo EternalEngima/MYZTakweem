@@ -1,5 +1,6 @@
 package com.myz.image;
 
+import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -11,7 +12,7 @@ import javafx.scene.paint.Color;
  * @author Montazar
  */
 
-public class Point 
+public class Point implements Serializable
 {
     //Constructor
     public Point ( double x , double y )
@@ -46,6 +47,8 @@ public class Point
     
     public void draw (ImageView image)
     {
+        if(image == null)
+            return;
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
         double height             = tmp.getHeight() ;
@@ -60,15 +63,15 @@ public class Point
             {
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
-                if ( x == getX() && y == getY() )
-                  writer.setColor( x , y , Color.AQUA);                
+                if ( isDraw( x , y ) )
+                  writer.setColor( x , y , Color.BLACK);                
                 else
                   writer.setColor( x , y , color);
             } 
         }
         image.setImage(wImage);
     }
-    public void unDraw(ImageView image)
+    public void erase(ImageView image)
     {
         Image  tmp                = image.getImage();
         double width              = tmp.getWidth()  ;
@@ -84,12 +87,42 @@ public class Point
             {
                 //Retrieving the color of the pixel of the loaded image
                 Color color = pixelReader.getColor( x , y );
-                if ( x == getX() && y == getY() )
+                if ( isDraw( x , y ) )
                   writer.setColor( x , y , Color.TRANSPARENT);                
                 else
                   writer.setColor( x , y , color);
             } 
         }
         image.setImage(wImage);
+    }
+    //Draw the all point beside this point
+    public boolean isDraw(int x , int y)
+    {
+        if(x == getX() && y == getY())
+            return true;
+        else if(x == getX() && (y+1) == getY())
+            return true;
+        else if(x == getX() && (y-1) == getY())
+            return true;
+        else if((x+1) == getX() && y == getY())
+            return true ;
+        else if((x-1) == getX() && y == getY())
+            return true;
+        else if((x+1) == getX() && (y+1) == getY())
+            return true;
+        else if((x-1) == getX() && (y-1) == getY())
+            return true;
+        else if((x-1) == getX() && (y+1) == getY())
+            return true;
+        else if((x+1) == getX() && (y-1) == getY())
+            return true;
+        else
+            return false;
+    }
+    public boolean equals(Point point)
+    {
+        if(point.m_x == m_x && point.m_y == m_y)
+            return true;
+        return false ;
     }
 }
