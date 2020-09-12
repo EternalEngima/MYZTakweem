@@ -13,10 +13,10 @@ import javafx.scene.layout.Pane;
 /**
  * @author yazan
  */
-public class myzComboBox extends ComboBox implements myzComponent
+public class myzComboBox extends ComboBox
 {
-    Pane                     m_parentPane   = null;
-    String                   m_captionKey   = null;
+    Pane                     m_parentPane  = null;
+
     public myzComboBox()
     {
         valueProperty().addListener((obs, oldVal, newVal)-> {   if (oldVal != newVal) this.selectionChange();  });       
@@ -44,7 +44,7 @@ public class myzComboBox extends ComboBox implements myzComponent
     
     public void addItems(myzComboBoxItem ... item )
     {
-        getItems().addAll((Object) item);
+        getItems().addAll(item);
     }
     
     public int getIntValue()
@@ -86,26 +86,8 @@ public class myzComboBox extends ComboBox implements myzComponent
         }
         return null;
     }
-
-    public void setCaption(String key)
-    {   
-        m_captionKey = key;
-        String str = takweem.Takweem.m_bundle.getString(key);
-        if ( str != null)
-            setPromptText(str);
-        else
-            setPromptText(key);
-    }
     
-    @Override
-    public void refreshCaption()
-    {
-        if (m_captionKey !=  null)
-        {
-            String str = takweem.Takweem.m_bundle.getString(m_captionKey);
-            setPromptText(str);
-        }
-    }
+
     
 }
 
