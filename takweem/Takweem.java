@@ -1,4 +1,5 @@
 package takweem;
+import com.myz.calculable.MYZOperation;
 import com.myz.image.ImageEditorStage;
 import com.myz.image.ImagePanel;
 import java.io.File;
@@ -19,6 +20,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -103,7 +106,7 @@ public class Takweem extends Application
 
         }
     };
-    myzLabel     m_anatomyLabel          = new myzLabel();
+//    myzLabel     m_anatomyLabel          = new myzLabel();
     myzComboBox  m_anatomyCombo          = new myzComboBox()
     {
         @Override
@@ -230,15 +233,15 @@ public class Takweem extends Application
         m_printResultButton.setParentPane(m_headerPane);
         m_printResultButton.setReSizeOnParentSize(true);
         
-        m_anatomyLabel.setCaption("anatomy.choose.label");
-        m_anatomyLabel.setParentPane(m_headerPane);
-        m_anatomyLabel.setReSizeOnParentSize(true);
-        m_anatomyLabel.setFont(new Font(14));
+//        m_anatomyLabel.setCaption("anatomy.choose.label");
+//        m_anatomyLabel.setParentPane(m_headerPane);
+//        m_anatomyLabel.setReSizeOnParentSize(true);
+//        m_anatomyLabel.setFont(new Font(14));
         
         m_anatomyCombo.setMinSize(250, 25);
         m_anatomyCombo.setParentPane(m_headerPane);
         m_anatomyCombo.setReSizeOnParentSize(true);
-        m_anatomyCombo.setPromptText("Please select anatomy");
+        m_anatomyCombo.setCaption("anatomy.list");
         myzComboBoxItem test  = new myzComboBoxItem("sadas" , 1);
         myzComboBoxItem test1 = new myzComboBoxItem("aaaa"  , 2);
         m_anatomyCombo.addItems(test , test1);
@@ -260,7 +263,7 @@ public class Takweem extends Application
         m_deleteAnatomy.setReSizeOnParentSize(true);
  
         m_headerPane.getChildren().addAll( m_saveImageButton , m_addPhotoButton , m_printResultButton 
-                                          ,m_anatomyLabel    , m_anatomyCombo   , m_modifyAnatomy 
+                                         /* ,m_anatomyLabel */   , m_anatomyCombo   , m_modifyAnatomy 
                                           ,m_deleteAnatomy );
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane);
@@ -290,11 +293,36 @@ public class Takweem extends Application
         m_calculateTable.setCenterShape(true);
         m_calculateTable.setParentPane(m_TablePan);
         m_calculateTable.setReSizeOnParentSize(true);
+        initTable();
         m_TablePan.getChildren().add(m_calculateTable);
         
         m_footer.getChildren().addAll(m_TablePan , m_fixedFooterLabel);
 //        m_TablePan.setAlignment(Pos.CENTER);
     }
+    
+    public void initTable()
+    {
+        TableColumn<String, MYZOperation> column1 = new TableColumn<>("Name");
+        column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+        TableColumn<String, MYZOperation> column2 = new TableColumn<>("Default value");
+        column2.setCellValueFactory(new PropertyValueFactory<>("correctvalue"));
+        
+        TableColumn<String, MYZOperation> column3 = new TableColumn<>("Value");
+        column3.setCellValueFactory(new PropertyValueFactory<>("value"));
+        
+        m_calculateTable.getColumns().addAll(column1,column2,column3);
+        
+        MYZOperation s1 = new MYZOperation("name1", "description 1 ", "type 1", 102,100);
+        MYZOperation s2 = new MYZOperation("name2", "description 2 ", "type 2", 202,200);
+        MYZOperation s3 = new MYZOperation("name3", "description 3 ", "type 3", 302,300);
+        MYZOperation s4 = new MYZOperation("name4", "description 4 ", "type 4", 402,400);
+        
+        m_calculateTable.getItems().addAll(s1 , s2 , s3 , s4 );
+
+        
+    }
+    
     
     public void refreshComponent(ResourceBundle oldBundle)
     {

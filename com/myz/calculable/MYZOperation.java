@@ -77,6 +77,17 @@ public class MYZOperation extends XmlOperation
         m_vPoint = new Vector<>();
     }
     
+    public MYZOperation(String name ,String description , String type , double correctValue , double value)
+    {
+        m_name         = name;
+        m_description  = description;
+        m_type         = type;
+        m_correctValue = correctValue;
+        m_value        = value;
+    }
+    
+    
+    
     //Members
     double             m_value;
     Vector< MYZPoint > m_vPoint;
@@ -145,6 +156,31 @@ public class MYZOperation extends XmlOperation
             m_value = lengthL1 / lengthL2;
         }
         
+        return m_value;
+    }
+    
+    public String getName()
+    {
+        return super.m_name;
+    }
+    
+    public String getDescription()
+    {
+        return super.m_description;
+    }
+    
+    public double getCorrectValue()
+    {
+        return super.m_correctValue;
+    }
+    
+    public String getType()
+    {
+        return super.m_type;
+    }
+    
+    public double getValue()
+    {
         return m_value;
     }
 }
