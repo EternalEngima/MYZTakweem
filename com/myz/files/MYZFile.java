@@ -46,7 +46,7 @@ public class MYZFile implements Serializable
     //Methods
     public void write(File file)
     {
-        m_runTimeObject = Takweem.m_runTimeObject ;
+        m_runTimeObject = Takweem.RUNTIME_OBJECT ;
         m_imageIcon         = new ImageIcon(getBufferedImage());
         try
         {
@@ -73,9 +73,9 @@ public class MYZFile implements Serializable
             awtImage = temp.getImageIcon().getImage();
             wImage   =  SwingFXUtils.toFXImage(convertImageToBuffered(awtImage), null);
             
-            Takweem.m_runTimeObject              = temp.m_runTimeObject ;
-            Takweem.m_runTimeObject.m_imagePanel = new ImagePanel();
-            Takweem.m_runTimeObject.m_imagePanel.insertImage(wImage);
+            Takweem.RUNTIME_OBJECT              = temp.m_runTimeObject ;
+            Takweem.RUNTIME_OBJECT.m_imagePanel = new ImagePanel();
+            Takweem.RUNTIME_OBJECT.m_imagePanel.insertImage(wImage);
             is.close();
         }
         catch(IOException | ClassNotFoundException ex)

@@ -10,8 +10,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
+import javafx.scene.control.TableRow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -26,10 +28,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
+import myzComponent.myzComboBoxItem;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
+import myzComponent.myzPopup;
 import takweem.Takweem;
-import static takweem.Takweem.m_runTimeObject;
+import static takweem.Takweem.RUNTIME_OBJECT;
+import static takweem.Takweem.m_anatomyCombo;
+import static takweem.Takweem.m_pointsTable;
 
 /**
  * Class Description :
@@ -106,24 +112,43 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
 
     public void paint ( MouseEvent event , ImageView blankimageView)
     {
-        if(m_runTimeObject.getRunTimePointsPool() != null && !m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty() )
+        if(RUNTIME_OBJECT.getRunTimePointsPool() != null && !RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().isEmpty() )
         {
             int   x      = new Double ( ( event.getX()  )  ).intValue();
             int   y      = new Double ( ( event.getY()  )  ).intValue();
             
-            MYZPoint point     = m_runTimeObject.getRunTimePointsPool().getVMYZPoint().remove(0);
+            MYZPoint point     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
             Point    tempPoint = new Point(x, y) ; 
-            
+            ObservableList list = m_pointsTable.getItems();
+            TableRow row1 ;
+            for(int i = 0 ; i < list.size() ; i++ )
+            {
+                row1 = (TableRow) list.get(i);
+                row1.setStyle("-fx-background-color:#cfc");
+            }
+            m_pointsTable.setRowFactory( tmp -> 
+            {
+                TableRow<MYZPoint> row = new TableRow<>();
+                MYZPoint rowData = row.getItem();
+                System.out.println("befor if");
+                if (rowData.getM_name().equals(point.getM_name()))
+                {
+                    System.out.println("if");
+                    row.setStyle("-fx-background-color:#cfc");
+                }
+                return row ;
+            });
+                
             point.setPoint(tempPoint);
             tempPoint.draw(blankimageView);
             
-            m_runTimeObject.getRunTimePointsPool().getVMYZPointValue().addElement(point);
+            RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPointValue().addElement(point);
             
-            if(m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty())
+            if(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().isEmpty())
             {
-                if(m_runTimeObject.getRunTimeAnalysis() != null)
+                if(RUNTIME_OBJECT.getRunTimeAnalysis() != null)
                 {
-                    m_runTimeObject.calculateOperationsAndShow();
+                    RUNTIME_OBJECT.calculateOperationsAndShow();
                 }
             }
         }
@@ -180,8 +205,21 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
                 MYZFile  file = new MYZFile();
                 file.read(db.getFiles().get(0));
                 ((BorderPane) getParentPane()).setCenter(null);
-                ((BorderPane) getParentPane()).setCenter(Takweem.m_runTimeObject.m_imagePanel);
-                m_runTimeObject.calculateOperationsAndShow();
+                ((BorderPane) getParentPane()).setCenter(Takweem.RUNTIME_OBJECT.m_imagePanel);
+                //Select the category and classification from MYZ file
+                
+                //Select the chosen analysis from MYZ file
+                String analysisName  = RUNTIME_OBJECT.getRunTimeAnalysis().getName();
+                ObservableList  list = m_anatomyCombo.getItems() ;
+                myzComboBoxItem item = null;
+                for(int i = 0 ; i < list.size(); i++)
+                {
+                    item =(myzComboBoxItem) list.get(i);
+                    if(item.getValue().equals(analysisName))
+                        break;
+                }
+                if(item != null)
+                    m_anatomyCombo.getSelectionModel().select(item);
             }
             else
             {

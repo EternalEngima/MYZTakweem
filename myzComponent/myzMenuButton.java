@@ -48,7 +48,7 @@ public class myzMenuButton extends MenuButton implements myzComponent
     public void setCaption(String key)
     {
         m_captionKey = key;
-        String str = takweem.Takweem.m_bundle.getString(key);
+        String str = takweem.Takweem.BUNDLE.getString(key);
         if ( str != null)
             setText(str);
         else
@@ -60,7 +60,7 @@ public class myzMenuButton extends MenuButton implements myzComponent
     {
         if (m_captionKey !=  null)
         {
-            String str = takweem.Takweem.m_bundle.getString(m_captionKey);
+            String str = takweem.Takweem.BUNDLE.getString(m_captionKey);
             setText(str);
         }
     }

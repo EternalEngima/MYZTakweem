@@ -41,8 +41,8 @@ import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 import myzMessage.myzMessage;
 import static takweem.Takweem.ARABIC_BUNDLE;
-import static takweem.Takweem.m_bundle;
-import static takweem.Takweem.m_runTimeObject;
+import static takweem.Takweem.RUNTIME_OBJECT;
+import static takweem.Takweem.BUNDLE;
 
 /**
  *
@@ -67,7 +67,7 @@ public class ImageEditorStage
         reverseHeader();
         m_imageViewParent.getChildren().add(m_imageView);
         
-        m_imagePanel =  m_runTimeObject.getImagePanel() ;
+        m_imagePanel =  RUNTIME_OBJECT.getImagePanel() ;
         
         m_container.setTop(m_headerPane);
         m_container.setCenter(m_imageViewParent);
@@ -239,7 +239,7 @@ public class ImageEditorStage
     
     public void closeMe(  Event windoEvent  )
     {
-        boolean answer = myzMessage.confirmMessage(m_bundle.getString("close.confirmation") , m_bundle);
+        boolean answer = myzMessage.confirmMessage(BUNDLE.getString("close.confirmation") , BUNDLE);
         if (answer)
         {
             m_stage.close();
@@ -359,7 +359,7 @@ public class ImageEditorStage
     
     private void reverseHeader()
     {
-        if ( m_bundle == ARABIC_BUNDLE )
+        if ( BUNDLE == ARABIC_BUNDLE )
         {
             ObservableList<Node> workingCollection = FXCollections.observableArrayList(m_headerPane.getChildren());
             Collections.reverse(workingCollection);

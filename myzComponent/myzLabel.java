@@ -55,7 +55,7 @@ public class myzLabel extends Label implements myzComponent
         String str = null;
         try
         {
-            str = takweem.Takweem.m_bundle.getString( key );
+            str = takweem.Takweem.BUNDLE.getString( key );
         }
         catch( Exception e )
         {
@@ -71,7 +71,7 @@ public class myzLabel extends Label implements myzComponent
     {
         if (m_captionKey !=  null)
         {
-            String str = takweem.Takweem.m_bundle.getString(m_captionKey);
+            String str = takweem.Takweem.BUNDLE.getString(m_captionKey);
             setText(str);
         }
     }

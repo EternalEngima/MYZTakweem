@@ -57,35 +57,35 @@ public class Takweem extends Application
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
     //RunTime takweem object
-    public static       ResourceBundle   m_bundle        = ResourceBundle.getBundle("captions",new Locale("en", "en"));
-    public static       RunTimeObject    m_runTimeObject = new RunTimeObject();
+    public static       ResourceBundle   BUNDLE         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
+    public static       RunTimeObject    RUNTIME_OBJECT = new RunTimeObject();
+   
     //Data members
     BorderPane          m_container                      = new BorderPane();
-
     public Stage        m_primaryStage ;
     
     
 
     
     //Magnifier
-    public myzMagnifier m_magnifier      = new myzMagnifier();//add by montazar
+    public myzMagnifier m_magnifier      = new myzMagnifier();
    
     //Header component 
-    VBox         m_header                = new VBox(5);
-    MenuBar      m_sittingsBar           = new MenuBar();
-    Menu         m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
-    Menu         m_langMenu              = new Menu(getCaption("application.lang"));
+    VBox           m_header              = new VBox(5);
+    MenuBar        m_sittingsBar         = new MenuBar();
+    Menu           m_sittingsMenu        = new Menu(getCaption("menubar.settings"));
+    Menu           m_langMenu            = new Menu(getCaption("application.lang"));
     
-    HBox           m_headerPane         = new HBox(5);
-    myzMenuButton  m_categoryMenuButton = new myzMenuButton();
-    myzButton      m_saveAnalysisButton    = new myzButton()
+    HBox           m_headerPane          = new HBox(5);
+    myzMenuButton  m_categoryMenuButton  = new myzMenuButton();
+    myzButton      m_saveAnalysisButton  = new myzButton()
     {        
         @Override
         public void buttonPressed()
         {
             MYZFile          save        = new MYZFile();
             FileChooser      fileChooser = new FileChooser();
-            ExtensionFilter  extFilter   = new FileChooser.ExtensionFilter( "Analysis File", "*." + MYZFile.FILE_EXTENSION );
+            ExtensionFilter  extFilter   = new FileChooser.ExtensionFilter( "Analysis File (*.MYZ)", "*." + MYZFile.FILE_EXTENSION );
             fileChooser.getExtensionFilters().add(extFilter);
             fileChooser.setSelectedExtensionFilter(extFilter);
             File file = fileChooser.showSaveDialog(m_primaryStage);
@@ -101,11 +101,11 @@ public class Takweem extends Application
         {
             FileChooser      fileChooser = new FileChooser();
             fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+                new FileChooser.ExtensionFilter("PNG Files (*.PNG)", "*.png"));
             File file = fileChooser.showSaveDialog(m_primaryStage);
             
             if(file != null)
-                m_runTimeObject.getImagePanel().saveImage(file );
+                RUNTIME_OBJECT.getImagePanel().saveImage(file );
         }
     };
     myzButton    m_addPhotoButton        = new myzButton()
@@ -134,13 +134,15 @@ public class Takweem extends Application
         public void buttonPressed()
         {
             //add by montazar 
-            Image selectedImage = m_runTimeObject.getImagePanel().getSelectedImage();
+            Image selectedImage = RUNTIME_OBJECT.getImagePanel().getSelectedImage();
             TakweemReport.callFrame(m_primaryStage , selectedImage);
 
         }
     };
     myzLabel     m_anatomyLabel          = new myzLabel();
-    myzComboBox  m_anatomyCombo          = new myzComboBox()
+    //Modified by montazar 
+    //this combobox should be static to set selection item when load MYZ file on drag and drop event at imagePanel class
+    public static myzComboBox  m_anatomyCombo = new myzComboBox()
     {
         @Override
         public void selectionChange()
@@ -148,19 +150,19 @@ public class Takweem extends Application
             String analysisName = getItemValue().getValue();                        
             
             //On change analysis we should remove the previouse analysis
-            if(m_runTimeObject.getRunTimeAnalysis() != null)
+            if(RUNTIME_OBJECT.getRunTimeAnalysis() != null)
             {
-                m_runTimeObject.erasePreviouseAnalysis();
+                RUNTIME_OBJECT.erasePreviouseAnalysis();
             }
             //Init the choosen analysis
-            m_runTimeObject.setRunTimeAnalysisByName(analysisName);
-            m_calculateTable.setTableData(m_runTimeObject.getRunTimeAnalysis().getVOperation());
+            RUNTIME_OBJECT.setRunTimeAnalysisByName(analysisName);
+            m_calculateTable.setTableData(RUNTIME_OBJECT.getRunTimeAnalysis().getVOperation());
             
             //if the vMYZPoint is empty that's mean all the points have been sets 
-            if(m_runTimeObject.getRunTimePointsPool().getVMYZPoint().isEmpty())
+            if(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().isEmpty())
             {
-                if(m_runTimeObject.getImagePanel().getBlankImageView() != null)
-                    m_runTimeObject.calculateOperationsAndShow();
+                if(RUNTIME_OBJECT.getImagePanel().getBlankImageView() != null)
+                    RUNTIME_OBJECT.calculateOperationsAndShow();
             } 
         }
     };
@@ -174,7 +176,8 @@ public class Takweem extends Application
     VBox         m_leftSidebar           = new VBox(10);
     VBox         m_rightSidebar          = new VBox(10);
     Pane         m_pointsTablePan        = new Pane();
-    PointsTable  m_pointsTable           ;
+    //To colored the current point we should make it static member 
+    public static PointsTable  m_pointsTable           ;
     myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
         @Override
@@ -184,7 +187,7 @@ public class Takweem extends Application
             * 1.undo in runtime object will remove the last point's value and remove it from image  
             * 2.return to the previous row in table points to navigate on this point (its current point you have to put it)
             */
-            m_runTimeObject.Undo();
+            RUNTIME_OBJECT.Undo();
         }
     };
     
@@ -220,8 +223,8 @@ public class Takweem extends Application
         myzScene scene = new myzScene(m_container, 900, 700);
         m_container.setTop(m_header);
         //Modified by montazar 
-        m_runTimeObject.getImagePanel().setParentPane(m_container);//it's used when loading file and replace the image panel with onther one
-        m_container.setCenter(m_runTimeObject.getImagePanel()); 
+        RUNTIME_OBJECT.getImagePanel().setParentPane(m_container);//it's used when loading file and replace the image panel with onther one
+        m_container.setCenter(RUNTIME_OBJECT.getImagePanel()); 
         m_container.setLeft(m_leftSidebar);
         m_container.setRight(m_rightSidebar);
         m_container.setBottom(m_footer);
@@ -257,13 +260,13 @@ public class Takweem extends Application
                     }  
                 }  
                 eventItem.setSelected(true);
-                ResourceBundle old  = m_bundle;
+                ResourceBundle old  = BUNDLE;
                 if ( eventItem.getText().equals("English"))
-                    m_bundle = ENGLISH_BUNDLE;
+                    BUNDLE = ENGLISH_BUNDLE;
                 if ( eventItem.getText().equals("\u0627\u0644\u0639\u0631\u0628\u064a\u0629"))
-                    m_bundle = ARABIC_BUNDLE;
+                    BUNDLE = ARABIC_BUNDLE;
                 if ( eventItem.getText().equals("French"))
-                    m_bundle = FRENCH_BUNDLE;
+                    BUNDLE = FRENCH_BUNDLE;
                 refreshComponent(old);
             } 
         };
@@ -393,7 +396,7 @@ public class Takweem extends Application
     
     public void initAnalysisComponents()
     {
-        Vector<XmlCategory> xmlCategory                     = m_runTimeObject.getRunTimeTakweem().getVCategory();
+        Vector<XmlCategory> xmlCategory                     = RUNTIME_OBJECT.getRunTimeTakweem().getVCategory();
         EventHandler<ActionEvent> chooseClassificationEvent = new EventHandler<ActionEvent>()
         {
             //TODO remove the check box when chose other classification 
@@ -416,19 +419,19 @@ public class Takweem extends Application
                 String categoryName       = eventItem.getParentMenu().getText();
                 String classificationName = eventItem.getText();
                 
-                m_runTimeObject.setRunTimeCategoryByName(categoryName);
-                m_runTimeObject.setRunTimeClassifiactionByName(classificationName);
+                RUNTIME_OBJECT.setRunTimeCategoryByName(categoryName);
+                RUNTIME_OBJECT.setRunTimeClassifiactionByName(classificationName);
                 m_anatomyCombo.deleteAllItems();
                 
-                for(XmlAnalysis analysis : m_runTimeObject.getRunTimeClassification().getVAnalysis())
+                for(XmlAnalysis analysis : RUNTIME_OBJECT.getRunTimeClassification().getVAnalysis())
                 {
                     m_anatomyCombo.addItems(new myzComboBoxItem(analysis.getName() , index) ) ;
                     index++;
                 }
                 
                 //Get points vector from points pool and set it to point table data
-                m_runTimeObject.initRunTimePointsPool();
-                m_pointsTable.setTableData(m_runTimeObject.getRunTimePointsPool().getVMYZPoint() ) ;
+                RUNTIME_OBJECT.initRunTimePointsPool();
+                m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint() ) ;
             } 
         };
         
@@ -457,7 +460,7 @@ public class Takweem extends Application
     
     public void refreshAlignment(ResourceBundle oldBundle)
     {
-        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && m_bundle == ARABIC_BUNDLE)
+        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && BUNDLE == ARABIC_BUNDLE)
         {
             ObservableList<Node> workingCollection = FXCollections.observableArrayList(m_headerPane.getChildren());
             Collections.reverse(workingCollection);
@@ -465,11 +468,11 @@ public class Takweem extends Application
             m_headerPane.setAlignment(Pos.CENTER_RIGHT);
             return;
         }
-        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && (m_bundle == ENGLISH_BUNDLE || m_bundle == FRENCH_BUNDLE) )
+        if ((oldBundle == ENGLISH_BUNDLE || oldBundle == FRENCH_BUNDLE) && (BUNDLE == ENGLISH_BUNDLE || BUNDLE == FRENCH_BUNDLE) )
         {
             return;
         }
-        if (oldBundle == ARABIC_BUNDLE && (m_bundle == ENGLISH_BUNDLE || m_bundle == FRENCH_BUNDLE))
+        if (oldBundle == ARABIC_BUNDLE && (BUNDLE == ENGLISH_BUNDLE || BUNDLE == FRENCH_BUNDLE))
         {
             ObservableList<Node> workingCollection = FXCollections.observableArrayList(m_headerPane.getChildren());
             Collections.reverse(workingCollection);
@@ -510,13 +513,13 @@ public class Takweem extends Application
     public static String getCaption(String key)
     {
         
-        return m_bundle.getString(key);
+        return BUNDLE.getString(key);
     }
     
     
     public void closeMe(Stage primaryStage , Event windoEvent )
     {
-        boolean answer = myzMessage.confirmMessage(m_bundle.getString("exit.confirmation") , m_bundle);
+        boolean answer = myzMessage.confirmMessage(BUNDLE.getString("exit.confirmation") , BUNDLE);
         if (answer)
         {
             primaryStage.close();

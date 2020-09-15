@@ -178,7 +178,7 @@ public class TakweemReport
         InfoTable.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
         PdfPCell cell = new PdfPCell();
-        cell.setPhrase(new Phrase(takweem.Takweem.m_bundle.getString("patient.name")));
+        cell.setPhrase(new Phrase(takweem.Takweem.BUNDLE.getString("patient.name")));
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_RIGHT  );
@@ -193,7 +193,7 @@ public class TakweemReport
 
         // to print the print Date
         cell = new PdfPCell();
-        cell.setPhrase(new Phrase(takweem.Takweem.m_bundle.getString("date")));
+        cell.setPhrase(new Phrase(takweem.Takweem.BUNDLE.getString("date")));
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_RIGHT  );
@@ -264,7 +264,7 @@ public class TakweemReport
 
     private int getRunDirection()
     {
-        if ( takweem.Takweem.m_bundle == takweem.Takweem.ARABIC_BUNDLE)
+        if ( takweem.Takweem.BUNDLE == takweem.Takweem.ARABIC_BUNDLE)
             return PdfWriter.RUN_DIRECTION_RTL;
         else 
             return PdfWriter.RUN_DIRECTION_LTR;
