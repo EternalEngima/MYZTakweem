@@ -18,13 +18,10 @@ public class MYZPoint extends XmlPoint implements Serializable
         m_symbol      = symbol ;
         m_description = description;
     }
-    //Class member
-    public static final int SELECTED   = 1 ;
-    public static final int SELECT_NOW = 2 ;
+
     
     //Data members
     Point m_point = null;
-    int   m_state ;
     
     public MYZPoint( XmlPoint point )
     {        
@@ -43,17 +40,11 @@ public class MYZPoint extends XmlPoint implements Serializable
     {
         m_point = point ;
     }
-    public void setState(int state)
-    {
-        m_state = state ;
-    }
+
     
     public Point getPoint()
     {
         return m_point ; 
     }
-    public int getState()
-    {
-        return m_state ;
-    }
+
 }

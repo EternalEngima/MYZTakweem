@@ -62,7 +62,6 @@ public class Takweem extends Application
     public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
-    //RunTime takweem object
     public static       ResourceBundle   BUNDLE         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static       RunTimeObject    RUNTIME_OBJECT = new RunTimeObject();
     public static       myzScene         TAKWEEM_SCENE ;
@@ -220,8 +219,7 @@ public class Takweem extends Application
         }
     };
     myzLabel     m_anatomyLabel          = new myzLabel();
-    myzButton    m_modifyAnatomy         = new myzButton();
-    myzButton    m_deleteAnatomy         = new myzButton();
+
 
     //Center Component 
     Label        m_fixedFooterLabel      = new Label();
@@ -230,7 +228,6 @@ public class Takweem extends Application
     VBox         m_leftSidebar           = new VBox(10);
     VBox         m_rightSidebar          = new VBox(10);
     Pane         m_pointsTablePan        = new Pane();
-    //To colored the current point we should make it static member 
     public static PointsTable  m_pointsTable           ;
     myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
@@ -284,7 +281,7 @@ public class Takweem extends Application
         m_container.setLeft(m_leftSidebar);
         m_container.setRight(m_rightSidebar);
         m_container.setBottom(m_footer);
-        m_container.setCenter(RUNTIME_OBJECT.getImagePanel()); 
+        m_container.setCenter(RUNTIME_OBJECT.getImagePanel() ); 
         
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
@@ -373,22 +370,6 @@ public class Takweem extends Application
         m_anatomyCombo.setParentPane(m_headerPane);
         m_anatomyCombo.setReSizeOnParentSize(true);
         m_anatomyCombo.setPromptText("Please select anatomy");
-                
-        m_modifyAnatomy.setCaption("anatomy.modify");
-        m_modifyAnatomy.setGraphic(new ImageView("icon\\modify.png"));
-        m_modifyAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_modifyAnatomy.setDisable(true);
-        m_modifyAnatomy.setMaxHeight(25);
-        m_modifyAnatomy.setParentPane(m_headerPane);
-        m_modifyAnatomy.setReSizeOnParentSize(true);
-         
-        m_deleteAnatomy.setCaption("anatomy.delete");
-        m_deleteAnatomy.setGraphic(new ImageView("icon\\delete.png"));
-        m_deleteAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_deleteAnatomy.setDisable(true);
-        m_deleteAnatomy.setMaxHeight(25);
-        m_deleteAnatomy.setParentPane(m_headerPane);
-        m_deleteAnatomy.setReSizeOnParentSize(true);
  
         m_categoryMenuButton.setMinWidth(100);
         m_categoryMenuButton.setCaption("category");
@@ -405,7 +386,6 @@ public class Takweem extends Application
         CompareTwoAnalysisButton.setParentPane(m_headerPane);
         CompareTwoAnalysisButton.setReSizeOnParentSize(true);
         
-        // m_modifyAnatomy,  m_deleteAnatomy TODO
         m_headerPane.setAlignment(Pos.CENTER);
         m_headerPane.getChildren().addAll(m_categoryMenuButton , m_anatomyLabel 
                                           , m_anatomyCombo       , m_addPhotoButton  
@@ -521,6 +501,7 @@ public class Takweem extends Application
             
         }
     }
+    
     public void refreshComponent(ResourceBundle oldBundle)
     {
         refreshCaption();

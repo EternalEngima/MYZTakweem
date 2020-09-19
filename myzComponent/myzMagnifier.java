@@ -35,9 +35,10 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
     //Data Members
     Magnifier m_magnifier    = new Magnifier();
     int       m_status       = 0;
-    int       m_zoomValue    = 25 ;
+    int       m_zoomValue    = 60 ;
     SwingNode m_swingNode    = new SwingNode();
     HBox      m_zoomBox      = new HBox(10);
+    ImageView m_plusSign ;
     myzButton m_zoomIn       = new myzButton()
     {
         @Override
@@ -67,11 +68,13 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
             {
                 m_controller.setCaption("enable.magnifier");
                 setStatus(DISABLE);
+                m_plusSign.setVisible(false);
             }
             else
             {
                 m_controller.setCaption("disable.magnifier");
                 setStatus(ENABLE);
+                m_plusSign.setVisible(true);
             }
         }
     };
@@ -117,11 +120,12 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         //Add JPanel node to swingNode then add swingNode to stackPane 
         m_swingNode.setContent(m_magnifier);
         
-        ImageView  plusSign = new ImageView("icon\\plus_sign.png") ;
-        StackPane  stack    = new StackPane(m_swingNode , plusSign);
-        plusSign.resize(25 , 25);
-        plusSign.setFitHeight(50);
-        plusSign.setFitWidth(50);
+        m_plusSign = new ImageView("icon\\plus_sign.png") ;
+        StackPane  stack    = new StackPane(m_swingNode , m_plusSign);
+        m_plusSign.resize(25 , 25);
+        m_plusSign.setFitHeight(50);
+        m_plusSign.setFitWidth(50);
+        m_plusSign.setVisible(false);
         stack.setAlignment(Pos.CENTER);
         stack.setMaxSize(150, 150);
         

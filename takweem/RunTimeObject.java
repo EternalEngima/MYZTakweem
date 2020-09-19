@@ -26,6 +26,7 @@ import com.myz.xml.XmlTakweem;
 import java.io.Serializable;
 import myzComponent.myzTableView;
 import static takweem.Takweem.m_calculateTable;
+import static takweem.Takweem.m_pointsTable;
 
 /**
  *
@@ -126,6 +127,8 @@ public class RunTimeObject implements Serializable
             {
                 eraseLine(point.getPoint());
             }
+            ////Refresh the table Points
+            m_pointsTable.setTableData(getRunTimePointsPool().getVMYZPoint());
         }
     }
      /*

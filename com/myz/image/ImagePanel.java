@@ -13,6 +13,7 @@ import java.lang.reflect.Field;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,6 +25,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -49,7 +51,7 @@ import static takweem.Takweem.m_anatomyCombo;
  * @author Montazar
  */
 
-public class ImagePanel extends StackPane implements myzComponent , Serializable
+public class ImagePanel extends HBox implements myzComponent , Serializable
 {
     
     //Constructor
@@ -143,8 +145,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             Point    tempPoint = new Point(x, y) ; 
                 
             point.setPoint(tempPoint);
-            //Colored the taken point
-            point.setState(MYZPoint.SELECT_NOW);
+            //Refresh the table Points
             Takweem.m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint());
             
             tempPoint.draw(m_blankImageView , Point.ANALYSIS_POINT_COLOR);
@@ -200,6 +201,8 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             }
         });
          getChildren().addAll(getCenterPane());
+         setAlignment(Pos.CENTER);
+         setMinSize(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT);
     }
 
     public void mouseDragDropped(final DragEvent e)
