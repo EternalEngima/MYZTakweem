@@ -195,6 +195,7 @@
 					errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
                 >
+<<<<<<< HEAD
 					<oPoint	name = "Condylar 'left'" />				
 					<oPoint name = "Antegonia Notch 'left'" />	
                 </Operation>      
@@ -229,7 +230,6 @@
 					<oPoint	name = "Condylar 'right'" />				
 					<oPoint name = "Antegonia Notch 'right'" />	
 					<oPoint	name = "Menton 'frontal'" />				
-                </Operation>
                 <Operation 
                     name         = "A1-Ansf / Ansf-Mef"
                     description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
@@ -288,39 +288,6 @@
 					<oPoint	name = "Antegonia Notch 'right'" />
 					<oPoint	name = "First Molar 'lower right'" />				
                 </Operation>				
-            </Analysis>
-            <Analysis
-                name        = "Analysis2"
-                description = ""
-                category    = ""
-                >
-                    <Operation 
-                    name         = "operation1"
-                    description  = "operation1"
-                    correctValue = ""
-                    type         = "MYZOperationTypeAngelBetweenTwoLines"                                    
-                    >
-                    <Point
-                        symbol      = ""
-                        name        = "a"
-                        describtion = ""
-                    />
-                    <Point
-                        symbol      = ""
-                        name        = "b"
-                        describtion = ""
-                    />
-                    <Point
-                        symbol      = ""
-                        name        = "c"
-                        describtion = ""
-                    />   
-                    <Point
-                        symbol      = ""
-                        name        = "d"
-                        describtion = ""
-                    />            
-                </Operation>
             </Analysis>
         </Classification>
     </Category>
