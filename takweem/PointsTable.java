@@ -41,6 +41,7 @@ public class PointsTable extends myzTableView
         
         setRowFactory( tmp -> 
         {
+            
             TableRow<MYZPoint> row = new TableRow<>();
             row.setOnMousePressed(event -> 
             {
@@ -53,6 +54,25 @@ public class PointsTable extends myzTableView
                 }
             });
         return row ;
+        });
+        
+        setRowFactory(tv -> new TableRow<MYZPoint>() 
+        {
+
+
+            @Override
+            protected void updateItem(MYZPoint item , boolean empty) 
+            {
+                super.updateItem(item , empty); 
+                if (item!=null && item.getState() == MYZPoint.SELECTED) 
+                {
+                    getStyleClass().add("-fx-background-color:#cfc");
+                } 
+                else if (item!=null && item.getState() == MYZPoint.SELECT_NOW) 
+                {
+                    getStyleClass().add("-fx-background-color:#222");
+                }
+            }
         });
     }
     

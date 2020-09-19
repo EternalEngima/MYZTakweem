@@ -49,6 +49,27 @@ public class AnalysisResultTable  extends myzTableView
             });
         return row ;
         });
+        
+        setRowFactory(tv -> new TableRow<MYZOperation>() 
+        {
+
+
+            @Override
+            protected void updateItem(MYZOperation item , boolean empty) 
+            {
+                super.updateItem(item , empty); 
+                if (item!=null && Double.valueOf(item.getM_value()) > Double.valueOf(item.getM_correctValue()) ) 
+                {
+                    
+                    setStyle("-fx-background-color:red");
+                } 
+                else if (item!=null && Double.valueOf(item.getM_value()) < Double.valueOf(item.getM_correctValue())) 
+                {
+                    setStyle("-fx-background-color:blue");
+                }
+
+            }
+        });
     }
 
     //Data member

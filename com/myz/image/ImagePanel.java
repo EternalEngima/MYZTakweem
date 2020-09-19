@@ -141,27 +141,12 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             
             MYZPoint point     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
             Point    tempPoint = new Point(x, y) ; 
-//            ObservableList list = m_pointsTable.getItems();
-//            TableRow row1 ;
-//            for(int i = 0 ; i < list.size() ; i++ )
-//            {
-//                row1 = (TableRow) list.get(i);
-//                row1.setStyle("-fx-background-color:#cfc");
-//            }
-//            m_pointsTable.setRowFactory( tmp -> 
-//            {
-//                TableRow<MYZPoint> row = new TableRow<>();
-//                MYZPoint rowData = row.getItem();
-//                System.out.println("befor if");
-//                if (rowData.getM_name().equals(point.getM_name()))
-//                {
-//                    System.out.println("if");
-//                    row.setStyle("-fx-background-color:#cfc");
-//                }
-//                return row ;
-//            });
                 
             point.setPoint(tempPoint);
+            //Colored the taken point
+            point.setState(MYZPoint.SELECT_NOW);
+            Takweem.m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint());
+            
             tempPoint.draw(m_blankImageView , Point.ANALYSIS_POINT_COLOR);
             
             RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPointValue().addElement(point);
