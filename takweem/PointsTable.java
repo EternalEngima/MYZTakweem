@@ -41,6 +41,7 @@ public class PointsTable extends myzTableView
         
         setRowFactory( tmp -> 
         {
+            
             TableRow<MYZPoint> row = new TableRow<>();
             row.setOnMousePressed(event -> 
             {
@@ -54,6 +55,8 @@ public class PointsTable extends myzTableView
             });
         return row ;
         });
+        
+
     }
     
     //Data members

@@ -18,6 +18,10 @@ public class MYZPoint extends XmlPoint implements Serializable
         m_symbol      = symbol ;
         m_description = description;
     }
+
+    
+    //Data members
+    Point m_point = null;
     
     public MYZPoint( XmlPoint point )
     {        
@@ -30,17 +34,17 @@ public class MYZPoint extends XmlPoint implements Serializable
         m_point = point;        
     }
     
-
-    //Members
-    Point m_point = null;
     
     //Methods
     public void setPoint(Point point)
     {
         m_point = point ;
     }
+
+    
     public Point getPoint()
     {
         return m_point ; 
     }
+
 }

@@ -13,6 +13,7 @@ import com.myz.calculable.MYZAnalysis;
 import com.myz.calculable.MYZOperation;
 import com.myz.calculable.MYZPoint;
 import com.myz.calculable.MYZPointsPool;
+import com.myz.calculable.MYZRuler;
 import com.myz.image.ImagePanel;
 import com.myz.image.Line;
 import com.myz.image.Point;
@@ -23,7 +24,9 @@ import com.myz.xml.XmlClassification;
 import com.myz.xml.XmlPointsPool;
 import com.myz.xml.XmlTakweem;
 import java.io.Serializable;
+import myzComponent.myzTableView;
 import static takweem.Takweem.m_calculateTable;
+import static takweem.Takweem.m_pointsTable;
 
 /**
  *
@@ -34,8 +37,9 @@ public class RunTimeObject implements Serializable
 
     public RunTimeObject() 
     {
-        m_parser    = new MYZXmlParser();
-        m_xmlObject = (XmlTakweem) m_parser.getParsedObject();
+        m_parser       = new MYZXmlParser();
+        m_xmlObject    = (XmlTakweem) m_parser.getParsedObject();
+        m_Ruler        = new MYZRuler();
     }
     
     
@@ -46,6 +50,7 @@ public class RunTimeObject implements Serializable
     XmlClassification m_RunTimeClassification ;
     MYZPointsPool     m_RunTimePointsPool;
     MYZAnalysis       m_RunTimeAnalysis ;
+    MYZRuler          m_Ruler ;
     //ImagePanel
     public transient  ImagePanel    m_imagePanel     = new ImagePanel();//add by montazar 
     
@@ -66,6 +71,11 @@ public class RunTimeObject implements Serializable
         {
             setRunTimeAnalysis(getRunTimeClassification().getAnalysisByName(analysisName));
         }
+    }
+    public void setRulerValues( int unitType , int pixelsPerUnit)
+    {
+        m_Ruler.setUnitType(unitType);
+        m_Ruler.setPixelsPerUnit(pixelsPerUnit);
     }
     //To remove the lines if the analysis has been changed
     public void erasePreviouseAnalysis()
@@ -91,14 +101,14 @@ public class RunTimeObject implements Serializable
                     line.erase(m_imagePanel.getBlankImageView());
                     operation.getVLine().removeElementAt(i);
                     i -= 1 ;
-                    line.getEndPoint().draw(m_imagePanel.getBlankImageView());
+                    line.getEndPoint().draw(m_imagePanel.getBlankImageView() , Point.ANALYSIS_POINT_COLOR);
                 }
                 else if(point.equals(line.getEndPoint()))
                 {
                     line.erase(m_imagePanel.getBlankImageView());
                     operation.getVLine().removeElementAt(i);
                     i -= 1 ;
-                    line.getStartPoint().draw(m_imagePanel.getBlankImageView());
+                    line.getStartPoint().draw(m_imagePanel.getBlankImageView() , Point.ANALYSIS_POINT_COLOR);
                 }
             }
         }
@@ -117,6 +127,8 @@ public class RunTimeObject implements Serializable
             {
                 eraseLine(point.getPoint());
             }
+            ////Refresh the table Points
+            m_pointsTable.setTableData(getRunTimePointsPool().getVMYZPoint());
         }
     }
      /*
@@ -124,7 +136,7 @@ public class RunTimeObject implements Serializable
      * case 1 : the points have been set then the analysis choosen ( i will calculate on combobox selection change )
      * case 2 : the analysis is choosen but the points don't set yet ( i will calculate on last poin will set )
      */
-    public void calculateOperationsAndShow( )
+    public void calculateOperationsAndShow()
     {
         
         for(MYZOperation operation : m_RunTimeAnalysis.getVOperation())
@@ -138,6 +150,21 @@ public class RunTimeObject implements Serializable
         m_calculateTable.setTableData(m_RunTimeAnalysis.getVOperation());
         
     }
+    public void calculateOperationsAndShow(myzTableView tableView )
+    {
+        
+        for(MYZOperation operation : m_RunTimeAnalysis.getVOperation())
+        {
+            for(MYZPoint point :operation.getVMYZPoint())
+            {
+                m_RunTimePointsPool.setPointValue(point);
+            }
+            System.out.println("operation name : "  + operation.m_name +"value = " + operation.calculateAndDraw(m_imagePanel.getBlankImageView()));
+        }
+        tableView.setTableData(m_RunTimeAnalysis.getVOperation());
+        
+    }
+    
     public void initRunTimePointsPool()
     {
         setRunTimePointsPool(m_RunTimeClassification.getPointsPool());
@@ -189,6 +216,10 @@ public class RunTimeObject implements Serializable
     {
         return m_imagePanel;
     }
-    
+    public MYZRuler getRuler()
+    {
+        return m_Ruler ;
+    }
+            
 
 }

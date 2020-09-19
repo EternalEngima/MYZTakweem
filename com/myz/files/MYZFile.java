@@ -47,7 +47,7 @@ public class MYZFile implements Serializable
     public void write(File file)
     {
         m_runTimeObject = Takweem.RUNTIME_OBJECT ;
-        m_imageIcon         = new ImageIcon(getBufferedImage());
+        m_imageIcon     = new ImageIcon(getBufferedImage());
         try
         {
             ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream( file ));
@@ -60,6 +60,7 @@ public class MYZFile implements Serializable
         }
         
     }
+    
     public void read(File file)
     {
         ObjectInputStream is       = null;
@@ -83,6 +84,31 @@ public class MYZFile implements Serializable
             ex.printStackTrace();
         }
         
+    }
+    public RunTimeObject read(File file , int mode)
+    {
+        RunTimeObject runTimeObject = null ;
+        ObjectInputStream is        = null;
+        MYZFile           temp      = null;
+        Image             awtImage  = null;
+        WritableImage     wImage    = null;
+        try 
+        {
+            is       = new ObjectInputStream( new FileInputStream(file)); 
+            temp     = (MYZFile) is.readObject();
+            awtImage = temp.getImageIcon().getImage();
+            wImage   =  SwingFXUtils.toFXImage(convertImageToBuffered(awtImage), null);
+            
+            runTimeObject              = temp.m_runTimeObject ;
+            runTimeObject.m_imagePanel = new ImagePanel();
+            runTimeObject.m_imagePanel.insertImage(wImage);
+            is.close();
+        }
+        catch(IOException | ClassNotFoundException ex)
+        {
+            ex.printStackTrace();
+        }
+        return runTimeObject ;
     }
     private BufferedImage getBufferedImage()
     {

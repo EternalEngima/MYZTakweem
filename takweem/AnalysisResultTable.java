@@ -33,21 +33,41 @@ public class AnalysisResultTable  extends myzTableView
         setPrefWidth(800);
         setPrefHeight(150);
         setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
+
         
-        setRowFactory( tmp -> 
+        setRowFactory((Object tv) -> 
         {
-            TableRow<MYZOperation> row = new TableRow<>();
-            row.setOnMousePressed(event -> 
+            return new TableRow<MYZOperation>() 
             {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) 
+                @Override
+                protected void updateItem(MYZOperation item , boolean empty) 
                 {
-                    MYZOperation rowData = row.getItem();
-                    myzPopup popup = new myzPopup(rowData.m_description , event.getScreenX() , event.getScreenY());
-                    if (!popup.isShowing()) 
-                        popup.show(primaryStage); 
+                    super.updateItem(item , empty); 
+                    
+                    //Set on mouse click row show the descreption
+                    this.setOnMousePressed(event ->
+                    {
+                        if (event.getClickCount() == 2 && (! this.isEmpty()) )
+                        {
+                            MYZOperation rowData = this.getItem();
+                            myzPopup popup = new myzPopup(rowData.m_description , event.getScreenX() , event.getScreenY()); 
+                            if (!popup.isShowing())
+                                popup.show(primaryStage);
+                        }
+                    });
+                    //Change row color depend on value
+                    if (item!=null && Double.valueOf(item.getM_value()) > Double.valueOf(item.getM_correctValue()) )
+                    {
+                        
+                        setStyle("-fx-background-color:red");
+                    }
+                    else if (item!=null && Double.valueOf(item.getM_value()) < Double.valueOf(item.getM_correctValue()))
+                    {
+                        setStyle("-fx-background-color:blue");
+                    }
+                    
                 }
-            });
-        return row ;
+            };
         });
     }
 

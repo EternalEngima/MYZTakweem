@@ -1,6 +1,10 @@
 package takweem;
+import com.myz.calculable.MYZRuler;
 import com.myz.files.MYZFile;
 import com.myz.image.ImageEditorStage;
+import static com.myz.image.ImagePanel.PAINT_MODE_RULER;
+import com.myz.image.Line;
+import com.myz.image.Point;
 import com.myz.xml.XmlAnalysis;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
@@ -17,7 +21,9 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
@@ -56,12 +62,12 @@ public class Takweem extends Application
     public static final ResourceBundle   ENGLISH_BUNDLE  =  ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static final ResourceBundle   FRENCH_BUNDLE   =  ResourceBundle.getBundle("captions",new Locale("fr", "fr"));
 
-    //RunTime takweem object
     public static       ResourceBundle   BUNDLE         = ResourceBundle.getBundle("captions",new Locale("en", "en"));
     public static       RunTimeObject    RUNTIME_OBJECT = new RunTimeObject();
+    public static       myzScene         TAKWEEM_SCENE ;
    
     //Data members
-    BorderPane          m_container                      = new BorderPane();
+    BorderPane          m_container = new BorderPane();
     public Stage        m_primaryStage ;
     
     
@@ -94,7 +100,7 @@ public class Takweem extends Application
                 save.write(file);
         }
     };
-    myzButton      m_saveImageButton    = new myzButton()
+    myzButton    m_saveImageButton     = new myzButton()
     {        
         @Override
         public void buttonPressed()
@@ -108,7 +114,7 @@ public class Takweem extends Application
                 RUNTIME_OBJECT.getImagePanel().saveImage(file );
         }
     };
-    myzButton    m_addPhotoButton        = new myzButton()
+    myzButton    m_addPhotoButton      = new myzButton()
     {
         @Override
         public void buttonPressed()
@@ -120,7 +126,7 @@ public class Takweem extends Application
             {
                 //Modified by montazar
                 if(file != null)
-                    imageEditorStage = new ImageEditorStage(file);            
+                    imageEditorStage = new ImageEditorStage(file , RUNTIME_OBJECT.getImagePanel());            
             }
             catch(Exception ex)
             {
@@ -128,7 +134,7 @@ public class Takweem extends Application
             }     
         }
     }; 
-    myzButton    m_printResultButton     = new myzButton()
+    myzButton    m_printResultButton   = new myzButton()
     {
         @Override
         public void buttonPressed()
@@ -139,7 +145,53 @@ public class Takweem extends Application
 
         }
     };
-    myzLabel     m_anatomyLabel          = new myzLabel();
+    myzButton    m_rulerButton         = new myzButton()
+    {
+      @Override
+      public void buttonPressed()
+      { 
+        TAKWEEM_SCENE.setCursor(Cursor.CROSSHAIR);
+        RUNTIME_OBJECT.getRuler().setUnitType(MYZRuler.CM); //TODO
+        
+        Point startPoint = RUNTIME_OBJECT.getRuler().getStartPoint();
+        Point endPoint   = RUNTIME_OBJECT.getRuler().getEndPoint();
+        //Remove the previouse line and size 
+        if(startPoint != null)
+            startPoint.erase(RUNTIME_OBJECT.getImagePanel().getBlankImageView());
+        if(endPoint != null)
+            endPoint.erase(RUNTIME_OBJECT.getImagePanel().getBlankImageView());
+        if(startPoint != null && endPoint != null)
+        {
+            Line line = new Line(startPoint, endPoint);
+            line.erase(RUNTIME_OBJECT.getImagePanel().getBlankImageView());
+        }
+        RUNTIME_OBJECT.getRuler().setStartPoint(null);
+        RUNTIME_OBJECT.getRuler().setEndPoint(null);      
+        RUNTIME_OBJECT.getImagePanel().setCurrentPaintMode(PAINT_MODE_RULER);
+
+      }
+    };
+    myzButton CompareTwoAnalysisButton = new myzButton()
+    {
+        @Override
+        public void buttonPressed()
+        {
+            
+            Stage stage = new Stage();
+            Scene scene = new Scene( new TakweemComparative(stage), 900, 700);
+            stage.setTitle("Takweem Comparative");
+            stage.setScene(scene);
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+            {
+                @Override
+                public void handle(WindowEvent widowEvent) 
+                {    
+                    
+                }
+            });   
+        }
+    };
     //Modified by montazar 
     //this combobox should be static to set selection item when load MYZ file on drag and drop event at imagePanel class
     public static myzComboBox  m_anatomyCombo = new myzComboBox()
@@ -166,8 +218,8 @@ public class Takweem extends Application
             } 
         }
     };
-    myzButton    m_modifyAnatomy         = new myzButton();
-    myzButton    m_deleteAnatomy         = new myzButton();
+    myzLabel     m_anatomyLabel          = new myzLabel();
+
 
     //Center Component 
     Label        m_fixedFooterLabel      = new Label();
@@ -176,7 +228,6 @@ public class Takweem extends Application
     VBox         m_leftSidebar           = new VBox(10);
     VBox         m_rightSidebar          = new VBox(10);
     Pane         m_pointsTablePan        = new Pane();
-    //To colored the current point we should make it static member 
     public static PointsTable  m_pointsTable           ;
     myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
@@ -220,17 +271,21 @@ public class Takweem extends Application
         initLeftSidebar();
         initRightSidebar();
         initBottom();
-        myzScene scene = new myzScene(m_container, 900, 700);
-        m_container.setTop(m_header);
-        //Modified by montazar 
+        
         RUNTIME_OBJECT.getImagePanel().setParentPane(m_container);//it's used when loading file and replace the image panel with onther one
-        m_container.setCenter(RUNTIME_OBJECT.getImagePanel()); 
+        
+        TAKWEEM_SCENE = new myzScene(m_container, 900, 700);
+        
+        //Modified by montazar 
+        m_container.setTop(m_header);
         m_container.setLeft(m_leftSidebar);
         m_container.setRight(m_rightSidebar);
         m_container.setBottom(m_footer);
+        m_container.setCenter(RUNTIME_OBJECT.getImagePanel() ); 
+        
         m_primaryStage.setTitle("Takweem");
         m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
-        m_primaryStage.setScene(scene);
+        m_primaryStage.setScene(TAKWEEM_SCENE);
 
         m_primaryStage.show();
         m_primaryStage.setMaximized(true);
@@ -315,33 +370,27 @@ public class Takweem extends Application
         m_anatomyCombo.setParentPane(m_headerPane);
         m_anatomyCombo.setReSizeOnParentSize(true);
         m_anatomyCombo.setPromptText("Please select anatomy");
-                
-        m_modifyAnatomy.setCaption("anatomy.modify");
-        m_modifyAnatomy.setGraphic(new ImageView("icon\\modify.png"));
-        m_modifyAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_modifyAnatomy.setDisable(true);
-        m_modifyAnatomy.setMaxHeight(25);
-        m_modifyAnatomy.setParentPane(m_headerPane);
-        m_modifyAnatomy.setReSizeOnParentSize(true);
-         
-        m_deleteAnatomy.setCaption("anatomy.delete");
-        m_deleteAnatomy.setGraphic(new ImageView("icon\\delete.png"));
-        m_deleteAnatomy.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
-        m_deleteAnatomy.setDisable(true);
-        m_deleteAnatomy.setMaxHeight(25);
-        m_deleteAnatomy.setParentPane(m_headerPane);
-        m_deleteAnatomy.setReSizeOnParentSize(true);
  
         m_categoryMenuButton.setMinWidth(100);
         m_categoryMenuButton.setCaption("category");
         m_categoryMenuButton.setParentPane(m_headerPane);
         m_categoryMenuButton.setReSizeOnParentSize(true);
         
-        // m_modifyAnatomy,  m_deleteAnatomy TODO
+        m_rulerButton.setGraphic(new ImageView("icon\\ruler.png"));
+        m_rulerButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        m_rulerButton.setParentPane(m_headerPane);
+        m_rulerButton.setReSizeOnParentSize(true);
+        
+        CompareTwoAnalysisButton.setGraphic(new ImageView("icon\\compare.jpg"));
+        CompareTwoAnalysisButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
+        CompareTwoAnalysisButton.setParentPane(m_headerPane);
+        CompareTwoAnalysisButton.setReSizeOnParentSize(true);
+        
         m_headerPane.setAlignment(Pos.CENTER);
-        m_headerPane.getChildren().addAll(  m_categoryMenuButton , m_anatomyLabel 
+        m_headerPane.getChildren().addAll(m_categoryMenuButton , m_anatomyLabel 
                                           , m_anatomyCombo       , m_addPhotoButton  
-                                          , m_saveAnalysisButton , m_saveImageButton    , m_printResultButton);
+                                          , m_saveAnalysisButton , m_saveImageButton   
+                                          , m_printResultButton , m_rulerButton , CompareTwoAnalysisButton);
 
         m_header.getChildren().addAll( m_sittingsBar , m_headerPane );
     }
@@ -452,6 +501,7 @@ public class Takweem extends Application
             
         }
     }
+    
     public void refreshComponent(ResourceBundle oldBundle)
     {
         refreshCaption();

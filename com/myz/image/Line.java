@@ -1,5 +1,6 @@
 package com.myz.image;
 
+import static com.myz.calculable.MYZMathTools.calculateDistanceBetweenTwoPoints;
 import java.io.Serializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,7 +25,9 @@ public class Line implements Serializable
     private int    m_maxY ;
     
     //Class Members
-    public static final int CM = 0 ;
+    public static Color ANALYSIS_LINE_COLOR = Color.GREEN ;
+    public static Color RULER_LINE_COLOR    = Color.RED ;
+   
     //Constructor
     public Line ( Point startPoint , Point endPoint )
     {
@@ -63,10 +66,7 @@ public class Line implements Serializable
         double y1   = getStartPoint().getY();
         double y2   = getEndPoint().getY() ;
         
-        double tmp1 = (Math.pow(x2 , 2) - Math.pow(x1 , 2) ) ;
-        double tmp2 = (Math.pow(y2 , 2) - Math.pow(y1 , 2) );
-        
-        return Math.sqrt( tmp1 + tmp2 );
+        return calculateDistanceBetweenTwoPoints(x1 , y1 , x2 , y2 );
         
     }
     //calculate y depend on x and line Equation
@@ -116,7 +116,7 @@ public class Line implements Serializable
         return false;        
     }
 
-    public void draw (ImageView image)
+    public void draw (ImageView image , Color lineColor)
     {
         if(image == null)
         {
@@ -138,7 +138,7 @@ public class Line implements Serializable
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
                 if ( isInLine( x , y ) )
-                  writer.setColor( x , y , Color.GREEN);                
+                  writer.setColor( x , y , lineColor);                
                 else
                   writer.setColor( x , y , color);
             } 

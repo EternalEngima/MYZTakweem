@@ -51,7 +51,7 @@ import static takweem.Takweem.BUNDLE;
 public class ImageEditorStage 
 {
 
-    public ImageEditorStage(File file ) 
+    public ImageEditorStage(File file , ImagePanel imagePanel) 
     {  
         try
         {
@@ -67,7 +67,7 @@ public class ImageEditorStage
         reverseHeader();
         m_imageViewParent.getChildren().add(m_imageView);
         
-        m_imagePanel =  RUNTIME_OBJECT.getImagePanel() ;
+        m_imagePanel =  imagePanel ;
         
         m_container.setTop(m_headerPane);
         m_container.setCenter(m_imageViewParent);

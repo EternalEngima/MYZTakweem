@@ -42,7 +42,7 @@ public class Magnifier extends JPanel
     
     public void stopWork()
     {
-        m_image = new ImageIcon("src\\icon\\magnifierStopScreen.png").getImage();
+        m_image = new ImageIcon("src\\icon\\magnifierStopScreen.jpg").getImage();
         repaint();
     }
     // paint function 
