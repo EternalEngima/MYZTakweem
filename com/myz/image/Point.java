@@ -21,6 +21,10 @@ public class Point implements Serializable
         m_y = y ;
     }
     
+    //Class member
+    public static Color ANALYSIS_POINT_COLOR = Color.BLACK ;
+    public static Color RULER_POINT_COLOR    = Color.SPRINGGREEN ;
+    
     //Members
     double m_x , m_y ;
     
@@ -45,7 +49,7 @@ public class Point implements Serializable
         return m_y ;
     }
     
-    public void draw (ImageView image)
+    public void draw (ImageView image , Color poinrColor)
     {
         if(image == null)
             return;
@@ -64,7 +68,7 @@ public class Point implements Serializable
                 //Retrieving the color of the pixel of the loaded image
                 color = pixelReader.getColor( x , y );
                 if ( isDraw( x , y ) )
-                  writer.setColor( x , y , Color.BLACK);                
+                  writer.setColor( x , y , poinrColor);                
                 else
                   writer.setColor( x , y , color);
             } 

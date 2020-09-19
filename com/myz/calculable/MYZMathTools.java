@@ -79,7 +79,10 @@ public class MYZMathTools
     //Overload
     public static double calculateDistanceBetweenTwoPoints( Point firstPoint , Point secondPoint )
     {
-        return calculateDistanceBetweenTwoPoints( firstPoint.getX(), firstPoint.getY() , secondPoint.getX() , secondPoint.getY() );
+        double value ;
+        value = calculateDistanceBetweenTwoPoints( firstPoint.getX(), firstPoint.getY() , secondPoint.getX() , secondPoint.getY() );
+        value = MYZRuler.convertToRealSize(value);
+        return value;
     }        
     
       //Equation = tan^-1( abs( ( m2 - m1 ) / 1 + m2 * m1 ) )
@@ -131,8 +134,9 @@ public class MYZMathTools
         double tmp1 = Math.pow( x2 - x1 , 2 );
         double tmp2 = Math.pow( y2 - y1 , 2 );
         
-        double result = Math.sqrt( tmp1 + tmp2 );        
-        return result;
+        double value = Math.sqrt( tmp1 + tmp2 );     
+        return value;
+        
     }
     
       //Equation y = mx + b ---> b = y - ( m x )

@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
-import javafx.scene.control.TableRow;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
@@ -31,11 +31,10 @@ import javax.imageio.ImageIO;
 import myzComponent.myzComboBoxItem;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
-import myzComponent.myzPopup;
 import takweem.Takweem;
 import static takweem.Takweem.RUNTIME_OBJECT;
+import static takweem.Takweem.TAKWEEM_SCENE;
 import static takweem.Takweem.m_anatomyCombo;
-import static takweem.Takweem.m_pointsTable;
 
 /**
  * Class Description :
@@ -60,15 +59,17 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
         initCenter();
     }
     // Class Members 
-    private static final double IMAGE_VIEW_WIDTH   = 600 ;
-    private static final double IMAGE_VIEW_HEIGHT  = 500 ;
-
+    private static final double IMAGE_VIEW_WIDTH    = 600 ;
+    private static final double IMAGE_VIEW_HEIGHT   = 500 ;
+    public  static final int    PAINT_MODE_ANALYSIS = 1 ;
+    public  static final int    PAINT_MODE_RULER    = 2 ;
     
     //Data Members
     Image            m_selectedImage    = null;
     StackPane        m_centerPane       = new StackPane();
     myzLabel         m_centerLabel      = new myzLabel();
     int              m_rotateAngle      = 0;
+    int              m_currentPaintMode = PAINT_MODE_ANALYSIS ;
     ImageView        m_imageView        ;
     ImageView        m_blankImageView   ;
     Pane             m_parentPane ;
@@ -97,7 +98,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             
             EventHandler<MouseEvent> eventHandler = (MouseEvent e ) -> 
             {
-                paint( e , m_blankImageView ) ;
+                paint( e , m_currentPaintMode ) ;
             };
             m_blankImageView.addEventHandler(MouseEvent.MOUSE_CLICKED , eventHandler );
             //it's to make the transparent image writable 
@@ -110,8 +111,29 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
         }
     }    
 
-    public void paint ( MouseEvent event , ImageView blankimageView)
+    public void paint ( MouseEvent event , int mode)
     {
+        if(mode == PAINT_MODE_RULER)
+        {
+            int   x      = new Double ( ( event.getX()  )  ).intValue();
+            int   y      = new Double ( ( event.getY()  )  ).intValue();
+            Point point  = new Point(x, y) ; 
+            point.draw(m_blankImageView , Point.RULER_POINT_COLOR);
+            
+            if(RUNTIME_OBJECT.getRuler().getStartPoint() == null)
+                RUNTIME_OBJECT.getRuler().setStartPoint(point);
+            else
+            {
+                RUNTIME_OBJECT.getRuler().setEndPoint(point);
+                Line line        = new Line(RUNTIME_OBJECT.getRuler().getStartPoint(), point) ;
+                int  pixelsCount = (int) line.calculateDistance() ; 
+                line.draw(RUNTIME_OBJECT.getImagePanel().getBlankImageView() , Line.RULER_LINE_COLOR);
+                RUNTIME_OBJECT.getRuler().setPixelsPerUnit(pixelsCount); 
+                setCurrentPaintMode(PAINT_MODE_ANALYSIS);
+                TAKWEEM_SCENE.setCursor(Cursor.DEFAULT);
+            }
+            return;
+        }
         if(RUNTIME_OBJECT.getRunTimePointsPool() != null && !RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().isEmpty() )
         {
             int   x      = new Double ( ( event.getX()  )  ).intValue();
@@ -119,28 +141,28 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             
             MYZPoint point     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
             Point    tempPoint = new Point(x, y) ; 
-            ObservableList list = m_pointsTable.getItems();
-            TableRow row1 ;
-            for(int i = 0 ; i < list.size() ; i++ )
-            {
-                row1 = (TableRow) list.get(i);
-                row1.setStyle("-fx-background-color:#cfc");
-            }
-            m_pointsTable.setRowFactory( tmp -> 
-            {
-                TableRow<MYZPoint> row = new TableRow<>();
-                MYZPoint rowData = row.getItem();
-                System.out.println("befor if");
-                if (rowData.getM_name().equals(point.getM_name()))
-                {
-                    System.out.println("if");
-                    row.setStyle("-fx-background-color:#cfc");
-                }
-                return row ;
-            });
+//            ObservableList list = m_pointsTable.getItems();
+//            TableRow row1 ;
+//            for(int i = 0 ; i < list.size() ; i++ )
+//            {
+//                row1 = (TableRow) list.get(i);
+//                row1.setStyle("-fx-background-color:#cfc");
+//            }
+//            m_pointsTable.setRowFactory( tmp -> 
+//            {
+//                TableRow<MYZPoint> row = new TableRow<>();
+//                MYZPoint rowData = row.getItem();
+//                System.out.println("befor if");
+//                if (rowData.getM_name().equals(point.getM_name()))
+//                {
+//                    System.out.println("if");
+//                    row.setStyle("-fx-background-color:#cfc");
+//                }
+//                return row ;
+//            });
                 
             point.setPoint(tempPoint);
-            tempPoint.draw(blankimageView);
+            tempPoint.draw(m_blankImageView , Point.ANALYSIS_POINT_COLOR);
             
             RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPointValue().addElement(point);
             
@@ -162,7 +184,8 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
         m_centerPane.setMaxSize(IMAGE_VIEW_WIDTH  , IMAGE_VIEW_HEIGHT);
 
         m_centerPane.getChildren().addAll(getCenterLabel());
-
+        m_centerPane.setStyle("-fx-border-color: #000;");
+        
         m_centerPane.setOnDragOver(new EventHandler<DragEvent>() 
         {
             @Override
@@ -194,7 +217,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
          getChildren().addAll(getCenterPane());
     }
 
-    private void mouseDragDropped(final DragEvent e)
+    public void mouseDragDropped(final DragEvent e)
     {
         final Dragboard db = e.getDragboard();
         boolean success = false;
@@ -206,6 +229,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
                 file.read(db.getFiles().get(0));
                 ((BorderPane) getParentPane()).setCenter(null);
                 ((BorderPane) getParentPane()).setCenter(Takweem.RUNTIME_OBJECT.m_imagePanel);
+                RUNTIME_OBJECT.calculateOperationsAndShow();
                 //Select the category and classification from MYZ file
                 
                 //Select the chosen analysis from MYZ file
@@ -223,7 +247,7 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
             }
             else
             {
-                ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) );
+                ImageEditorStage imageEditorStage = new ImageEditorStage(db.getFiles().get(0) , this);
             }
             success = true;
         }
@@ -367,6 +391,10 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
     {
         m_parentPane = pane;
     }
+    public void setCurrentPaintMode(int paintMode)
+    {
+        m_currentPaintMode = paintMode ;
+    }
     //Getter Methods
     public Image getSelectedImage ( )
     {
@@ -395,5 +423,9 @@ public class ImagePanel extends StackPane implements myzComponent , Serializable
     public Pane getParentPane()
     {
         return m_parentPane;
+    }
+    public int getCurrentPaintMode()
+    {
+        return m_currentPaintMode ; 
     }
 }

@@ -121,7 +121,7 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point1  = m_vPoint.elementAt( 0 ).m_point ;
             Point point2  = m_vPoint.elementAt( 1 ).m_point ;
             Line  line    = new Line(point1, point2);
-            line.draw(image);
+            line.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line);
             m_value       = MYZMathTools.calculateDistanceBetweenTwoPoints( point1 , point2 );                           
         }
@@ -131,7 +131,7 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point1  = m_vPoint.elementAt( 0 ).m_point ;
             Point point2  = m_vPoint.elementAt( 1 ).m_point ;
             Line  line    = new Line(point1, point2);
-            line.draw(image);
+            line.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line);
             Point projectedPoint = MYZMathTools.calculateProjectedPointOnLine( point1 , point2 , m_vPoint.elementAt( 2 ).m_point );
             
@@ -145,8 +145,8 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point4  = m_vPoint.elementAt( 3 ).m_point ;
             Line  line1   = new Line(point1, point2);
             Line  line2   = new Line(point3, point4);
-            line1.draw(image);
-            line2.draw(image);
+            line1.draw(image , Line.ANALYSIS_LINE_COLOR);
+            line2.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line1);
             addLine(line2);
             double firstLineLength  = MYZMathTools.calculateDistanceBetweenTwoPoints( m_vPoint.elementAt( 0 ).m_point , m_vPoint.elementAt( 1 ).m_point );            
@@ -169,8 +169,8 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point3  = m_vPoint.elementAt( 2 ).m_point ;
             Line  line1   = new Line(point1, point2);
             Line  line2   = new Line(point2, point3);
-            line1.draw(image);
-            line2.draw(image);
+            line1.draw(image , Line.ANALYSIS_LINE_COLOR);
+            line2.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line1);
             addLine(line2);
             Point firstPointL1  = m_vPoint.elementAt( 0 ).m_point;
@@ -189,8 +189,8 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point4  = m_vPoint.elementAt( 3 ).m_point ;
             Line  line1   = new Line(point1, point2);
             Line  line2   = new Line(point3, point4);
-            line1.draw(image);
-            line2.draw(image);
+            line1.draw(image , Line.ANALYSIS_LINE_COLOR);
+            line2.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line1);
             addLine(line2);
             Point firstPointL1  = m_vPoint.elementAt( 0 ).m_point;
@@ -209,8 +209,8 @@ public class MYZOperation extends XmlOperation implements Serializable
             Point point4  = m_vPoint.elementAt( 3 ).m_point ;
             Line  line1   = new Line(point1, point2);
             Line  line2   = new Line(point3, point4);
-            line1.draw(image);
-            line2.draw(image);
+            line1.draw(image , Line.ANALYSIS_LINE_COLOR);
+            line2.draw(image , Line.ANALYSIS_LINE_COLOR);
             addLine(line1);
             addLine(line2);
             Point firstPointL1  = m_vPoint.elementAt( 0 ).m_point;
