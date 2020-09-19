@@ -52,9 +52,9 @@ public class MYZXmlParser extends DefaultHandler2 implements Serializable
     //Members
     Stack< MYZXmlObject > m_stack ;
     MYZXmlObject          m_xmlObject ;
-            
-    //Methods
+    XmlPointsPool         m_pool;
     
+    //Methods
     public MYZXmlObject getParsedObject()
     {
         return m_xmlObject;
@@ -63,11 +63,26 @@ public class MYZXmlParser extends DefaultHandler2 implements Serializable
     @Override
     public void startElement( String uri , String localName , String tag , Attributes attributes )
     {
+        if( "oPoint".equals( tag ) )
+        {
+            for( XmlPoint point : m_pool.m_vXmlPoints )
+                if( point.m_name.equals( MYZXmlObject.getAttributeAsString( attributes , "name" ) ) )
+                {
+                    if( !m_stack.empty() )
+                        m_stack.peek().append( point );  
+                    return;
+                }
+            System.out.println( "oPoint : " + MYZXmlObject.getAttributeAsString( attributes , "name" ) );
+        }
+        
         MYZXmlObject xmlObject = MYZXmlObject.create( tag );
         if( xmlObject == null )
             return;
         
         xmlObject.initialize( attributes );
+        if( xmlObject instanceof XmlPointsPool )
+            m_pool = (XmlPointsPool) xmlObject;
+        
         if( ! m_stack.empty() )
         {
             MYZXmlObject top = m_stack.peek();
@@ -79,6 +94,8 @@ public class MYZXmlParser extends DefaultHandler2 implements Serializable
     @Override
     public void endElement( String uri, String localName, String tag )
     {
+        if( "oPoint".equals( tag ) )
+            return;
         if( !m_stack.isEmpty() )
         {
             MYZXmlObject peekedObject = m_stack.peek();

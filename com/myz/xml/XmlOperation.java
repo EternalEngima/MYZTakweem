@@ -22,8 +22,8 @@ public class XmlOperation extends MYZXmlObject implements Serializable
     public static final String TYPE_DISTANCE_BETWEEN_TWO_LINES                    = "MYZOperationTypeDistanceBetweenTwoLines";
     public static final String TYPE_DISTANCE_BETWEEN_LINE_AND_POINT               = "MYZOperationTypeDistanceBetweenLineAndPoint";
     public static final String TYPE_DISTANCE_BETWEEN_TWO_PROJECTED_POINTS_ON_LINE = "MYZOperationTypeDistanceBetweenTwoProjectedPointsOnLine";
-    public static final String TYPE_ANGEL_BETWEEN_THREE_POINTS                    = "MYZOperationTypeAngelBetweenThreePoints";
-    public static final String TYPE_ANGEL_BETWEEN_TWO_LINES                       = "MYZOperationTypeAngelBetweenTwoLines";
+    public static final String TYPE_ANGLE_BETWEEN_THREE_POINTS                    = "MYZOperationTypeAngleBetweenThreePoints";
+    public static final String TYPE_ANGLE_BETWEEN_TWO_LINES                       = "MYZOperationTypeAngleBetweenTwoLines";
     public static final String TYPE_RATIO_BETWEEN_TWO_LINES                       = "MYZOperationTypeRatioBetweenTwoLines";
 
      //Classification TODO
@@ -37,7 +37,7 @@ public class XmlOperation extends MYZXmlObject implements Serializable
     public String m_type;
     public double m_correctValue;
     //String m_classification; TODO 
-    //m_errorRange TODO
+    public double m_errorRange;
     protected Vector< XmlPoint > m_vXmlPoint;
     
     //Methods
@@ -49,6 +49,7 @@ public class XmlOperation extends MYZXmlObject implements Serializable
         m_type           = getAttributeAsString( attributes , "type" );
         m_correctValue   = getAttributeAsDobule( attributes , "correctValue" );
         //m_classification = getAttributeAsString( attributes ,  );
+        m_errorRange     = getAttributeAsDobule( attributes , "errorRange" );
     }
 
     @Override
@@ -66,6 +67,7 @@ public class XmlOperation extends MYZXmlObject implements Serializable
                    + setAttribute( "description" , m_description )
                    + setAttribute( "type" , m_type )
                    + setAttribute( "correctValue" , m_correctValue )
+                   + setAttribute( "errorRange" , m_errorRange )
                    //+ setAttribute( "classification" , m_classification )
                    + " > ";
         for( XmlPoint point : m_vXmlPoint )

@@ -4,33 +4,113 @@
     
     <Category name = "X-Ray">
  
-        <Classification name = "MYZAnalysisTypeRaysLateralCephalometric">
+        <Classification name = "RaysFrontalCephalometric">
              <PointsPool>
                 <Point
-                    symbol      = "@"
-                    name        = "a"
+                    symbol      = "Cg"
+                    name        = "Crista-gali"
                     describtion = ""
                 />
                 <Point
-                    symbol      = "#"
-                    name        = "b"
+                    symbol      = "AnsF"
+                    name        = "Anterior Nassal Spine 'frontal'"
                     describtion = ""
                 />
                 <Point
-                    symbol      = "$"
-                    name        = "c"
+                    symbol      = "MeF"
+                    name        = "Menton 'frontal'"
                     describtion = ""
                 />
                 <Point
-                    symbol      = "%"
-                    name        = "d"
+                    symbol      = "ZL"
+                    name        = "Zygomatic Suture 'left'"
                     describtion = ""
                 />
                 <Point
-                    symbol      = "^"
-                    name        = "e"
+                    symbol      = "ZR"
+                    name        = "Zygomatic Suture 'right'"
                     describtion = ""
                 />
+                <Point
+                    symbol      = "ZaL"
+                    name        = "Zygomatic Suture 'left'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "ZaR"
+                    name        = "Zygomatic Suture 'right'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "JL"
+                    name        = "Jugal Process 'left'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "JR"
+                    name        = "Jugal Process 'right'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "AgL"
+                    name        = "Antegonia Notch 'left'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "AgR"
+                    name        = "Antegonia Notch 'right'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "CdL"
+                    name        = "Condylar 'left'"
+                    describtion = ""
+                />                
+				<Point
+                    symbol      = "CdR"
+                    name        = "Condylar 'right'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "A1"
+                    name        = "Incisors Medline 'upper'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "B1"
+                    name        = "Incisors Medline 'lower'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "B6L"
+                    name        = "First Molar 'lower left'"
+                    describtion = ""
+                />
+                <Point
+                    symbol      = "B6R"
+                    name        = "First Molar 'lower right'"
+                    describtion = ""
+                />				
+                <Point
+                    symbol      = "MoL"
+                    name        = "Molars Occlusion 'left'"
+                    describtion = ""
+                />		
+                <Point
+                    symbol      = "MoR"
+                    name        = "Molars Occlusion 'right'"
+                    describtion = ""
+                />		
+                <Point
+                    symbol      = "NcL"
+                    name        = "Nassal Cavity 'left'"
+                    describtion = ""
+                />		
+                <Point
+                    symbol      = "NcR"
+                    name        = "Nassal Cavity 'right'"
+                    describtion = ""
+                />					
             </PointsPool>
             <Analysis
                 name        = "Analysis1"
@@ -38,53 +118,176 @@
                 category    = ""
                 >
                 <Operation 
-                    name         = "operation1"
+                    name         = "JL-JR / AgL-AgR"
                     description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
-                    correctValue = ""
-                    type         = "MYZOperationTypeAngelBetweenTwoLines"                                    
+                    correctValue = "80"
+					errorRange   = "3"
+                    type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
                 >
-                    <Point
-                        symbol      = ""
-                        name        = "a"
-                        describtion = ""
-                    />
-                    <Point
-                        symbol      = ""
-                        name        = "b"
-                        describtion = ""
-                    />
-                    <Point
-                        symbol      = ""
-                        name        = "c"
-                        describtion = ""
-                    />   
-                    <Point
-                        symbol      = ""
-                        name        = "d"
-                        describtion = ""
-                    />            
+					<oPoint	name = "Jugal Process 'left'" />
+					<oPoint	name = "Jugal Process 'right'" />	
+					<oPoint	name = "Antegonia Notch 'left'" />	
+					<oPoint	name = "Antegonia Notch 'right'" />
                 </Operation>
                 <Operation 
-                    name         = "operation2"
-                    description  = "operation2"
-                    correctValue = ""
+                    name         = "NcL-NcR / JL-JR"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = "40"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
+                >
+					<oPoint	name = "Jugal Process 'left'" />
+					<oPoint	name = "Jugal Process 'right'" />	
+					<oPoint	name = "Nassal Cavity 'left'" />		
+					<oPoint	name = "Nassal Cavity 'right'" />				
+                </Operation>				
+
+                <Operation 
+                    name         = "Cg-Mef / ZaL-ZaR"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = "0"
+					errorRange   = "1"
+                    type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
+                >
+					<oPoint name = "Crista-gali" />
+					<oPoint	name = "Menton 'frontal'" />				
+					<oPoint name = "Zygomatic Suture 'left'" />
+					<oPoint name = "Zygomatic Suture 'right'" />
+                </Operation>	
+                <Operation 
+                    name         = "JL-JR / ZaL-ZaR"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = "85"
+					errorRange   = "5"
+                    type         = "MYZOperationTypeAngleBetweenTwoLines"                                    
+                >
+					<oPoint name = "Jugal Process 'left'" />
+					<oPoint	name = "Jugal Process 'right'" />	
+					<oPoint	name = "Zygomatic Suture 'left'" />
+					<oPoint	name = "Zygomatic Suture 'right'" />
+                </Operation>
+                <Operation 
+                    name         = "AgL-AgR / ZaL-ZaR"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = "0"
+					errorRange   = "1"
+                    type         = "MYZOperationTypeAngleBetweenTwoLines"                                    
+                >
+					<oPoint name = "Antegonia Notch 'left'" />	
+					<oPoint	name = "Antegonia Notch 'right'" />
+					<oPoint	name = "Zygomatic Suture 'left'" />
+					<oPoint	name = "Zygomatic Suture 'right'" />
+                </Operation>				
+                <Operation 
+                    name         = "CdL - AgL"
+                    description  = "operation3"
+                    correctValue = "67"
+					errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
                 >
-                    <Point
-                        symbol      = ""
-                        name        = "d"
-                        describtion = ""
-                    />
-                    <Point
-                        symbol      = ""
-                        name        = "b"
-                        describtion = ""
-                    />
-          
+					<oPoint	name = "Condylar 'left'" />				
+					<oPoint name = "Antegonia Notch 'left'" />	
+                </Operation>      
+                <Operation 
+                    name         = "CdR - AgR"
+                    description  = "operation3"
+                    correctValue = "67"
+					errorRange   = "3"
+                    type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
+                >
+					<oPoint	name = "Condylar 'right'" />				
+					<oPoint name = "Antegonia Notch 'right'" />	
                 </Operation>
-             
+                <Operation 
+                    name         = "CdL - AgL - Mef"
+                    description  = "operation3"
+                    correctValue = "128"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeAngleBetweenThreePoints"                                    
+                >
+					<oPoint	name = "Condylar 'left'" />				
+					<oPoint name = "Antegonia Notch 'left'" />	
+					<oPoint	name = "Menton 'frontal'" />				
+                </Operation>  		
+                <Operation 
+                    name         = "CdR - AgR - Mef"
+                    description  = "operation3"
+                    correctValue = "128"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeAngleBetweenThreePoints"                                    
+                >
+					<oPoint	name = "Condylar 'right'" />				
+					<oPoint name = "Antegonia Notch 'right'" />	
+					<oPoint	name = "Menton 'frontal'" />				
+                </Operation>
+                <Operation 
+                    name         = "A1-Ansf / Ansf-Mef"
+                    description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
+                                    Is it possible to make this work either by using an Image object or in some other way?
+                                    Here is a Demo class showing the problem."
+                    correctValue = "54"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
+                >
+					<oPoint name = "Incisors Medline 'upper'" />	
+					<oPoint	name = "Anterior Nassal Spine 'frontal'" />
+					<oPoint	name = "Anterior Nassal Spine 'frontal'" />
+					<oPoint	name = "Menton 'frontal'" />
+                </Operation>
+                <Operation 
+                    name         = "MoL / JL-JR"
+                    description  = "operation3"
+                    correctValue = "24"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
+                >
+					<oPoint name = "Jugal Process 'left'" />
+					<oPoint	name = "Jugal Process 'right'" />
+					<oPoint	name = "Molars Occlusion 'left'" />				
+                </Operation>
+                <Operation 
+                    name         = "MoR / JL-JR"
+                    description  = "operation3"
+                    correctValue = "24"
+					errorRange   = "2"
+                    type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
+                >
+					<oPoint name = "Jugal Process 'left'" />
+					<oPoint	name = "Jugal Process 'right'" />
+					<oPoint	name = "Molars Occlusion 'right'" />				
+                </Operation>	
+                <Operation 
+                    name         = "B6L / JL-AgL"
+                    description  = "operation3"
+                    correctValue = "7"
+					errorRange   = "3"
+                    type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
+                >
+					<oPoint name = "Jugal Process 'left'" />
+					<oPoint	name = "Antegonia Notch 'left'" />
+					<oPoint	name = "First Molar 'lower left'" />				
+                </Operation>
+                <Operation 
+                    name         = "B6R / JR-AgR"
+                    description  = "operation3"
+                    correctValue = "7"
+					errorRange   = "3"
+                    type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
+                >
+					<oPoint name = "Jugal Process 'right'" />
+					<oPoint	name = "Antegonia Notch 'right'" />
+					<oPoint	name = "First Molar 'lower right'" />				
+                </Operation>				
             </Analysis>
             <Analysis
                 name        = "Analysis2"

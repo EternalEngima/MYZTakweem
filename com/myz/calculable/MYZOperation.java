@@ -74,8 +74,7 @@ public class MYZOperation extends XmlOperation implements Serializable
         result = operation.calculateAndDraw(null);                
     }
     
-    //Constructor
-    
+    //Constructor    
     MYZOperation()
     {
         super();
@@ -162,7 +161,7 @@ public class MYZOperation extends XmlOperation implements Serializable
             
             m_value = MYZMathTools.calculateDistanceBetweenTwoPoints( firstProjectedPoint , secondProjectedPoint );
         }
-        else if( TYPE_ANGEL_BETWEEN_THREE_POINTS.equals( m_type ) )
+        else if( TYPE_ANGLE_BETWEEN_THREE_POINTS.equals( m_type ) )
         {
             Point point1  = m_vPoint.elementAt( 0 ).m_point ;
             Point point2  = m_vPoint.elementAt( 1 ).m_point ;
@@ -181,7 +180,7 @@ public class MYZOperation extends XmlOperation implements Serializable
             
             m_value = MYZMathTools.calculateAngelBetweenTwoLines( firstPointL1 , secondPointL1 , firstPointL2 , secondPointL2 );            
         }
-        else if( TYPE_ANGEL_BETWEEN_TWO_LINES.equals( m_type ) )
+        else if( TYPE_ANGLE_BETWEEN_TWO_LINES.equals( m_type ) )
         {
             Point point1  = m_vPoint.elementAt( 0 ).m_point ;
             Point point2  = m_vPoint.elementAt( 1 ).m_point ;
