@@ -195,7 +195,6 @@
 					errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
                 >
-<<<<<<< HEAD
 					<oPoint	name = "Condylar 'left'" />				
 					<oPoint name = "Antegonia Notch 'left'" />	
                 </Operation>      
@@ -229,7 +228,8 @@
                 >
 					<oPoint	name = "Condylar 'right'" />				
 					<oPoint name = "Antegonia Notch 'right'" />	
-					<oPoint	name = "Menton 'frontal'" />				
+					<oPoint	name = "Menton 'frontal'" />	
+				</Operation>					
                 <Operation 
                     name         = "A1-Ansf / Ansf-Mef"
                     description  = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.
