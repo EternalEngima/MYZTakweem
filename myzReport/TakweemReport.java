@@ -7,6 +7,7 @@ import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+import com.myz.calculable.MYZOperation;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javafx.embed.swing.SwingFXUtils;
 import java.awt.image.BufferedImage;
+import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 
 /**
@@ -161,6 +163,95 @@ public class TakweemReport
             {
                 addImage();
             } 
+            
+            ObservableList list  = takweem.Takweem.m_calculateTable.getItems();
+            if ( list.size() > 0 )
+            {
+                m_data = new PdfPTable(takweem.Takweem.m_calculateTable.getColumns().size());
+                m_data.setWidthPercentage(100);
+                float [] width = new float[3];
+                width[0] = 6;
+                width[1] = 3;
+                width[2] = 3;
+                m_data.setWidths(width);
+                PdfPCell cell = null;
+                for ( int i = 0 ; i < list.size() ; i ++)
+                {
+                    if ( i == 0 )// to add Header
+                    {
+                        cell = new PdfPCell();
+                        cell.setPhrase(new Phrase("Operation Name"));
+                        cell.setRunDirection(getRunDirection());
+                        cell.setBorder(PdfPCell.BOX);
+                        cell.setBorderWidth(.1f);
+                        cell.setPadding(3f);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                        cell.setBackgroundColor(Color.GRAY);
+                        m_data.addCell(cell);
+
+                        cell = new PdfPCell();
+                        cell.setPhrase(new Phrase("Value"));
+                        cell.setRunDirection(getRunDirection());
+                        cell.setBorder(PdfPCell.BOX);
+                        cell.setBorderWidth(.1f);
+                        cell.setPadding(3f);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                        cell.setBackgroundColor(Color.GRAY);
+                        m_data.addCell(cell);
+
+                        cell = new PdfPCell();
+                        cell.setPhrase(new Phrase("Correct Value"));
+                        cell.setRunDirection(getRunDirection());
+                        cell.setBorder(PdfPCell.BOX);
+                        cell.setBorderWidth(.1f);
+                        cell.setPadding(3f);
+                        cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                        cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                        cell.setBackgroundColor(Color.GRAY);
+                        m_data.addCell(cell);
+                    }
+                    MYZOperation operation = (MYZOperation) list.get(i);
+                    
+                    cell = new PdfPCell();
+                    cell.setPhrase(new Phrase(operation.getM_name()));
+                    cell.setRunDirection(getRunDirection());
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderWidth(.1f);
+                    cell.setPadding(3f);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBackgroundColor(Color.white);
+                    m_data.addCell(cell);
+                    
+                    cell = new PdfPCell();
+                    cell.setPhrase(new Phrase(operation.getM_value()));
+                    cell.setRunDirection(getRunDirection());
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderWidth(.1f);
+                    cell.setPadding(3f);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBackgroundColor(Color.white);
+                    m_data.addCell(cell);
+                    
+                    cell = new PdfPCell();
+                    cell.setPhrase(new Phrase(operation.getM_correctValue()));
+                    cell.setRunDirection(getRunDirection());
+                    cell.setBorder(PdfPCell.BOX);
+                    cell.setBorderWidth(.1f);
+                    cell.setPadding(3f);
+                    cell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+                    cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+                    cell.setBackgroundColor(Color.white);
+                    m_data.addCell(cell);
+                }
+//                m_data.setWidths({5,5,5});
+            }
+            
+            m_pdfDocument.add(m_data);
+            
             m_pdfDocument.close();
         }
         catch(Exception e)
