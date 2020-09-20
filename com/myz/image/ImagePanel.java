@@ -203,6 +203,7 @@ public class ImagePanel extends HBox implements myzComponent , Serializable
          getChildren().addAll(getCenterPane());
          setAlignment(Pos.CENTER);
          setMinSize(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT);
+         
     }
 
     public void mouseDragDropped(final DragEvent e)

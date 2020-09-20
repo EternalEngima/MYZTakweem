@@ -512,7 +512,7 @@ public class Takweem extends Application
                 CheckMenuItem classificationItem = new CheckMenuItem(classification.getName());
                 categoryMenu.getItems().add(classificationItem);
                 classificationItem.setOnAction(chooseClassificationEvent);
-                classificationItem.setGraphic(new ImageView("icon\\save.png"));
+                classificationItem.setGraphic(new ImageView("icon\\classification.png"));
             }
             
             m_categoryMenuButton.getItems().add(categoryMenu);
