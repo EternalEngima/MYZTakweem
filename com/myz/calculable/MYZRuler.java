@@ -27,7 +27,7 @@ public class MYZRuler implements Serializable
     //Class member
     public  static final int MM = 1 ;
     public  static final int CM = 2 ;
-    private static       int m_pixelsPerUnit = -1 ;
+    private static       int m_pixelsPerUnit = 1 ;
     
     //Data member 
     
