@@ -20,7 +20,6 @@ public class myzComboBox extends ComboBox
     public myzComboBox()
     {
         valueProperty().addListener((obs, oldVal, newVal)-> {   if (oldVal != newVal) this.selectionChange();  });    
-        
     }
     
     public void selectionChange(){ }

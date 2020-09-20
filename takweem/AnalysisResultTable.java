@@ -75,6 +75,17 @@ public class AnalysisResultTable  extends myzTableView
     TableColumn m_operationNameCol   ;
     TableColumn m_operationValueCol ;
     TableColumn m_operationCorrectValueCol ;
-
+    
+    @Override
+    public boolean canAdd()
+    {
+        return false;
+    }
+    
+    @Override
+    public boolean canDelete()
+    {
+        return false;
+    }
     
 }

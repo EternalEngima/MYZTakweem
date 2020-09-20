@@ -1,6 +1,7 @@
 package takweem;
 import com.myz.calculable.MYZRuler;
 import com.myz.files.MYZFile;
+import com.myz.frames.takweem.PointsSettingsFrame;
 import com.myz.image.ImageEditorStage;
 import static com.myz.image.ImagePanel.PAINT_MODE_RULER;
 import com.myz.image.Line;
@@ -77,14 +78,15 @@ public class Takweem extends Application
     public myzMagnifier m_magnifier      = new myzMagnifier();
    
     //Header component 
-    VBox           m_header              = new VBox(5);
-    MenuBar        m_sittingsBar         = new MenuBar();
-    Menu           m_sittingsMenu        = new Menu(getCaption("menubar.settings"));
-    Menu           m_langMenu            = new Menu(getCaption("application.lang"));
+    VBox           m_header                = new VBox(5);
+    MenuBar        m_sittingsBar           = new MenuBar();
+    Menu           m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
+    Menu           m_langMenu              = new Menu(getCaption("application.lang"));
+    MenuItem       m_pointMenu             = new MenuItem("test");
     
-    HBox           m_headerPane          = new HBox(5);
-    myzMenuButton  m_categoryMenuButton  = new myzMenuButton();
-    myzButton      m_saveAnalysisButton  = new myzButton()
+    HBox           m_headerPane            = new HBox(5);
+    myzMenuButton  m_categoryMenuButton    = new myzMenuButton();
+    myzButton      m_saveAnalysisButton    = new myzButton()
     {        
         @Override
         public void buttonPressed()
@@ -100,7 +102,8 @@ public class Takweem extends Application
                 save.write(file);
         }
     };
-    myzButton    m_saveImageButton     = new myzButton()
+
+    myzButton      m_saveImageButton       = new myzButton()
     {        
         @Override
         public void buttonPressed()
@@ -114,7 +117,8 @@ public class Takweem extends Application
                 RUNTIME_OBJECT.getImagePanel().saveImage(file );
         }
     };
-    myzButton    m_addPhotoButton      = new myzButton()
+
+    myzButton    m_addPhotoButton          = new myzButton()
     {
         @Override
         public void buttonPressed()
@@ -134,7 +138,8 @@ public class Takweem extends Application
             }     
         }
     }; 
-    myzButton    m_printResultButton   = new myzButton()
+
+    myzButton    m_printResultButton       = new myzButton()
     {
         @Override
         public void buttonPressed()
@@ -220,9 +225,11 @@ public class Takweem extends Application
     };
     myzLabel     m_anatomyLabel          = new myzLabel();
 
+    myzButton    m_modifyAnatomy           = new myzButton();
+    myzButton    m_deleteAnatomy           = new myzButton();
 
     //Center Component 
-    Label        m_fixedFooterLabel      = new Label();
+    Label        m_fixedFooterLabel        = new Label();
     
     //Left Component
     VBox         m_leftSidebar           = new VBox(10);
@@ -243,8 +250,8 @@ public class Takweem extends Application
     };
     
     // Bottom Component
-    VBox m_footer   = new VBox();
-    Pane m_TablePan = new Pane();
+    VBox         m_footer                  = new VBox();
+    Pane         m_TablePan                = new Pane();
     public static AnalysisResultTable m_calculateTable ;
 
     
@@ -299,7 +306,7 @@ public class Takweem extends Application
         eng.setSelected(true);// set the default language to english
         CheckMenuItem  arab = new CheckMenuItem ("\u0627\u0644\u0639\u0631\u0628\u064a\u0629");
         CheckMenuItem  fran = new CheckMenuItem ("French");
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>()
+        EventHandler<ActionEvent> laneEvent = new EventHandler<ActionEvent>()
         { 
             @Override
             public void handle(ActionEvent e) 
@@ -325,12 +332,23 @@ public class Takweem extends Application
                 refreshComponent(old);
             } 
         };
-        eng.setOnAction(event);
-        arab.setOnAction(event);
-        fran.setOnAction(event);
+        eng.setOnAction(laneEvent);
+        arab.setOnAction(laneEvent);
+        fran.setOnAction(laneEvent);
 
         m_langMenu.getItems().addAll(eng , arab , fran);
-        m_sittingsMenu.getItems().add(m_langMenu);
+        
+        EventHandler<ActionEvent> pointsEvent = new EventHandler<ActionEvent>()
+        { 
+            @Override
+            public void handle(ActionEvent e) 
+            { 
+                PointsSettingsFrame.callFrame(m_primaryStage , RUNTIME_OBJECT );
+            } 
+        };
+        
+        m_pointMenu.setOnAction(pointsEvent);
+        m_sittingsMenu.getItems().addAll(m_langMenu , m_pointMenu);
         
         m_sittingsBar.getMenus().addAll(m_sittingsMenu );
 
@@ -562,8 +580,24 @@ public class Takweem extends Application
     
     public static String getCaption(String key)
     {
-        
-        return BUNDLE.getString(key);
+        String str = "";
+        try 
+        {
+            str = BUNDLE.getString(key);
+        }
+        catch(Exception ex)
+        {
+            System.out.println("Bundle can not find key " + key);
+            ex.printStackTrace();
+                                    
+        }
+        finally
+        {
+            if ( str == null || str.length() < 1)
+                str = key;
+        }
+        return str;
+      
     }
     
     
