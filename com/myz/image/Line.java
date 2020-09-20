@@ -120,7 +120,7 @@ public class Line implements Serializable
     {
         if(image == null)
         {
-            System.out.println("Line.Draw : the image is null");
+            //System.out.println("Line.Draw : the image is null");
             return ;
         }
         Image  tmp                = image.getImage();
