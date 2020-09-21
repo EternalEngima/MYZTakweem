@@ -81,18 +81,49 @@ public class PointsSettingsFrame
     
     
 
-    myzLabel     m_pointNameLabel  = new myzLabel("point.name");
-    TextField    m_pointNameField  = new TextField();
+    myzLabel     m_pointNameLabel   = new myzLabel("point.name");
+    TextField    m_pointNameField   = new TextField();
     myzLabel     m_pointSymbolLabel = new myzLabel("point.symbol");
     TextField    m_pointSymbolField = new TextField();
     myzLabel     m_pointDescLabel   = new myzLabel("point.description");
-    TextField    m_pointDescField    = new TextField();
+    TextField    m_pointDescField   = new TextField();
+    
+    myzButton    m_addPoint         = new myzButton("add")
+    {
+        @Override
+        public void buttonPressed()
+        {
+            if ( m_tableData == null)
+            {
+                myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("check.point.table.not.empty"), takweem.Takweem.BUNDLE );
+                return;
+            }
+            String pointName   = m_pointNameField.getText();
+            String pointSymbol = m_pointSymbolField.getText();
+            String pointDesc   = m_pointDescField.getText();
+            if (pointName != null      && pointSymbol != null      && pointDesc != null &&
+                pointName.length() > 0 && pointSymbol.length() > 0 && pointDesc.length() > 0 )
+            {
+                XmlPoint newPoint      = new  XmlPoint();
+                newPoint.m_name        = pointName;
+                newPoint.m_symbol      = pointSymbol;
+                newPoint.m_description = pointDesc;
+                m_pointsTable.getItems().add(newPoint);
+            }
+            else 
+            {
+                myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("check.all.field.fill"), takweem.Takweem.BUNDLE );
+                return; 
+            }
+            
+        }
+    };
     
     myzTableView m_pointsTable = new myzTableView();
     TableColumn  m_pointName;
     TableColumn  m_pointSymbol;
     TableColumn  m_pointDesc;
-    Vector       m_tableData;
+    Vector       m_tableData  = null;
 
     //Constructer
     PointsSettingsFrame( Stage primaryStage , RunTimeObject runTimeObject )
@@ -162,9 +193,6 @@ public class PointsSettingsFrame
         {
             XmlPoint xmlPoint = (XmlPoint) pointPool.getVPoints().elementAt(i);
             XmlPoint framePoint = new XmlPoint(xmlPoint);
-//            framePoint.m_name   = xmlPoint.m_name;
-//            framePoint.m_symbol = xmlPoint.m_symbol;
-//            framePoint.m_description = xmlPoint.m_description;
             m_tableData.add(framePoint);
         }
 //        m_pointsTable.setTableData(pointPool.getVPoints());
@@ -177,7 +205,9 @@ public class PointsSettingsFrame
     
     public void initScene()
     {
+        m_category.setPromptText(takweem.Takweem.getCaption("category"));
         m_category.setMinWidth(100);
+        m_classification.setPromptText(takweem.Takweem.getCaption("classification"));
         m_classification.setMinWidth(300);
         m_saveButton.setGraphic(new ImageView("icon\\save.png"));
         
@@ -186,7 +216,8 @@ public class PointsSettingsFrame
         
         m_pointDescField.setMinWidth(250);
         HBox pointDescBox = new HBox(20);
-        pointDescBox.getChildren().addAll(m_pointDescLabel ,m_pointDescField);
+//        m_addPoint.setGraphic(new ImageView(""));
+        pointDescBox.getChildren().addAll(m_pointDescLabel ,m_pointDescField ,m_addPoint);
         
         VBox subHeader   = new VBox(20);
         
