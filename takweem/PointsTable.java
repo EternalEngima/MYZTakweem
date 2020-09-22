@@ -5,10 +5,6 @@
 package takweem;
 
 import com.myz.calculable.MYZPoint;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-import javafx.collections.FXCollections;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.cell.PropertyValueFactory;
