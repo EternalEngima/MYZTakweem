@@ -35,7 +35,7 @@ public class PointsTable extends myzTableView
 
         getColumns().setAll( m_pointNameCol , m_pointSymbolCol);
         setPrefWidth(210);
-        setPrefHeight(230);
+        setPrefHeight(300);
         setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
         
         

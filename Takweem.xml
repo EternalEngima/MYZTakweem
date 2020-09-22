@@ -123,7 +123,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "80"
-					errorRange   = "3"
+                    errorRange   = "3"
                     type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
                 >
 					<oPoint	name = "Jugal Process 'left'" />
@@ -137,7 +137,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "40"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
                 >
 					<oPoint	name = "Jugal Process 'left'" />
@@ -152,7 +152,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "0"
-					errorRange   = "1"
+                    errorRange   = "1"
                     type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
                 >
 					<oPoint name = "Crista-gali" />
@@ -166,7 +166,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "85"
-					errorRange   = "5"
+                    errorRange   = "5"
                     type         = "MYZOperationTypeAngleBetweenTwoLines"                                    
                 >
 					<oPoint name = "Jugal Process 'left'" />
@@ -180,7 +180,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "0"
-					errorRange   = "1"
+                    errorRange   = "1"
                     type         = "MYZOperationTypeAngleBetweenTwoLines"                                    
                 >
 					<oPoint name = "Antegonia Notch 'left'" />	
@@ -192,7 +192,7 @@
                     name         = "CdL - AgL"
                     description  = "operation3"
                     correctValue = "67"
-					errorRange   = "3"
+                    errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
                 >
 					<oPoint	name = "Condylar 'left'" />				
@@ -202,7 +202,7 @@
                     name         = "CdR - AgR"
                     description  = "operation3"
                     correctValue = "67"
-					errorRange   = "3"
+                    errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenTwoPoints"                                    
                 >
 					<oPoint	name = "Condylar 'right'" />				
@@ -212,7 +212,7 @@
                     name         = "CdL - AgL - Mef"
                     description  = "operation3"
                     correctValue = "128"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeAngleBetweenThreePoints"                                    
                 >
 					<oPoint	name = "Condylar 'left'" />				
@@ -223,7 +223,7 @@
                     name         = "CdR - AgR - Mef"
                     description  = "operation3"
                     correctValue = "128"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeAngleBetweenThreePoints"                                    
                 >
 					<oPoint	name = "Condylar 'right'" />				
@@ -236,7 +236,7 @@
                                     Is it possible to make this work either by using an Image object or in some other way?
                                     Here is a Demo class showing the problem."
                     correctValue = "54"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeRatioBetweenTwoLines"                                    
                 >
 					<oPoint name = "Incisors Medline 'upper'" />	
@@ -248,7 +248,7 @@
                     name         = "MoL / JL-JR"
                     description  = "operation3"
                     correctValue = "24"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
                 >
 					<oPoint name = "Jugal Process 'left'" />
@@ -259,7 +259,7 @@
                     name         = "MoR / JL-JR"
                     description  = "operation3"
                     correctValue = "24"
-					errorRange   = "2"
+                    errorRange   = "2"
                     type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
                 >
 					<oPoint name = "Jugal Process 'left'" />
@@ -270,7 +270,7 @@
                     name         = "B6L / JL-AgL"
                     description  = "operation3"
                     correctValue = "7"
-					errorRange   = "3"
+                    errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
                 >
 					<oPoint name = "Jugal Process 'left'" />
@@ -281,7 +281,7 @@
                     name         = "B6R / JR-AgR"
                     description  = "operation3"
                     correctValue = "7"
-					errorRange   = "3"
+                    errorRange   = "3"
                     type         = "MYZOperationTypeDistanceBetweenLineAndPoint"                                    
                 >
 					<oPoint name = "Jugal Process 'right'" />

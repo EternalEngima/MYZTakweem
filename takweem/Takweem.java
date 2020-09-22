@@ -204,8 +204,9 @@ public class Takweem extends Application
         @Override
         public void selectionChange()
         {
-            String analysisName = getItemValue().getValue();                        
-            
+            if(getItemValue() == null){return;}
+
+            String analysisName = getItemValue().getValue();                                    
             //On change analysis we should remove the previouse analysis
             if(RUNTIME_OBJECT.getRunTimeAnalysis() != null)
             {

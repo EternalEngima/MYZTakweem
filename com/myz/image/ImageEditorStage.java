@@ -18,8 +18,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -41,7 +40,6 @@ import myzComponent.myzIntegerField;
 import myzComponent.myzLabel;
 import myzMessage.myzMessage;
 import static takweem.Takweem.ARABIC_BUNDLE;
-import static takweem.Takweem.RUNTIME_OBJECT;
 import static takweem.Takweem.BUNDLE;
 
 /**
@@ -93,7 +91,9 @@ public class ImageEditorStage
     public int            IMAGE_ROTATE_VALUE = 1 ; 
     public int            IMAGE_ROTATE_ANGLE = 0 ;
     
-    //Data members 
+    //Data members
+    public myzLabel        m_colorPickerLabel = new myzLabel();
+    ColorPicker            m_colorPicker      = new ColorPicker();//TODO save the color at xml file 
     public Stage           m_stage            = new Stage();
     public ImagePanel      m_imagePanel       = new ImagePanel();
     public BorderPane      m_container        = new BorderPane();
@@ -150,7 +150,21 @@ public class ImageEditorStage
             m_imagePanel.insertImage( getImage() ); 
             m_stage.close();
         }
-    };
+    };       
+  
+        // create a event handler 
+        EventHandler<ActionEvent> setLineColor = new EventHandler<ActionEvent>()
+        { 
+            @Override
+            public void handle(ActionEvent e) 
+            { 
+                // color 
+                Line.ANALYSIS_LINE_COLOR = m_colorPicker.getValue(); 
+  
+            } 
+        }; 
+  
+
     private void initHeader()
     {
         //Header children
@@ -209,9 +223,19 @@ public class ImageEditorStage
         //Header 
         String cssLayout = "-fx-border-color: #f0f0f0; -fx-border-width: 4;\n" ;
         
-        m_headerPane.setAlignment(Pos.CENTER);
+        //Set listener
+        m_colorPickerLabel.setCaption("paint.color");
+        m_colorPickerLabel.setParentPane(m_headerPane);
+        m_colorPickerLabel.setReSizeOnParentSize(true);
+        m_colorPickerLabel.setMaxHeight(25);
+        m_colorPickerLabel.setFont(new Font(14));
+        
+        m_colorPicker.setOnAction(setLineColor); 
+        m_colorPicker.setMinSize(100 , 25);
+        
+        m_headerPane.setAlignment(Pos.CENTER_LEFT);
         m_headerPane.setStyle(cssLayout);
-        m_headerPane.getChildren().addAll( m_saveAndExit ,  m_rotateValueLabel , m_rotateValueField , m_rotateAngleLabel , m_rotateAngleField 
+        m_headerPane.getChildren().addAll( m_saveAndExit , m_colorPickerLabel , m_colorPicker ,  m_rotateValueLabel , m_rotateValueField , m_rotateAngleLabel , m_rotateAngleField 
                                            , m_rotateLeftButton , m_rotateRightButton , m_cropButton);
     }
     

@@ -24,12 +24,14 @@ public class AnalysisResultTable  extends myzTableView
         m_operationNameCol         = new TableColumn("Opreation Name");
         m_operationValueCol        = new TableColumn("Result");
         m_operationCorrectValueCol = new TableColumn("Normal Result");
+        m_operationErrorRangeCol = new TableColumn("Error Range");
         
         m_operationNameCol.setCellValueFactory(new PropertyValueFactory("m_name"));
         m_operationValueCol.setCellValueFactory(new PropertyValueFactory("m_value"));
         m_operationCorrectValueCol.setCellValueFactory(new PropertyValueFactory("m_correctValue"));
+        m_operationErrorRangeCol.setCellValueFactory(new PropertyValueFactory("m_errorRange"));
         
-        getColumns().setAll( m_operationNameCol , m_operationValueCol , m_operationCorrectValueCol);
+        getColumns().setAll( m_operationNameCol , m_operationValueCol , m_operationCorrectValueCol , m_operationErrorRangeCol);
         setPrefWidth(800);
         setPrefHeight(150);
         setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
@@ -56,14 +58,14 @@ public class AnalysisResultTable  extends myzTableView
                         }
                     });
                     //Change row color depend on value
-                    if (item!=null && Double.valueOf(item.getM_value()) > Double.valueOf(item.getM_correctValue()) )
+                    if (item!=null && Double.valueOf(item.getM_value()) > 0.0 && Double.valueOf(item.getM_value()) > Double.valueOf(item.getM_correctValue()) )
                     {
                         
-                        setStyle("-fx-background-color:red");
+                        setStyle("-fx-background-color:#FF726F");
                     }
-                    else if (item!=null && Double.valueOf(item.getM_value()) < Double.valueOf(item.getM_correctValue()))
+                    else if (item!=null && Double.valueOf(item.getM_value()) > 0.0 && Double.valueOf(item.getM_value()) < Double.valueOf(item.getM_correctValue()))
                     {
-                        setStyle("-fx-background-color:blue");
+                        setStyle("-fx-background-color:#ADD8E6");
                     }
                     
                 }
@@ -75,6 +77,7 @@ public class AnalysisResultTable  extends myzTableView
     TableColumn m_operationNameCol   ;
     TableColumn m_operationValueCol ;
     TableColumn m_operationCorrectValueCol ;
+    TableColumn m_operationErrorRangeCol ;
     
     @Override
     public boolean canAdd()
