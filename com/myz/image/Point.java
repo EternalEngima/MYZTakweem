@@ -28,7 +28,12 @@ public class Point implements Serializable
     //Members
     double m_x , m_y ;
     
-
+    @Override
+    public String toString()
+    {
+        return "x = " + m_x + " y = " + m_y;
+    }
+    
     // Setter Methods
     void setX ( double x )
     {
