@@ -25,8 +25,9 @@ public class Line implements Serializable
     private int    m_maxY ;
     
     //Class Members
-    public static Color ANALYSIS_LINE_COLOR = Color.GREEN ;
+    public static Color ANALYSIS_LINE_COLOR = Color.GREEN ;//save all static value at xml 
     public static Color RULER_LINE_COLOR    = Color.RED ;
+    public static int   LINE_THICK          = 1 ;//TODO change from frame 
    
     //Constructor
     public Line ( Point startPoint , Point endPoint )
@@ -109,8 +110,12 @@ public class Line implements Serializable
             // in these case the slope is undefined because can not divide on zero ( x2 - x1 = 0 ) 
             if ( getLineSlope() == Double.NEGATIVE_INFINITY || getLineSlope() == Double.POSITIVE_INFINITY )
                 return true ;
-            
-            return ((getY(x) == y || getX(y) == x) );
+            for(int i = 0 ; i <= LINE_THICK ; i++)
+            {
+                if(getY(x) == y || getX(y) == x || (getY(x)- i) == y || (getX(y)- i) == x)
+                    return true;
+            }
+            return false;
         }
 
         return false;        

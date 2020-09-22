@@ -313,10 +313,18 @@ public class ImageEditorStage
                     Bounds boundsInScene = m_imageViewParent.localToScene(m_imageViewParent.getBoundsInLocal());
                     double x = boundsInScene.getWidth();
                     double y = boundsInScene.getHeight();
-                    if( event.getX() <= x && event.getY() <= y)
+                    if( event.getX() < x && event.getY() < y)
                     {
                         rectBound.setWidth(event.getX() - rectBound.getLayoutX());
                         rectBound.setHeight(event.getY() - rectBound.getLayoutY());
+                    }
+                    else if (event.getX() > x && event.getY() < y)
+                    {
+                        rectBound.setHeight(event.getY() - rectBound.getLayoutY());
+                    }
+                    else if (event.getX() < x && event.getY() > y)
+                    {
+                        rectBound.setWidth(event.getX() - rectBound.getLayoutX());
                     }
                 } 
                 else if (event.getEventType() == MouseEvent.MOUSE_CLICKED && event.getButton() == MouseButton.SECONDARY) 

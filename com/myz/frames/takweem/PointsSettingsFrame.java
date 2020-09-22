@@ -5,8 +5,6 @@
  */
 package com.myz.frames.takweem;
 
-import com.myz.calculable.MYZPoint;
-import com.myz.calculable.MYZPointsPool;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import com.myz.xml.XmlPointsPool;
@@ -16,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -55,6 +52,7 @@ public class PointsSettingsFrame
     
     myzComboBox  m_category       = new myzComboBox()
     {
+        @Override
         public void selectionChange()
         {
             m_classification.deleteAllItems();
@@ -65,6 +63,7 @@ public class PointsSettingsFrame
     };
     myzComboBox  m_classification = new myzComboBox()
     {
+        @Override
         public void selectionChange()
         {
             refreshTableData();
@@ -73,6 +72,7 @@ public class PointsSettingsFrame
     
     myzButton  m_saveButton        = new myzButton("save")
     {
+        @Override
         public void buttonPressed()
         {
             saveData();
@@ -113,7 +113,6 @@ public class PointsSettingsFrame
             else 
             {
                 myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("check.all.field.fill"), takweem.Takweem.BUNDLE );
-                return; 
             }
             
         }
