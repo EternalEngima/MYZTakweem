@@ -40,7 +40,7 @@ public abstract class MYZXmlObject
     
     public abstract void   initialize( Attributes attributes );
     public abstract void   append( MYZXmlObject xmlObject );
-    public abstract String toXml();
+    public abstract String toXml(int tabCount);
     
     //Class methods   
     public static String setAttribute( String key , String value )
@@ -123,5 +123,17 @@ public abstract class MYZXmlObject
         {
             return iValue;
         }
+    }
+    
+    
+    public String getTabsString(int count)
+    {
+        String str = "";
+        for ( int i = 0 ; i < count ; i ++)
+        {
+            str += "\t";
+        }
+        return str;
+        
     }
 }

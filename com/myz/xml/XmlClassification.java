@@ -36,15 +36,19 @@ public class XmlClassification extends MYZXmlObject implements Serializable
     }
 
     @Override
-    public String toXml() 
+    public String toXml(int tabCount) 
     {
-        String XML = "<Classification "
-                + setAttribute("name", m_name)
-                +">";
+        int    sonTabCount = tabCount + 1;
+        String tabString   = getTabsString(tabCount);
+        String XML =   tabString + "<Classification "          
+                   + setAttribute("name", m_name)
+                   +">"                                + "\n";
+        
+        XML += m_XmlpointsPool.toXml(sonTabCount);
+
         for( XmlAnalysis xmlAnalysis : m_vXmlAnalysis )
-            XML += xmlAnalysis.toXml();
-        XML += m_XmlpointsPool.toXml();
-        XML += "/Classification>";
+            XML += xmlAnalysis.toXml(sonTabCount);
+        XML += tabString + "</Classification>"  + " \n";
         return XML;
     }
     //Getter methods

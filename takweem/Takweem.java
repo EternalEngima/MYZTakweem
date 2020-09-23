@@ -82,7 +82,7 @@ public class Takweem extends Application
     MenuBar        m_sittingsBar           = new MenuBar();
     Menu           m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
     Menu           m_langMenu              = new Menu(getCaption("application.lang"));
-    MenuItem       m_pointMenu             = new MenuItem("test");
+    MenuItem       m_pointMenu             = new MenuItem(getCaption("points"));
     
     HBox           m_headerPane            = new HBox(5);
     myzMenuButton  m_categoryMenuButton    = new myzMenuButton();
@@ -575,6 +575,7 @@ public class Takweem extends Application
         // header 
         m_sittingsMenu.setText(getCaption("menubar.settings"));
         m_langMenu.setText(getCaption("application.lang"));
+        m_pointMenu.setText(getCaption("points"));
         //footer
         m_fixedFooterLabel.setText(getCaption("window.footer.title"));
     }

@@ -3,6 +3,7 @@ package com.myz.xml;
 import java.io.Serializable;
 import java.util.Vector;
 import org.xml.sax.Attributes;
+import java.io.PrintWriter;
 
 /**
  * @author Montazar Hamoud
@@ -30,12 +31,14 @@ public class XmlTakweem extends MYZXmlObject implements Serializable
     }
 
     @Override
-    public String toXml() 
+    public String toXml(int tabCount) 
     {
-        String XML = "<Takweem> ";
+        tabCount = 0;
+        int sonTabCount = tabCount + 1 ;
+        String XML = "<Takweem> "  + "\n";
         for( XmlCategory category : m_vXmlCategory )
-            XML += category.toXml();
-        XML += "/Takweem>";
+            XML += category.toXml(sonTabCount);
+        XML += "</Takweem>";
         return XML;
     }
     //Getter methods
@@ -52,6 +55,27 @@ public class XmlTakweem extends MYZXmlObject implements Serializable
                 return category ;
         }
         return null ;
+    }
+    
+    public void saveToFile(String filePath)
+    {
+        if(filePath == null)
+            filePath = "C:\\Users\\yazan\\Desktop\\asus router\\Takweem.xml";
+        
+        String xmlString  = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n";
+        xmlString        += toXml(0);
+        PrintWriter writer = null;
+        try
+        {
+            writer = new PrintWriter(filePath);
+            writer.print(xmlString);
+            writer.flush();
+            writer.close();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
     }
     
 }
