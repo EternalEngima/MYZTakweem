@@ -510,17 +510,9 @@ public class Takweem extends Application
                 m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint() ) ;
                 //Load helper Image
                 String imageHelperPath = RUNTIME_OBJECT.getRunTimePointsPool().getHelperImagePath();
-                if(!"".equals(imageHelperPath))
+                if(imageHelperPath != null && !"".equals(imageHelperPath))
                 {
-                    try
-                    {
-                        m_helperImage.setImageView(imageHelperPath);
-                    }
-                    catch(Exception ex)
-                    {
-                        ex.printStackTrace();
-                    }
-                    
+                    m_helperImage.setImageView(imageHelperPath);
                 }
             } 
         };

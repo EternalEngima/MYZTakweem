@@ -237,7 +237,7 @@ public class TakweemReport
                     m_data.addCell(cell);
                     
                     cell = new PdfPCell();
-                    cell.setPhrase(new Phrase(operation.getM_correctValue()));
+//                    cell.setPhrase(new Phrase(operation.getM_correctValue()));
                     cell.setRunDirection(getRunDirection());
                     cell.setBorder(PdfPCell.BOX);
                     cell.setBorderWidth(.1f);

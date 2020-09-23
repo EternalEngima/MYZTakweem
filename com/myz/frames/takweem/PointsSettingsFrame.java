@@ -248,7 +248,7 @@ public class PointsSettingsFrame
     public void initTable()
     {
          
-        m_scene = new Scene(m_container , 600, 400 );
+        m_scene = new Scene(m_container , 800, 500 );
         m_window.setScene(m_scene);
         m_window.getIcons().add(new Image("icon\\save.png"));
         

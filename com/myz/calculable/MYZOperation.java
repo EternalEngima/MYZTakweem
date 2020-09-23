@@ -254,12 +254,12 @@ public class MYZOperation extends XmlOperation implements Serializable
     {
         return m_name ;
     }
-    public String getM_correctValue()
+    public double getM_correctValue()
     {
-        return String.valueOf(m_correctValue);
+        return m_correctValue ; 
     }
-    public String getM_errorRange()
+    public double getM_errorRange()
     {
-        return String.valueOf(m_errorRange);
+        return m_errorRange ;
     }
 }
