@@ -5,6 +5,8 @@
  */
 package com.myz.frames.takweem;
 
+import com.myz.image.ImagePanelHelper;
+import com.myz.image.Point;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import com.myz.xml.XmlPointsPool;
@@ -26,9 +28,12 @@ import takweem.RunTimeObject;
 import com.myz.xml.XmlPoint;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import myzComponent.myzButton;
 import myzComponent.myzComboBoxItem;
 import myzComponent.myzLabel;
@@ -46,11 +51,31 @@ public class PointsSettingsFrame
     private static Scene   m_scene;
     
     // Member 
-    VBox         m_container      = new VBox(20);
+    VBox             m_container          = new VBox(20);
     
-    HBox         m_header         = new HBox(20);
+    HBox             m_header             = new HBox(20);
     
-    myzComboBox  m_category       = new myzComboBox()
+    XmlPoint         m_currentPoint       = null;
+    ImagePanelHelper m_imagePanelHelper   = new ImagePanelHelper();
+    //Event handler to set the helper point 
+    EventHandler<MouseEvent> eventHandler = (MouseEvent event ) -> 
+    {
+        if(m_currentPoint != null)
+        {
+            m_imagePanelHelper.removePreviousePoint();
+            int   x      = new Double ( ( event.getX()  )  ).intValue();
+            int   y      = new Double ( ( event.getY()  )  ).intValue();
+            System.out.println("x : " + x + "y : " + y);
+            Point point  = new Point(x, y) ; 
+            point.draw(m_imagePanelHelper.getBlankImageView() , Color.RED);
+            m_imagePanelHelper.setPreviousePoint(x, y);
+            m_currentPoint.setHelperY(y);
+            m_currentPoint.setHelperX(x);
+        }
+    };
+    
+    
+    myzComboBox  m_category             = new myzComboBox()
     {
         @Override
         public void selectionChange()
@@ -133,7 +158,18 @@ public class PointsSettingsFrame
             XmlPoint point =  (XmlPoint) getSelectionModel().getSelectedItem();
             System.out.print("we are click on " + getSelectionModel().getSelectedIndex());
             if ( point != null)
+            {
+                m_imagePanelHelper.removePreviousePoint();
+                int   x = point.getHelperX();
+                int   y = point.getHelperY();
+                Point p = new Point(x, y);
+                p.draw(m_imagePanelHelper.getBlankImageView(), Color.RED);
+                m_imagePanelHelper.setPreviousePoint(x, y);
+                //This current point to edit it on click on image view 
+                m_currentPoint = point ;
                 System.out.print("name : " + point.m_name );
+            }
+
 
         }
     };
@@ -147,6 +183,7 @@ public class PointsSettingsFrame
     {
         m_primaryStage  = primaryStage;
         m_runTimeObject = runTimeObject;
+        m_imagePanelHelper.addEventHandler(MouseEvent.MOUSE_CLICKED , eventHandler );
         initFrame();
     }
 
@@ -215,7 +252,10 @@ public class PointsSettingsFrame
 //        m_pointsTable.setTableData(pointPool.getVPoints());
         m_pointsTable.setTableData(m_tableData);
 
-        
+        //Load helper image 
+        String helperImagePath = pointPool.getHelperImagePath();
+        if(helperImagePath != null && !"".equals(helperImagePath))
+            m_imagePanelHelper.setImageView(helperImagePath);
       
 
     }
@@ -237,9 +277,9 @@ public class PointsSettingsFrame
         pointDescBox.getChildren().addAll(m_pointDescLabel ,m_pointDescField ,m_addPoint);
         
         VBox subHeader   = new VBox(20);
-        
-        subHeader.getChildren().addAll(pointNameSymbolBox ,pointDescBox );
-        m_scene = new Scene(m_container , 600, 400 );
+
+        subHeader.getChildren().addAll(pointNameSymbolBox ,pointDescBox , m_imagePanelHelper );
+        m_scene = new Scene(m_container , 800, 600 );
         m_window.setScene(m_scene);
         m_window.getIcons().add(new Image("icon\\pointSettingsFrame.png"));
         initTable();
@@ -249,8 +289,6 @@ public class PointsSettingsFrame
     
     public void initTable()
     {
-         
-        m_scene = new Scene(m_container , 800, 500 );
         m_window.setScene(m_scene);
         m_window.getIcons().add(new Image("icon\\save.png"));
         
@@ -331,7 +369,7 @@ public class PointsSettingsFrame
         Vector data = new Vector();
         list.stream().forEach(data::add);
         pointPool.setVPoints(data);
-        m_runTimeObject.getRunTimeTakweem().saveToFile(null);
+        m_runTimeObject.getRunTimeTakweem().saveToFile("src\\Takweem.xml");
         myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("save.point.done"), takweem.Takweem.BUNDLE);
         m_window.close();
                 

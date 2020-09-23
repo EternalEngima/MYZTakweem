@@ -45,6 +45,8 @@ public abstract class MYZXmlObject
     //Class methods   
     public static String setAttribute( String key , String value )
     {
+        if(value == null)
+            return key + " = \"" + "\" ";
         return key + " = \"" + value + "\" ";
     }
 

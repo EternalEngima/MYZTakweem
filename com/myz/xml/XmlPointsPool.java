@@ -34,8 +34,8 @@ public class XmlPointsPool extends MYZXmlObject implements Serializable
         int    sonTabCount = tabCount + 1;
         String tabString   = getTabsString(tabCount);
         
-        String XML  = tabString + "<PointsPool";
-               XML += setAttribute("helperImagePath", m_helperImagePath);
+        String XML  = tabString + "<PointsPool  ";
+               XML += setAttribute("helperImagePath" , m_helperImagePath);
                XML += ">" + "\n";
 
         for( XmlPoint point : m_vXmlPoints )
