@@ -38,14 +38,16 @@ public class XmlCategory extends MYZXmlObject implements Serializable
     }
 
     @Override
-    public String toXml() 
+    public String toXml(int tabCount) 
     {
-        String XML = "<Category "
+        int    sonTabCount = tabCount + 1;
+        String tabString   = getTabsString(tabCount);  
+        String XML =  tabString +  "<Category "
                     + setAttribute("name", m_name)
-                    + ">";
+                    + ">"   + "\n";
         for( XmlClassification classification : m_vXmlClassification )
-            XML += classification.toXml();
-        XML += "/Category>";
+            XML += classification.toXml(sonTabCount);
+        XML += tabString + "</Category>"  + "\n";
         return XML;
        
     }

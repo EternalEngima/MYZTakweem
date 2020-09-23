@@ -27,6 +27,7 @@ public class myzButton extends Button implements myzComponent
     }
     public myzButton(String text)
     {
+        super();
         setCaption(text);
         setOnMouseClicked(new myzButton_actionAdapter(this));
     }

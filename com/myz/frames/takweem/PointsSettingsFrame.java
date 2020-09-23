@@ -5,8 +5,6 @@
  */
 package com.myz.frames.takweem;
 
-import com.myz.calculable.MYZPoint;
-import com.myz.calculable.MYZPointsPool;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import com.myz.xml.XmlPointsPool;
@@ -16,7 +14,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -55,6 +52,7 @@ public class PointsSettingsFrame
     
     myzComboBox  m_category       = new myzComboBox()
     {
+        @Override
         public void selectionChange()
         {
             m_classification.deleteAllItems();
@@ -65,6 +63,7 @@ public class PointsSettingsFrame
     };
     myzComboBox  m_classification = new myzComboBox()
     {
+        @Override
         public void selectionChange()
         {
             refreshTableData();
@@ -73,8 +72,14 @@ public class PointsSettingsFrame
     
     myzButton  m_saveButton        = new myzButton("save")
     {
+        @Override
         public void buttonPressed()
         {
+            if ( m_pointsTable.getItems().size() < 1 )
+            {
+                myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("check.point.table.not.empty"), takweem.Takweem.BUNDLE );
+                return;
+            }
             saveData();
         }
     };
@@ -113,13 +118,24 @@ public class PointsSettingsFrame
             else 
             {
                 myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("check.all.field.fill"), takweem.Takweem.BUNDLE );
-                return; 
             }
+            
+//            Object o = m_pointsTable.getSelectionModel().getModelItem(2);
             
         }
     };
-    
-    myzTableView m_pointsTable = new myzTableView();
+    // Montazar come here TODO
+    myzTableView m_pointsTable = new myzTableView()
+    {
+        public void clickedOnRow()
+        {
+            XmlPoint point =  (XmlPoint) getSelectionModel().getSelectedItem();
+            System.out.print("we are click on " + getSelectionModel().getSelectedIndex());
+            if ( point != null)
+                System.out.print("name : " + point.m_name );
+
+        }
+    };
     TableColumn  m_pointName;
     TableColumn  m_pointSymbol;
     TableColumn  m_pointDesc;
@@ -286,30 +302,37 @@ public class PointsSettingsFrame
     
     public void saveData()
     {
-        System.out.println("save data .........");
+//        System.out.println("save data .........");
         
         ObservableList list  = m_pointsTable.getItems();
-        for ( int i = 0 ; i < list.size() ; i++ )
-        {
-            XmlPoint xmlPoint = (XmlPoint) list.get(i);
-            
-            System.out.println("-" + i + "- name : " + xmlPoint.m_name + ", symbol : " + xmlPoint.m_symbol + " , desc : " + xmlPoint.m_description);
-        }
+//        for ( int i = 0 ; i < list.size() ; i++ )
+//        {
+//            XmlPoint xmlPoint = (XmlPoint) list.get(i);
+//            
+//            System.out.println("-" + i + "- name : " + xmlPoint.m_name + ", symbol : " + xmlPoint.m_symbol + " , desc : " + xmlPoint.m_description);
+//        }
         
         XmlCategory       category       = (XmlCategory) m_category.getExtraDataValue();
         XmlClassification classification = (XmlClassification) m_classification.getExtraDataValue();
 
         XmlPointsPool     pointPool      = classification.getPointsPool();
-        System.out.println("*************************************************************************");
+//        System.out.println("*************************************************************************");
+//
+//        for ( int i = 0 ; i < pointPool.getVPoints().size() ; i++ )
+//        {
+//            XmlPoint xmlPoint = (XmlPoint) pointPool.getVPoints().elementAt(i);
+//            
+//            System.out.println("-" + i + i + "- name : " + xmlPoint.m_name + ", symbol : " + xmlPoint.m_symbol + " , desc : " + xmlPoint.m_description);
+//        }
 
-        for ( int i = 0 ; i < pointPool.getVPoints().size() ; i++ )
-        {
-            XmlPoint xmlPoint = (XmlPoint) pointPool.getVPoints().elementAt(i);
-            
-            System.out.println("-" + i + i + "- name : " + xmlPoint.m_name + ", symbol : " + xmlPoint.m_symbol + " , desc : " + xmlPoint.m_description);
-        }
+        Vector data = new Vector();
+        list.stream().forEach(data::add);
+        pointPool.setVPoints(data);
+        m_runTimeObject.getRunTimeTakweem().saveToFile(null);
+        myzMessage.myzMessage.noteMessage(takweem.Takweem.getCaption("save.point.done"), takweem.Takweem.BUNDLE);
+        m_window.close();
+                
         
- 
     }
     
     public static void  callFrame(Stage primaryStage , RunTimeObject runTimeObjects)

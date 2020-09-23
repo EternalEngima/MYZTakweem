@@ -16,6 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.input.ContextMenuEvent;
+import javafx.event.Event;
+import javafx.scene.control.SelectionMode;
+
 /**
  * @author yazan
  */
@@ -23,7 +26,13 @@ public class myzTableView extends TableView
 {
     myzScene       m_scene       = null; 
     Pane           m_parentPane  = null;
-    myzContextMenu m_menu        = null;   
+    myzContextMenu m_menu        = null; 
+    
+    public myzTableView()
+    {
+        super();
+        this.setOnMouseClicked(new myzTableview_actionAdapter(this));
+    }
     public void setParentPane(Pane pane)
     {
         m_parentPane = pane;
@@ -70,6 +79,11 @@ public class myzTableView extends TableView
         
     }
     
+    public void clickedOnRow()
+    {
+        
+    }
+    
  
 }
 
@@ -110,5 +124,22 @@ class myzContextMenu extends ContextMenu
         }
        m_table.setContextMenu(this);
     }
+    
+}
+
+class myzTableview_actionAdapter implements EventHandler
+{
+    private myzTableView m_table;
+    myzTableview_actionAdapter (myzTableView table)
+    {
+        m_table = table;
+    }
+
+    @Override
+    public void handle(Event event)
+    {
+        m_table.clickedOnRow();
+    }
+    
     
 }

@@ -60,19 +60,21 @@ public class XmlOperation extends MYZXmlObject implements Serializable
     }
     
     @Override
-    public String toXml()
+    public String toXml(int tabCount)
     {
-        String XML = "<Operation "
-                   + setAttribute( "name" , m_name )
-                   + setAttribute( "description" , m_description )
-                   + setAttribute( "type" , m_type )
-                   + setAttribute( "correctValue" , m_correctValue )
-                   + setAttribute( "errorRange" , m_errorRange )
+        int    sonTabCount = tabCount + 1;
+        String tabString   = getTabsString(tabCount);
+        String XML = tabString + "<Operation "      
+                    + setAttribute( "name" , m_name )               
+                    + setAttribute( "description" , m_description )    
+                    + setAttribute( "type" , m_type )                  
+                    + setAttribute( "correctValue" , m_correctValue )  
+                    + setAttribute( "errorRange" , m_errorRange )     
                    //+ setAttribute( "classification" , m_classification )
-                   + " > ";
+                   + " > "  + "\n";      
         for( XmlPoint point : m_vXmlPoint )
-            XML += point.toXml();
-        XML += "</Operation>";
+            XML += point.toXml(sonTabCount);
+        XML += tabString + "</Operation>"  + "\n";
         return XML;
     }
     //Getter Methods

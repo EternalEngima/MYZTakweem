@@ -22,16 +22,16 @@ public class AnalysisResultTable  extends myzTableView
     public AnalysisResultTable (Stage primaryStage)
     {
         m_operationNameCol         = new TableColumn("Opreation Name");
-        m_operationValueCol        = new TableColumn("Result");
         m_operationCorrectValueCol = new TableColumn("Normal Result");
-        m_operationErrorRangeCol = new TableColumn("Error Range");
+        m_operationValueCol        = new TableColumn("Result");
+        m_operationErrorRangeCol   = new TableColumn("Error Range");
         
         m_operationNameCol.setCellValueFactory(new PropertyValueFactory("m_name"));
-        m_operationValueCol.setCellValueFactory(new PropertyValueFactory("m_value"));
         m_operationCorrectValueCol.setCellValueFactory(new PropertyValueFactory("m_correctValue"));
+        m_operationValueCol.setCellValueFactory(new PropertyValueFactory("m_value"));
         m_operationErrorRangeCol.setCellValueFactory(new PropertyValueFactory("m_errorRange"));
         
-        getColumns().setAll( m_operationNameCol , m_operationValueCol , m_operationCorrectValueCol , m_operationErrorRangeCol);
+        getColumns().setAll( m_operationNameCol , m_operationCorrectValueCol , m_operationValueCol , m_operationErrorRangeCol);
         setPrefWidth(800);
         setPrefHeight(150);
         setColumnResizePolicy(CONSTRAINED_RESIZE_POLICY);
@@ -60,12 +60,11 @@ public class AnalysisResultTable  extends myzTableView
                     //Change row color depend on value
                     if (item!=null && Double.valueOf(item.getM_value()) > 0.0 && Double.valueOf(item.getM_value()) > Double.valueOf(item.getM_correctValue()) )
                     {
-                        
-                        setStyle("-fx-background-color:#FF726F");
+                        setStyle("-fx-text-fill:#FF726F;-fx-font-weight:bolder");
                     }
                     else if (item!=null && Double.valueOf(item.getM_value()) > 0.0 && Double.valueOf(item.getM_value()) < Double.valueOf(item.getM_correctValue()))
                     {
-                        setStyle("-fx-background-color:#ADD8E6");
+                        setStyle("-fx-text-fill:#ADD8E6;-fx-font-weight:bolder");
                     }
                     
                 }

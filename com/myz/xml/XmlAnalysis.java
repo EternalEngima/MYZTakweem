@@ -78,16 +78,18 @@ public class XmlAnalysis extends MYZXmlObject implements Serializable
     }
     
     @Override
-    public String toXml()
+    public String toXml(int tabCount)
     {
-        String XML = "<Analysis"
+        int    sonTabCount = tabCount + 1;
+        String tabString   = getTabsString(tabCount);
+        String XML = tabString + "<Analysis "
                    + setAttribute( "name" , m_name )
                    + setAttribute( "description" , m_description )
                    + setAttribute( "category" , m_category )
-                   + " > ";
+                   + " > " + "\n";
         for( XmlOperation operation : m_vOperation )
-            XML += operation.toXml();
-        XML += "/Analysis>";
+            XML += operation.toXml(sonTabCount);
+        XML += tabString + "</Analysis>"  + "\n";
         return XML;
     }
     

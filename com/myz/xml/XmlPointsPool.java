@@ -11,13 +11,14 @@ import org.xml.sax.Attributes;
 public class XmlPointsPool extends MYZXmlObject implements Serializable
 {
     //Data members
-    Vector<XmlPoint> m_vXmlPoints   = new Vector<>();
+    Vector<XmlPoint> m_vXmlPoints      = new Vector<>();
+    public String    m_helperImagePath = "";  
     
     //Methods
     @Override
     public void initialize(Attributes attributes)
     {
-        
+        m_helperImagePath = getAttributeAsString(attributes, "helperImagePath");
     }
 
     @Override
@@ -28,12 +29,18 @@ public class XmlPointsPool extends MYZXmlObject implements Serializable
     }
 
     @Override
-    public String toXml() 
+    public String toXml(int tabCount) 
     {
-        String XML = "<PointsPool> ";
+        int    sonTabCount = tabCount + 1;
+        String tabString   = getTabsString(tabCount);
+        
+        String XML  = tabString + "<PointsPool";
+               XML += setAttribute("helperImagePath", m_helperImagePath);
+               XML += ">" + "\n";
+
         for( XmlPoint point : m_vXmlPoints )
-            XML += point.toXml();
-        XML += "/PointsPool>";
+            XML += point.toXml(sonTabCount);
+        XML += tabString + "</PointsPool>" + "\n";
         return XML;
     }
     
@@ -41,5 +48,16 @@ public class XmlPointsPool extends MYZXmlObject implements Serializable
     public Vector<XmlPoint> getVPoints()
     {
         return m_vXmlPoints ;
+    }
+
+    
+    public void setVPoints(Vector vXmlPoints)
+    {
+        m_vXmlPoints = vXmlPoints;
+    }
+    public String getHelperImagePath()
+    {
+        return m_helperImagePath ;
+
     }
 }

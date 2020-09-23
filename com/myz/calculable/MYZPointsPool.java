@@ -22,6 +22,7 @@ public class MYZPointsPool extends XmlPointsPool implements Serializable
         {
             m_vMYZPoint.addElement(new MYZPoint(xmlPoint));
         }
+        m_helperImagePath = pointsPool.getHelperImagePath() ;
     }
     
     //Data members 

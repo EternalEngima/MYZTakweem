@@ -37,13 +37,13 @@ public class XmlPoint extends MYZXmlObject implements Serializable
     }
     
     @Override
-    public String toXml()
+    public String toXml(int tabCount)
     {
-        String XML = "<Point "
-                   + setAttribute( "name" , m_name )
-                   + setAttribute( "symbol" , m_symbol )
-                   + setAttribute( "description" , m_description )
-                   + "/>";
+        String XML = getTabsString(tabCount) + "<Point "
+                   + setAttribute( "name" , m_name )               
+                   + setAttribute( "symbol" , m_symbol )          
+                   + setAttribute( "description" , m_description ) 
+                   + "/>"  + "\n";
         return XML;
     }
     @Override
