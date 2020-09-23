@@ -127,6 +127,7 @@ public class PointsSettingsFrame
     // Montazar come here TODO
     myzTableView m_pointsTable = new myzTableView()
     {
+        @Override
         public void clickedOnRow()
         {
             XmlPoint point =  (XmlPoint) getSelectionModel().getSelectedItem();

@@ -4,6 +4,7 @@ import com.myz.files.MYZFile;
 import com.myz.frames.takweem.PointsSettingsFrame;
 import com.myz.image.ImageEditorStage;
 import static com.myz.image.ImagePanel.PAINT_MODE_RULER;
+import com.myz.image.ImagePanelHelper;
 import com.myz.image.Line;
 import com.myz.image.Point;
 import com.myz.xml.XmlAnalysis;
@@ -37,6 +38,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -234,11 +236,12 @@ public class Takweem extends Application
     Label        m_fixedFooterLabel        = new Label();
     
     //Left Component
-    VBox         m_leftSidebar           = new VBox(10);
-    VBox         m_rightSidebar          = new VBox(10);
-    Pane         m_pointsTablePan        = new Pane();
-    ImageView    m_helperImage           = new ImageView();
-    public static PointsTable  m_pointsTable           ;
+    VBox         m_leftSidebar            = new VBox(10);
+    VBox         m_rightSidebar           = new VBox(10);
+    Pane         m_pointsTablePan         = new Pane();
+    
+    public static PointsTable      m_pointsTable = null ;
+    public static ImagePanelHelper m_helperImage = new ImagePanelHelper();
     
     myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
@@ -434,9 +437,7 @@ public class Takweem extends Application
         m_undoButton.setMaxSize(75,40);
         m_undoButton.setCaption("analysis.undo");
         
-        m_helperImage.setFitWidth(150);
-        m_helperImage.setFitHeight(150);
-        m_helperImage.setStyle("-fx-border-color: #000;");
+        m_helperImage.setStyle("-fx-border-color:black;");
         
         m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton , m_helperImage);
         m_leftSidebar.setAlignment(Pos.TOP_LEFT);
@@ -513,7 +514,7 @@ public class Takweem extends Application
                 {
                     try
                     {
-                        m_helperImage.setImage(new Image(new FileInputStream( new File (imageHelperPath))));
+                        m_helperImage.setImageView(imageHelperPath);
                     }
                     catch(Exception ex)
                     {

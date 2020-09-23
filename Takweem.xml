@@ -6,17 +6,21 @@
  
         <Classification name = "RaysFrontalCephalometric">
              <PointsPool
-             helperImagePath = "src\\helperImages\\test.jpg"
+             helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg"
              >
                 <Point
                     symbol      = "Cg"
                     name        = "Crista-gali"
                     describtion = ""
+                    helperX     = "100"
+                    helperY     = "100"
                 />
                 <Point
                     symbol      = "AnsF"
                     name        = "Anterior Nassal Spine 'frontal'"
                     describtion = ""
+                    helperX     = "200"
+                    helperY     = "100"
                 />
                 <Point
                     symbol      = "MeF"

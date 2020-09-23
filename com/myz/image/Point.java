@@ -20,6 +20,10 @@ public class Point implements Serializable
         m_x = x ;
         m_y = y ;
     }
+    public Point ()
+    {
+        
+    }
     
     //Class member
     public static Color ANALYSIS_POINT_COLOR = Color.BLACK ;
