@@ -10,6 +10,7 @@ import com.myz.xml.XmlAnalysis;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Locale;
@@ -236,7 +237,9 @@ public class Takweem extends Application
     VBox         m_leftSidebar           = new VBox(10);
     VBox         m_rightSidebar          = new VBox(10);
     Pane         m_pointsTablePan        = new Pane();
+    ImageView    m_helperImage           = new ImageView();
     public static PointsTable  m_pointsTable           ;
+    
     myzButton    m_undoButton            = new myzButton()//TODO PointsTable hilighte the current row 
     {
         @Override
@@ -431,7 +434,11 @@ public class Takweem extends Application
         m_undoButton.setMaxSize(75,40);
         m_undoButton.setCaption("analysis.undo");
         
-        m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton);
+        m_helperImage.setFitWidth(150);
+        m_helperImage.setFitHeight(150);
+        m_helperImage.setStyle("-fx-border-color: #000;");
+        
+        m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton , m_helperImage);
         m_leftSidebar.setAlignment(Pos.TOP_LEFT);
         m_leftSidebar.setStyle(cssLayout);
     }
@@ -500,6 +507,20 @@ public class Takweem extends Application
                 //Get points vector from points pool and set it to point table data
                 RUNTIME_OBJECT.initRunTimePointsPool();
                 m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint() ) ;
+                //Load helper Image
+                String imageHelperPath = RUNTIME_OBJECT.getRunTimePointsPool().getHelperImagePath();
+                if(!"".equals(imageHelperPath))
+                {
+                    try
+                    {
+                        m_helperImage.setImage(new Image(new FileInputStream( new File (imageHelperPath))));
+                    }
+                    catch(Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+                    
+                }
             } 
         };
         

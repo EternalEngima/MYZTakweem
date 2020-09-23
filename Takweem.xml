@@ -5,7 +5,9 @@
     <Category name = "X-Ray">
  
         <Classification name = "RaysFrontalCephalometric">
-             <PointsPool>
+             <PointsPool
+             helperImagePath = "src\\helperImages\\test.jpg"
+             >
                 <Point
                     symbol      = "Cg"
                     name        = "Crista-gali"
