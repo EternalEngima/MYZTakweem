@@ -124,7 +124,7 @@ public class PointsSettingsFrame
             
         }
     };
-    
+    // Montazar come here TODO
     myzTableView m_pointsTable = new myzTableView()
     {
         public void clickedOnRow()
