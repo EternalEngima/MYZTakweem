@@ -2,6 +2,7 @@ package takweem;
 import com.myz.calculable.MYZRuler;
 import com.myz.files.MYZFile;
 import com.myz.frames.takweem.PointsSettingsFrame;
+import com.myz.frames.takweem.AnalysisSettingsFrame;
 import com.myz.image.ImageEditorStage;
 import static com.myz.image.ImagePanel.PAINT_MODE_RULER;
 import com.myz.image.ImagePanelHelper;
@@ -86,7 +87,8 @@ public class Takweem extends Application
     Menu           m_sittingsMenu          = new Menu(getCaption("menubar.settings"));
     Menu           m_langMenu              = new Menu(getCaption("application.lang"));
     MenuItem       m_pointMenu             = new MenuItem(getCaption("points"));
-    
+    MenuItem       m_analysisMenu          = new MenuItem(getCaption("analysis"));
+
     HBox           m_headerPane            = new HBox(5);
     myzMenuButton  m_categoryMenuButton    = new myzMenuButton();
     myzButton      m_saveAnalysisButton    = new myzButton()
@@ -345,7 +347,7 @@ public class Takweem extends Application
 
         m_langMenu.getItems().addAll(eng , arab , fran);
         
-        EventHandler<ActionEvent> pointsEvent = new EventHandler<ActionEvent>()
+        EventHandler<ActionEvent> pointsMenuEvent = new EventHandler<ActionEvent>()
         { 
             @Override
             public void handle(ActionEvent e) 
@@ -354,8 +356,20 @@ public class Takweem extends Application
             } 
         };
         
-        m_pointMenu.setOnAction(pointsEvent);
-        m_sittingsMenu.getItems().addAll(m_langMenu , m_pointMenu);
+        m_pointMenu.setOnAction(pointsMenuEvent);
+        
+        EventHandler<ActionEvent> analysisMenuEvent = new EventHandler<ActionEvent>()
+        { 
+            @Override
+            public void handle(ActionEvent e) 
+            { 
+                AnalysisSettingsFrame.callFrame(m_primaryStage , RUNTIME_OBJECT );
+            } 
+        };
+        
+        m_analysisMenu.setOnAction(analysisMenuEvent);
+        
+        m_sittingsMenu.getItems().addAll(m_langMenu , m_pointMenu, m_analysisMenu);
         
         m_sittingsBar.getMenus().addAll(m_sittingsMenu );
 
@@ -590,6 +604,7 @@ public class Takweem extends Application
         m_sittingsMenu.setText(getCaption("menubar.settings"));
         m_langMenu.setText(getCaption("application.lang"));
         m_pointMenu.setText(getCaption("points"));
+        m_analysisMenu.setText(getCaption("analysis"));
         //footer
         m_fixedFooterLabel.setText(getCaption("window.footer.title"));
     }

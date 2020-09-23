@@ -273,6 +273,7 @@ public class TakweemReport
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_RIGHT  );
+        cell.setPadding(2f);
         InfoTable.addCell(cell);
         
         cell = new PdfPCell();
@@ -280,6 +281,7 @@ public class TakweemReport
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_LEFT  );
+        cell.setPadding(2f);
         InfoTable.addCell(cell);    
 
         // to print the print Date
@@ -288,6 +290,7 @@ public class TakweemReport
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_RIGHT  );
+        cell.setPadding(2f);
         InfoTable.addCell(cell);
         
         Date       date     = new Date(System.currentTimeMillis());
@@ -297,6 +300,7 @@ public class TakweemReport
         cell.setBorder(PdfPCell.NO_BORDER);
         cell.setHorizontalAlignment( PdfPCell.ALIGN_CENTER );
         cell.setVerticalAlignment( PdfPCell.ALIGN_CENTER  );
+        cell.setPadding(2f);
         InfoTable.addCell(cell);
          
         try 

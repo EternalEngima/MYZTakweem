@@ -233,13 +233,15 @@ public class PointsSettingsFrame
         
         m_pointDescField.setMinWidth(250);
         HBox pointDescBox = new HBox(20);
-//        m_addPoint.setGraphic(new ImageView(""));
+        m_addPoint.setGraphic(new ImageView("icon\\add.jfif"));
         pointDescBox.getChildren().addAll(m_pointDescLabel ,m_pointDescField ,m_addPoint);
         
         VBox subHeader   = new VBox(20);
         
         subHeader.getChildren().addAll(pointNameSymbolBox ,pointDescBox );
-        
+        m_scene = new Scene(m_container , 600, 400 );
+        m_window.setScene(m_scene);
+        m_window.getIcons().add(new Image("icon\\pointSettingsFrame.png"));
         initTable();
         m_header.getChildren().addAll(m_category , m_classification , m_saveButton);
         m_container.getChildren().addAll(m_header ,subHeader, m_pointsTable );
