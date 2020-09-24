@@ -39,7 +39,7 @@ public class XmlAnalysis extends MYZXmlObject implements Serializable
     public static String TYPE_FACE_PROFILE       = "MYZAnalysisTypeFaceProfile";
     public static String TYPE_FACE_FRONT         = "MYZAnalysisTypeFaceFront";
     public static String TYPE_FACE_LIPS_IN_REST  = "MYZAnalysisTypeFaceLipsInRest";
-    public static String TYPE_FACE_SMILE_FRONT   = "MYZAnalysisTypeFaceSmilefRONT";
+    public static String TYPE_FACE_SMILE_FRONT   = "MYZAnalysisTypeFaceSmileFront";
     public static String TYPE_FACE_SMILE_PROFILE = "MYZAnalysisTypeFaceSmileProfile";
        //Intraoral
     public static String TYPE_INTRAORAL_BUCCAL_FRONT  = "MYZAnalysisTypeIntraoralBuccalFront";
