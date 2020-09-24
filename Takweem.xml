@@ -2,7 +2,7 @@
 <Takweem> 
 	<Category name = "X-Ray" >
 		<Classification name = "RaysFrontalCephalometric" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "18" helperY = "15" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "240" helperY = "139" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "0" helperY = "0" />

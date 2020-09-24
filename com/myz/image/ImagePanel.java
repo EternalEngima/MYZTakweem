@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -80,7 +79,7 @@ public class ImagePanel extends HBox implements myzComponent , Serializable
     //Class Methods 
     public void insertImage( Image image ) 
     {   
-        String blankImageUrl      = "src\\blank600x500.png" ;
+        String blankImageUrl      = "/blank600x500.png" ;
         try 
         {
             m_imageView      =  new ImageView() ;
@@ -89,7 +88,7 @@ public class ImagePanel extends HBox implements myzComponent , Serializable
             m_centerPane.getChildren().addAll( getImageView() , getBlankImageView());
 
             setSelectedImage( image );
-            Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
+            Image  blankImage  = new Image( getClass().getResourceAsStream(blankImageUrl) );
             
             getImageView().setFitWidth(IMAGE_VIEW_WIDTH);
             getImageView().setFitHeight(IMAGE_VIEW_HEIGHT);

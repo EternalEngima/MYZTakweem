@@ -83,23 +83,28 @@ public class XmlOperation extends MYZXmlObject implements Serializable
         return m_vXmlPoint ;
     }
 
-    public String getM_name() {
+    public String getM_name() 
+    {
         return m_name;
     }
 
-    public String getM_description() {
+    public String getM_description() 
+    {
         return m_description;
     }
 
-    public String getM_type() {
+    public String getM_type() 
+    {
         return m_type;
     }
 
-    public double getM_correctValue() {
+    public double getM_correctValue() 
+    {
         return m_correctValue;
     }
 
-    public double getM_errorRange() {
+    public double getM_errorRange() 
+    {
         return m_errorRange;
     }
     

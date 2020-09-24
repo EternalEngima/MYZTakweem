@@ -12,7 +12,6 @@ import com.myz.xml.XmlAnalysis;
 import com.myz.xml.XmlCategory;
 import com.myz.xml.XmlClassification;
 import java.io.File;
-import java.io.FileInputStream;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Locale;
@@ -39,7 +38,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -300,7 +298,7 @@ public class Takweem extends Application
         m_container.setCenter(RUNTIME_OBJECT.getImagePanel() ); 
         
         m_primaryStage.setTitle("Takweem");
-        m_primaryStage.getIcons().add(new Image("icon\\programIcon.png"));
+        m_primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/programIcon.png")));
         m_primaryStage.setScene(TAKWEEM_SCENE);
 
         m_primaryStage.show();
@@ -374,28 +372,28 @@ public class Takweem extends Application
         m_sittingsBar.getMenus().addAll(m_sittingsMenu );
 
         m_saveAnalysisButton.setCaption("save.analysis");
-        m_saveAnalysisButton.setGraphic(new ImageView("icon\\save.png"));
+        m_saveAnalysisButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/save.png") ) ) );
         m_saveAnalysisButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_saveAnalysisButton.setMaxHeight(25);
         m_saveAnalysisButton.setParentPane(m_headerPane);
         m_saveAnalysisButton.setReSizeOnParentSize(true);
         
         m_saveImageButton.setCaption("save.image");
-        m_saveImageButton.setGraphic(new ImageView("icon\\save.png"));
+        m_saveImageButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/save.png") ) ) );
         m_saveImageButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_saveImageButton.setMaxHeight(25);
         m_saveImageButton.setParentPane(m_headerPane);
         m_saveImageButton.setReSizeOnParentSize(true);
         
         m_addPhotoButton.setCaption("button.add.photo");
-        m_addPhotoButton.setGraphic(new ImageView("icon\\addphoto.png"));
+        m_addPhotoButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/addphoto.png") ) ) );
         m_addPhotoButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_addPhotoButton.setMaxHeight(25);
         m_addPhotoButton.setParentPane(m_headerPane);
         m_addPhotoButton.setReSizeOnParentSize(true);
 
         m_printResultButton.setCaption("button.prin.result");
-        m_printResultButton.setGraphic(new ImageView("icon\\print.png"));
+        m_printResultButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/print.png") ) ) );
         m_printResultButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_printResultButton.setParentPane(m_headerPane);
         m_printResultButton.setReSizeOnParentSize(true);
@@ -415,12 +413,12 @@ public class Takweem extends Application
         m_categoryMenuButton.setParentPane(m_headerPane);
         m_categoryMenuButton.setReSizeOnParentSize(true);
         
-        m_rulerButton.setGraphic(new ImageView("icon\\ruler.png"));
+        m_rulerButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/ruler.png") ) ) );
         m_rulerButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_rulerButton.setParentPane(m_headerPane);
         m_rulerButton.setReSizeOnParentSize(true);
         
-        CompareTwoAnalysisButton.setGraphic(new ImageView("icon\\compare.jpg"));
+        CompareTwoAnalysisButton.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/compare.jpg") ) ) );
         CompareTwoAnalysisButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         CompareTwoAnalysisButton.setParentPane(m_headerPane);
         CompareTwoAnalysisButton.setReSizeOnParentSize(true);
@@ -454,7 +452,7 @@ public class Takweem extends Application
         m_helperImage.setStyle("-fx-border-color:black;");
         
         m_leftSidebar.getChildren().addAll( m_pointsTablePan , m_undoButton , m_helperImage);
-        m_leftSidebar.setAlignment(Pos.TOP_LEFT);
+        m_leftSidebar.setAlignment(Pos.TOP_CENTER);
         m_leftSidebar.setStyle(cssLayout);
     }
 
@@ -534,14 +532,15 @@ public class Takweem extends Application
         for(XmlCategory category :xmlCategory)
         {
             Menu categoryMenu = new Menu(category.getName());
-            categoryMenu.setGraphic(new ImageView("icon\\" + category.getName() + ".jpg"));//temp should fetch the path from xml 
+            //temp should fetch the path from xml 
+            categoryMenu.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/" + category.getName() + ".jpg") ) ));
             
             for(XmlClassification classification :category.gteVClassification())
             {
                 CheckMenuItem classificationItem = new CheckMenuItem(classification.getName());
                 categoryMenu.getItems().add(classificationItem);
                 classificationItem.setOnAction(chooseClassificationEvent);
-                classificationItem.setGraphic(new ImageView("icon\\classification.png"));
+                classificationItem.setGraphic(new ImageView(new Image (getClass().getResourceAsStream("/icon/classification.png") ) ) );
             }
             
             m_categoryMenuButton.getItems().add(categoryMenu);

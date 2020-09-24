@@ -19,10 +19,10 @@ public class ImagePanelHelper extends StackPane implements myzComponent
     //Constructore
     public ImagePanelHelper ()
     {
-        String blankImageUrl      = "src\\blank250x150.png" ;
+        String blankImageUrl      = "/blank250x150.png" ;
         try
         {
-            Image  blankImage  = new Image(new FileInputStream( new File (blankImageUrl)));
+            Image  blankImage  = new Image(getClass().getResourceAsStream(blankImageUrl));
             m_blankImageView.setImage(blankImage);    
             m_centerLabel.setCaption("Image.helper");
             getChildren().addAll(m_centerLabel ,m_imageView , m_blankImageView);
@@ -58,7 +58,7 @@ public class ImagePanelHelper extends StackPane implements myzComponent
     {
         try
         {
-            m_imageView.setImage(new Image(new FileInputStream( new File (imageHelperPath))) );
+            m_imageView.setImage((new Image( getClass().getResourceAsStream(imageHelperPath) ) ) );
             m_imageView.setFitWidth(IMAGE_VIEW_WIDTH);
             m_imageView.setFitHeight(IMAGE_VIEW_HEIGHT);
             setMaxSize(IMAGE_VIEW_WIDTH, IMAGE_VIEW_HEIGHT);
