@@ -141,11 +141,14 @@ public class ImagePanel extends HBox implements myzComponent , Serializable
             int   y      = new Double ( ( event.getY()  )  ).intValue();
             
             MYZPoint currentPoint  = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
-            MYZPoint nextPoint     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().get(0);
             //Show the helper point on helper image
-            int helperX = nextPoint.getHelperX();
-            int helperY = nextPoint.getHelperY();
-            Takweem.m_helperImage.paintHelperPoint(helperX , helperY);
+            if(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().size() > 0 )
+            {
+                MYZPoint nextPoint     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().get(0);
+                int helperX = nextPoint.getHelperX();
+                int helperY = nextPoint.getHelperY();
+                Takweem.m_helperImage.paintHelperPoint(helperX , helperY);      
+            }
             ///////////////////////////////////////////////////////
             Point    tempPoint     = new Point(x, y) ; 
                 
