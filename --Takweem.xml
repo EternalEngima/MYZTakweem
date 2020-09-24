@@ -3,10 +3,9 @@
 <Takweem>
     
     <Category name = "X-Ray">
- 
         <Classification name = "RaysFrontalCephalometric">
              <PointsPool
-             helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg"
+             helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg"
              >
                 <Point
                     symbol      = "Cg"
