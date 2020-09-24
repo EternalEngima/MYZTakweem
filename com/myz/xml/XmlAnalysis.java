@@ -102,4 +102,10 @@ public class XmlAnalysis extends MYZXmlObject implements Serializable
     {
         return m_vOperation ; 
     }
+
+    public void setM_vOperation(Vector<XmlOperation> m_vOperation) 
+    {
+        this.m_vOperation = m_vOperation;
+    }
+    
 }

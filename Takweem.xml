@@ -26,17 +26,13 @@
 				<Point name = "Nassal Cavity 'right'" symbol = "NcR" description = "" helperX = "149" helperY = "91" />
 			</PointsPool>
 			<Analysis name = "Al Barwdi" description = "" category = "0"  > 
-				<Operation name = "JL-JR / AgL-AgR" description = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.                                     Is it possible to make this work either by using an Image object or in some other way?                                     Here is a Demo class showing the problem." type = "MYZOperationTypeRatioBetweenTwoLines" correctValue = "80.0" errorRange = "3.0"  > 
-					<Point name = "Jugal Process 'left'" symbol = "JL" description = "" helperX = "0" helperY = "0" />
+				<Operation name = "11111" description = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.                                     Is it possible to make this work either by using an Image object or in some other way?                                     Here is a Demo class showing the problem." type = "MYZOperationTypeRatioBetweenTwoLines" correctValue = "80.0" errorRange = "3.0"  > 
 					<Point name = "Jugal Process 'right'" symbol = "JR" description = "" helperX = "0" helperY = "0" />
-					<Point name = "Antegonia Notch 'left'" symbol = "AgL" description = "" helperX = "0" helperY = "0" />
 					<Point name = "Antegonia Notch 'right'" symbol = "AgR" description = "" helperX = "0" helperY = "0" />
 				</Operation>
-				<Operation name = "NcL-NcR / JL-JR" description = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.                                     Is it possible to make this work either by using an Image object or in some other way?                                     Here is a Demo class showing the problem." type = "MYZOperationTypeRatioBetweenTwoLines" correctValue = "40.0" errorRange = "2.0"  > 
+				<Operation name = "22222" description = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.                                     Is it possible to make this work either by using an Image object or in some other way?                                     Here is a Demo class showing the problem." type = "MYZOperationTypeRatioBetweenTwoLines" correctValue = "40.0" errorRange = "2.0"  > 
 					<Point name = "Jugal Process 'left'" symbol = "JL" description = "" helperX = "0" helperY = "0" />
-					<Point name = "Jugal Process 'right'" symbol = "JR" description = "" helperX = "0" helperY = "0" />
 					<Point name = "Nassal Cavity 'left'" symbol = "NcL" description = "" helperX = "0" helperY = "0" />
-					<Point name = "Nassal Cavity 'right'" symbol = "NcR" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 				<Operation name = "Cg-Mef / ZaL-ZaR" description = "I am trying to have a class with an Image (javaFX) property saved in a binary file but when the Image is different than null I get an IOException.                                     Is it possible to make this work either by using an Image object or in some other way?                                     Here is a Demo class showing the problem." type = "MYZOperationTypeRatioBetweenTwoLines" correctValue = "0.0" errorRange = "1.0"  > 
 					<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "100" helperY = "100" />
@@ -202,7 +198,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "PanoramicRadiology" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -303,7 +299,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "BoneAge" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -404,7 +400,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>    
+		</Classification> 
 		<Classification name = "CBCTRadio" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -505,7 +501,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>                                                            
+		</Classification> 
 	</Category>
 	<Category name = "Face" >
 		<Classification name = "Profile" >
@@ -709,7 +705,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "LipsInRest" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -810,7 +806,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "SmileFront" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -911,7 +907,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>    
+		</Classification> 
 		<Classification name = "SmileProfile" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1012,8 +1008,8 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
-        </Category>
+		</Classification> 
+	</Category>
 	<Category name = "Intraoral" >
 		<Classification name = "BuccalFront" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
@@ -1216,7 +1212,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "BuccalLeft" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1317,7 +1313,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "OcclusalUp" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1418,7 +1414,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>    
+		</Classification> 
 		<Classification name = "OcclusalDown" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1519,8 +1515,8 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
-        </Category>
+		</Classification> 
+	</Category>
 	<Category name = "Gypsum" >
 		<Classification name = "MaxillaryCast" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
@@ -1723,7 +1719,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "Gypsum" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1824,7 +1820,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
+		</Classification> 
 		<Classification name = "OcclusalCanting" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -1925,7 +1921,7 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>    
+		</Classification> 
 		<Classification name = "Bolton" >
 			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
@@ -2026,6 +2022,6 @@
 					<Point name = "First Molar 'lower right'" symbol = "B6R" description = "" helperX = "0" helperY = "0" />
 				</Operation>
 			</Analysis>
-		</Classification>
-        </Category>
+		</Classification> 
+	</Category>
 </Takweem>

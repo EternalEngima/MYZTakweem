@@ -16,6 +16,22 @@ public class XmlOperation extends MYZXmlObject implements Serializable
         m_vXmlPoint = new Vector< XmlPoint >();
     }
     
+    public XmlOperation(XmlOperation operation)
+    {
+        this.m_name         = operation.m_name;
+        this.m_type         = operation.m_type;
+        this.m_correctValue = operation.m_correctValue;
+        this.m_description  = operation.m_description;
+        this.m_errorRange   = operation.m_errorRange;
+        this.m_vXmlPoint    = new Vector< XmlPoint >();
+        for ( int i = 0 ; i < operation.m_vXmlPoint.size() ; i++)
+        {
+            XmlPoint point = (XmlPoint)operation.m_vXmlPoint.elementAt(i);
+            XmlPoint myPoint = new XmlPoint(point);
+            this.m_vXmlPoint.add(myPoint);
+        }
+    }
+    
     //Statics
      //Type
     public static final String TYPE_DISTANCE_BETWEEN_TWO_POINTS                   = "MYZOperationTypeDistanceBetweenTwoPoints";
@@ -26,6 +42,39 @@ public class XmlOperation extends MYZXmlObject implements Serializable
     public static final String TYPE_ANGLE_BETWEEN_TWO_LINES                       = "MYZOperationTypeAngleBetweenTwoLines";
     public static final String TYPE_RATIO_BETWEEN_TWO_LINES                       = "MYZOperationTypeRatioBetweenTwoLines";
 
+    public static Vector getOperationType()
+    {
+        Vector type = new Vector();
+        type.add(TYPE_DISTANCE_BETWEEN_TWO_POINTS);
+        type.add(TYPE_DISTANCE_BETWEEN_TWO_LINES);
+        type.add(TYPE_DISTANCE_BETWEEN_LINE_AND_POINT);
+        type.add(TYPE_DISTANCE_BETWEEN_TWO_PROJECTED_POINTS_ON_LINE);
+        type.add(TYPE_ANGLE_BETWEEN_THREE_POINTS);
+        type.add(TYPE_ANGLE_BETWEEN_TWO_LINES);
+        type.add(TYPE_RATIO_BETWEEN_TWO_LINES);
+        return type;
+    }
+    
+    public static int getOperationNeededPoint(String operationType)
+    {
+        if (operationType.equals(TYPE_DISTANCE_BETWEEN_TWO_POINTS))
+            return 2;
+        if (operationType.equals(TYPE_DISTANCE_BETWEEN_TWO_LINES))
+            return 4;
+        if (operationType.equals(TYPE_DISTANCE_BETWEEN_LINE_AND_POINT))
+            return 3;
+        if (operationType.equals(TYPE_DISTANCE_BETWEEN_TWO_PROJECTED_POINTS_ON_LINE))// TODO
+            return 2;
+        if (operationType.equals(TYPE_ANGLE_BETWEEN_THREE_POINTS))
+            return 3;
+        if (operationType.equals(TYPE_ANGLE_BETWEEN_TWO_LINES))
+            return 4;
+        if (operationType.equals(TYPE_RATIO_BETWEEN_TWO_LINES))
+            return 2;
+        
+        return 0;
+    }
+    
      //Classification TODO
 //    public static final String CLASSIFICATION_SKELETON = "MYZOperationClassificationSkeleton";
 //    public static final String CLASSIFICATION_1        = "MYZOperationClassification";
@@ -107,5 +156,6 @@ public class XmlOperation extends MYZXmlObject implements Serializable
     {
         return m_errorRange;
     }
+    
     
 }
