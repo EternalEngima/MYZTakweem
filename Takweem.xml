@@ -204,7 +204,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "PanoramicRadiology" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -305,7 +305,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "BoneAge" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -406,7 +406,7 @@
 			</Analysis>
 		</Classification>    
 		<Classification name = "CBCTRadio" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -509,7 +509,7 @@
 	</Category>
 	<Category name = "Face" >
 		<Classification name = "Profile" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -610,7 +610,7 @@
 			</Analysis>
 		</Classification> 
 		<Classification name = "Front" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -711,7 +711,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "LipsInRest" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -812,7 +812,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "SmileFront" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -913,7 +913,7 @@
 			</Analysis>
 		</Classification>    
 		<Classification name = "SmileProfile" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1016,7 +1016,7 @@
         </Category>
 	<Category name = "Intraoral" >
 		<Classification name = "BuccalFront" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1117,7 +1117,7 @@
 			</Analysis>
 		</Classification> 
 		<Classification name = "BuccalRight" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1218,7 +1218,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "BuccalLeft" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1319,7 +1319,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "OcclusalUp" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1420,7 +1420,7 @@
 			</Analysis>
 		</Classification>    
 		<Classification name = "OcclusalDown" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1523,7 +1523,7 @@
         </Category>
 	<Category name = "Gypsum" >
 		<Classification name = "MaxillaryCast" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1624,7 +1624,7 @@
 			</Analysis>
 		</Classification> 
 		<Classification name = "MandibularCast" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1725,7 +1725,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "Gypsum" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1826,7 +1826,7 @@
 			</Analysis>
 		</Classification>
 		<Classification name = "OcclusalCanting" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
@@ -1927,7 +1927,7 @@
 			</Analysis>
 		</Classification>    
 		<Classification name = "Bolton" >
-			<PointsPool  helperImagePath = "src\\helperImages\\RaysFrontalCephalometric.jpg" >
+			<PointsPool  helperImagePath = "/helperImages/RaysFrontalCephalometric.jpg" >
 				<Point name = "Crista-gali" symbol = "Cg" description = "" helperX = "128" helperY = "75" />
 				<Point name = "Anterior Nassal Spine 'frontal'" symbol = "AnsF" description = "" helperX = "128" helperY = "96" />
 				<Point name = "Menton 'frontal'" symbol = "MeF" description = "" helperX = "128" helperY = "140" />
