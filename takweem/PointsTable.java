@@ -52,15 +52,10 @@ public class PointsTable extends myzTableView
                 }
                 else if ((event.getClickCount() == 1 && (! row.isEmpty()) ))
                 {
-                    Takweem.m_helperImage.removePreviousePoint();
-                    
                     MYZPoint rowData = row.getItem();
-                    int x = rowData.getHelperX();
-                    int y = rowData.getHelperY();
-                    
-                    Point point = new Point(x , y);
-                    point.draw( Takweem.m_helperImage.getBlankImageView() , Color.RED);
-                    Takweem.m_helperImage.setPreviousePoint(x, y);
+                    int      helperX = rowData.getHelperX();
+                    int      helperY = rowData.getHelperY();
+                    Takweem.m_helperImage.paintHelperPoint(helperX , helperY);
                 }
             });
         return row ;

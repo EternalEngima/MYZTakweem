@@ -1,4 +1,5 @@
 package takweem;
+import com.myz.calculable.MYZPoint;
 import com.myz.calculable.MYZRuler;
 import com.myz.files.MYZFile;
 import com.myz.frames.takweem.PointsSettingsFrame;
@@ -524,7 +525,10 @@ public class Takweem extends Application
                 String imageHelperPath = RUNTIME_OBJECT.getRunTimePointsPool().getHelperImagePath();
                 if(imageHelperPath != null && !"".equals(imageHelperPath))
                 {
+                    //Show first helper point on helper image 
+                    MYZPoint myzPoint = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().get(0);
                     m_helperImage.setImageView(imageHelperPath);
+                    Takweem.m_helperImage.paintHelperPoint(myzPoint.getHelperX() , myzPoint.getHelperY());
                 }
             } 
         };

@@ -140,16 +140,22 @@ public class ImagePanel extends HBox implements myzComponent , Serializable
             int   x      = new Double ( ( event.getX()  )  ).intValue();
             int   y      = new Double ( ( event.getY()  )  ).intValue();
             
-            MYZPoint point     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
-            Point    tempPoint = new Point(x, y) ; 
+            MYZPoint currentPoint  = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().remove(0);
+            MYZPoint nextPoint     = RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().get(0);
+            //Show the helper point on helper image
+            int helperX = nextPoint.getHelperX();
+            int helperY = nextPoint.getHelperY();
+            Takweem.m_helperImage.paintHelperPoint(helperX , helperY);
+            ///////////////////////////////////////////////////////
+            Point    tempPoint     = new Point(x, y) ; 
                 
-            point.setPoint(tempPoint);
+            currentPoint.setPoint(tempPoint);
             //Refresh the table Points
             Takweem.m_pointsTable.setTableData(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint());
             
             tempPoint.draw(m_blankImageView , Point.ANALYSIS_POINT_COLOR);
             
-            RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPointValue().addElement(point);
+            RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPointValue().addElement(currentPoint);
             
             if(RUNTIME_OBJECT.getRunTimePointsPool().getVMYZPoint().isEmpty())
             {

@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import myzComponent.myzComponent;
 import myzComponent.myzLabel;
 
@@ -78,6 +79,14 @@ public class ImagePanelHelper extends StackPane implements myzComponent
     public void removePreviousePoint()
     {
         m_previousePoint.erase(m_blankImageView);
+    }
+    
+    public void paintHelperPoint(int helperX , int helperY )
+    {
+        removePreviousePoint();
+        Point point = new Point(helperX , helperY);
+        point.draw( getBlankImageView() , Color.RED);
+        setPreviousePoint(helperX, helperY);
     }
 
     @Override
