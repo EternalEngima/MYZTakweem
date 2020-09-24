@@ -167,7 +167,7 @@ public class TakweemReport
             ObservableList list  = takweem.Takweem.m_calculateTable.getItems();
             if ( list.size() > 0 )
             {
-                m_data = new PdfPTable(takweem.Takweem.m_calculateTable.getColumns().size());
+                m_data = new PdfPTable(takweem.Takweem.m_calculateTable.getColumns().size() - 1);
                 m_data.setWidthPercentage(100);
                 float [] width = new float[3];
                 width[0] = 6;
@@ -237,7 +237,8 @@ public class TakweemReport
                     m_data.addCell(cell);
                     
                     cell = new PdfPCell();
-//                    cell.setPhrase(new Phrase(operation.getM_correctValue()));
+                    String correctValue = Double.toString(operation.getM_correctValue());
+                    cell.setPhrase(new Phrase(correctValue));
                     cell.setRunDirection(getRunDirection());
                     cell.setBorder(PdfPCell.BOX);
                     cell.setBorderWidth(.1f);
@@ -246,11 +247,13 @@ public class TakweemReport
                     cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
                     cell.setBackgroundColor(Color.white);
                     m_data.addCell(cell);
+                    
                 }
 //                m_data.setWidths({5,5,5});
+                m_pdfDocument.add(m_data);
+
             }
             
-            m_pdfDocument.add(m_data);
             
             m_pdfDocument.close();
         }
