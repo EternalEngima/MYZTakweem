@@ -93,6 +93,7 @@ public class MYZOperation extends XmlOperation implements Serializable
         m_description  = operation.m_description ;
         m_correctValue = operation.m_correctValue;
         m_type         = operation.m_type;
+        m_errorRange   = operation.m_errorRange;
         for(XmlPoint xmlPoint :operation.getVXmlPoint())
             m_vPoint.addElement(new MYZPoint(xmlPoint));
     }
@@ -250,16 +251,5 @@ public class MYZOperation extends XmlOperation implements Serializable
     {
         return String.valueOf(m_value);
     }
-    public String getM_name()
-    {
-        return m_name ;
-    }
-    public double getM_correctValue()
-    {
-        return m_correctValue ; 
-    }
-    public double getM_errorRange()
-    {
-        return m_errorRange ;
-    }
+
 }

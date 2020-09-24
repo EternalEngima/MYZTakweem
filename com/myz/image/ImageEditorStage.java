@@ -71,7 +71,7 @@ public class ImageEditorStage
         m_container.setCenter(m_imageViewParent);
         
         m_stage.setTitle("Image Editor");
-        m_stage.getIcons().add(new Image("icon\\imageEditor.png"));
+        m_stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/imageEditor.png")));
         m_stage.setScene(new Scene(m_container , 1000 , 1000));
         m_stage.setOnCloseRequest(new EventHandler <WindowEvent>()
         {
@@ -192,14 +192,14 @@ public class ImageEditorStage
         m_rotateValueLabel.setFont(new Font(14));
         
         m_rotateLeftButton.setCaption("rotate.left");
-        m_rotateLeftButton.setGraphic(new ImageView("icon\\rotate_left.png"));
+        m_rotateLeftButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icon/rotate_left.png"))));
         m_rotateLeftButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_rotateLeftButton.setMaxHeight(25);
         m_rotateLeftButton.setParentPane(m_headerPane);
         m_rotateLeftButton.setReSizeOnParentSize(true);
         
         m_rotateRightButton.setCaption("rotate.right");
-        m_rotateRightButton.setGraphic(new ImageView("icon\\rotate_right.png"));
+        m_rotateRightButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icon/rotate_right.png"))));
         m_rotateRightButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_rotateRightButton.setMaxHeight(25);
         m_rotateRightButton.setParentPane(m_headerPane);
@@ -207,7 +207,7 @@ public class ImageEditorStage
         
         
         m_cropButton.setCaption("crop");
-        m_cropButton.setGraphic(new ImageView("icon\\crop.png"));
+        m_cropButton.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icon/crop.png"))));
         m_cropButton.setStyle("-fx-border-color: #00b7ff; -fx-border-width: 1px;-fx-background-color:#ffffff;");
         m_cropButton.setMaxHeight(25);
         m_cropButton.setParentPane(m_headerPane);

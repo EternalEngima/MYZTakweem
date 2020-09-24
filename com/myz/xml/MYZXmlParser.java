@@ -40,7 +40,7 @@ public class MYZXmlParser extends DefaultHandler2 implements Serializable
             saxParser = factory.newSAXParser();
             xmlReader = saxParser.getXMLReader();
             xmlReader.setProperty( "http://xml.org/sax/properties/lexical-handler" , this );
-            saxParser.parse( new File( "src\\Takweem.xml" ) , this );
+            saxParser.parse( getClass().getResourceAsStream("/Takweem.xml") , this );
         }
         catch( ParserConfigurationException | SAXException | IOException ex )
         {

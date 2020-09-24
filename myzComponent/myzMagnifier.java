@@ -9,6 +9,7 @@ import com.myz.image.Magnifier;
 import java.lang.reflect.Field;
 import javafx.embed.swing.SwingNode;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -96,13 +97,13 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         String cssLayout = "-fx-border-color: #f0f0f0;\n" +
                            "-fx-border-width: 4;\n" ;
         
-        m_zoomIn.setGraphic(new ImageView("icon\\zoom_in.png"));
+        m_zoomIn.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icon/zoom_in.png"))));
         m_zoomIn.setStyle("-fx-border-color: #ccc; -fx-border-width: 2px;-fx-background-color:#ffffff;");
         m_zoomIn.setMaxSize(10 , 18);
         m_zoomIn.setParentPane(this);
         m_zoomIn.setReSizeOnParentSize(true);
         
-        m_zoomOut.setGraphic(new ImageView("icon\\zoom_out.png"));
+        m_zoomOut.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("/icon/zoom_out.png"))));
         m_zoomOut.setStyle("-fx-border-color: #ccc; -fx-border-width: 2px;-fx-background-color:#ffffff;");
         m_zoomOut.setMaxSize(10 , 18);
         m_zoomOut.setParentPane(this);
@@ -120,7 +121,7 @@ public class myzMagnifier extends VBox implements Runnable , myzComponent
         //Add JPanel node to swingNode then add swingNode to stackPane 
         m_swingNode.setContent(m_magnifier);
         
-        m_plusSign = new ImageView("icon\\plus_sign.png") ;
+        m_plusSign = new ImageView(new Image(getClass().getResourceAsStream("/icon/plus_sign.png") ) ) ;
         StackPane  stack    = new StackPane(m_swingNode , m_plusSign);
         m_plusSign.resize(25 , 25);
         m_plusSign.setFitHeight(50);
